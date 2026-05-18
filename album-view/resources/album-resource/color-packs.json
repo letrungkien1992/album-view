@@ -1,0 +1,71 @@
+[
+  {
+    "value": "option-1",
+    "text": {
+      "vi": "Văn phòng",
+      "en": "Office"
+    },
+    "colors": {
+      "light": [
+        "#000000",
+        "#5F6F86",
+        "#EEF3FA",
+        "#2E6FB3",
+        "#9FB0C3"
+      ],
+      "dark": [
+        "#F4F8FF",
+        "#A8B8CE",
+        "#253347",
+        "#6CB2FF",
+        "#5A6F88"
+      ]
+    }
+  },
+  {
+    "value": "option-2",
+    "text": {
+      "vi": "Xanh tươi",
+      "en": "Verdant"
+    },
+    "colors": {
+      "light": [
+        "#05386B",
+        "#379683",
+        "#EDF5E1",
+        "#5CDB95",
+        "#8EE4AF"
+      ],
+      "dark": [
+        "#E7F3FF",
+        "#6DC2AF",
+        "#1A3E57",
+        "#5CDB95",
+        "#3A8E79"
+      ]
+    }
+  },
+  {
+    "value": "option-3",
+    "text": {
+      "vi": "W&CO",
+      "en": "W&CO"
+    },
+    "colors": {
+      "light": [
+        "#0F2740",
+        "#4D748E",
+        "#CAFAFE",
+        "#FC4445",
+        "#97CAEF"
+      ],
+      "dark": [
+        "#EAF4FF",
+        "#8FBBD4",
+        "#1A334A",
+        "#FF6768",
+        "#55BCC9"
+      ]
+    }
+  }
+]

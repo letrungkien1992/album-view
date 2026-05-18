@@ -1,0 +1,25 @@
+{
+    "users": [
+        {
+            "username": "mua_nho",
+            "password": "Mua26121995@*123",
+            "role": "admin",
+            "login_at": "2026-05-11T06:34:06+00:00",
+            "tokken": "78a961a120aaad575f147932b131bd6efc5aafdb816c920d"
+        },
+        {
+            "username": "mua_to",
+            "password": "Mua18101992@*123",
+            "role": "admin",
+            "login_at": "",
+            "tokken": ""
+        },
+        {
+            "username": "viewer",
+            "password": "View#123",
+            "role": "viewer",
+            "login_at": "2026-03-04T08:55:36+00:00",
+            "tokken": "b750254740d0f2aa0dabd886644a4b1e1a2d72499fd97c1b"
+        }
+    ]
+}

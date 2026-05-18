@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng nhập - Album Viewer</title>
+    <link rel="icon" type="image/svg+xml" href="/resources/album-resource/favicon.svg" />
+    <link rel="stylesheet" href="/resources/album-resource/login.css" />
+  </head>
+  <body>
+    <main class="login-page">
+      <div class="pixel-bg-stars" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <section class="login-stage" aria-label="Màn hình đăng nhập">
+        <header class="pixel-header">
+          <h1 id="login-title" data-i18n="login_title">MEDIA LOGIN</h1>
+        </header>
+
+        <form id="login-form" class="login-card" autocomplete="off">
+          <p class="login-subtitle" data-i18n="login_subtitle">Đăng nhập để đồng bộ album và quản lý dữ liệu.</p>
+
+          <label for="username" data-i18n="login_username_label">USERNAME</label>
+          <div class="input-row">
+            <span class="pixel-symbol" aria-hidden="true">U</span>
+            <input id="username" name="username" type="text" required placeholder="Nhập username" data-i18n-placeholder="login_username_placeholder" />
+          </div>
+
+          <label for="password" data-i18n="login_password_label">PASSWORD</label>
+          <div class="input-row">
+            <span class="pixel-symbol" aria-hidden="true">*</span>
+            <input id="password" name="password" type="password" required placeholder="Nhập password" data-i18n-placeholder="login_password_placeholder" />
+          </div>
+
+          <div class="actions">
+            <a class="pixel-btn ghost" href="./" data-i18n="login_back">BACK</a>
+            <button id="login-submit" class="pixel-btn" type="submit" data-i18n="login_submit">LOGIN</button>
+          </div>
+
+          <p id="login-error" class="login-error" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="/vendor/jquery/jquery-3.7.1.min.js"></script>
+    <script src="/resources/album-resource/login.js"></script>
+  </body>
+</html>
