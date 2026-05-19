@@ -1309,13 +1309,38 @@ function php_build_row_and_thumbs(string $rootDir, string $logFile, string $albu
     return ['ok' => true, 'queued' => false, 'already_running' => false, 'pid' => 0, 'message' => 'Build completed (PHP fallback).', 'code' => 0];
 }
 
+function skip_background_build(string $logFile, string $reason, string $albumFilter = ''): array
+{
+    $suffix = $albumFilter !== '' ? ' album=' . $albumFilter : '';
+    log_build_line($logFile, '[DEFERRED] Background build skipped: ' . $reason . $suffix);
+    return [
+        'ok' => true,
+        'queued' => false,
+        'already_running' => false,
+        'pid' => 0,
+        'message' => 'Build deferred. Originals remain available.',
+        'code' => 0,
+        'deferred' => true,
+        'reason' => $reason,
+    ];
+}
+
 function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $logFile, string $albumFilter = ''): array
 {
     $scriptPath = $rootDir . '/scripts/build-album-images.sh';
     $albumFilter = sanitize_album_folder_name($albumFilter);
 
-    if (!is_file($scriptPath) || !can_execute_shell_command() || !has_shell_binary('bash') || !has_shell_binary('cwebp')) {
-        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
+    if (!is_file($scriptPath)) {
+        return skip_background_build($logFile, 'build script missing', $albumFilter);
+    }
+    if (!can_execute_shell_command()) {
+        return skip_background_build($logFile, 'shell execution unavailable', $albumFilter);
+    }
+    if (!has_shell_binary('bash')) {
+        return skip_background_build($logFile, 'bash not found', $albumFilter);
+    }
+    if (!has_shell_binary('cwebp')) {
+        return skip_background_build($logFile, 'cwebp not found', $albumFilter);
     }
 
     $status = build_status($lockFile);
@@ -1342,8 +1367,7 @@ function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $l
     @exec($command, $output, $exitCode);
     if ($exitCode !== 0) {
         @unlink($lockFile);
-        // Shared hosting may block nohup/background workers. Fallback to synchronous PHP build.
-        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
+        return skip_background_build($logFile, 'background worker launch failed', $albumFilter);
     }
     $pidRaw = trim((string) ($output[0] ?? '0'));
     $pid = (int) $pidRaw;
@@ -1505,13 +1529,13 @@ function build_albums(
         }
 
         $images = [];
-        $allKeys = array_unique(array_merge(array_keys($thumbsIndex), array_keys($rowIndex)));
+        $allKeys = array_unique(array_merge(array_keys($thumbsIndex), array_keys($rowIndex), array_keys($originalIndex)));
         natcasesort($allKeys);
         foreach ($allKeys as $base) {
             $hasThumb = isset($thumbsIndex[$base]);
             $hasRow = isset($rowIndex[$base]);
             $hasOriginal = isset($originalIndex[$base]);
-            if (!$hasThumb && !$hasRow) {
+            if (!$hasThumb && !$hasRow && !$hasOriginal) {
                 continue;
             }
 

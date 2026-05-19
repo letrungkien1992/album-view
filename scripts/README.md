@@ -31,6 +31,21 @@ Project này dùng các script trong thư mục `scripts/` để chạy server, 
 - `scripts/build-deploy-zip.sh`
   - Đóng gói `deploy.zip` để upload lên hosting.
 
+- `scripts/prod-build-setup.sh`
+  - Script một lệnh cho production để:
+    - đảm bảo có `src/albums`, `src/row`, `src/thumbs`, `storage`
+    - cài `webp` nếu máy Linux dùng `apt` và đang chạy bằng `root`
+    - sửa quyền chạy/build cần thiết
+    - build toàn bộ album hoặc một album cụ thể
+
+- `scripts/prod-server-tune.sh`
+  - Script một lệnh để tune production server rồi gọi tiếp build setup:
+    - tự dò file config `nginx` đang active
+    - tăng giới hạn upload / timeout cho `nginx`
+    - tăng cấu hình `php-fpm` (`upload`, `timeout`, `memory`)
+    - restart `php-fpm`, reload `nginx`
+    - chạy tiếp `prod-build-setup.sh`
+
 - `scripts/setup-domain.sh`
   - Script setup deploy domain (Nginx + service + SSL) theo `.env`.
   - Hỗ trợ:
@@ -63,6 +78,8 @@ bash scripts/run-scripts.sh restart-server
 
 ```bash
 bash scripts/run-scripts.sh build-images
+bash scripts/run-scripts.sh prod-build-setup
+bash scripts/run-scripts.sh prod-server-tune
 bash scripts/run-scripts.sh build-deploy-zip
 ```
 
@@ -70,6 +87,10 @@ hoặc chạy trực tiếp:
 
 ```bash
 bash scripts/build-album-images.sh
+bash scripts/prod-build-setup.sh
+bash scripts/prod-build-setup.sh ten-album
+bash scripts/prod-server-tune.sh
+bash scripts/prod-server-tune.sh ten-album
 ```
 
 ### 4) Setup domain trên server

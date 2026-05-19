@@ -7,9 +7,10 @@
     "stop-server": "bash scripts/stop-server.sh",
     "restart-server": "bash scripts/stop-server.sh && bash scripts/start-server.sh",
     "build-images": "bash scripts/build-album-images.sh",
+    "prod-build-setup": "bash scripts/prod-build-setup.sh",
+    "prod-server-tune": "bash scripts/prod-server-tune.sh",
     "convert-images": "bash scripts/convert-images-webp.sh",
     "setup-domain": "bash scripts/setup-domain.sh",
     "build-deploy-zip": "bash scripts/build-deploy-zip.sh"
   }
 }
-

@@ -20,6 +20,12 @@
     "build-images": [
       "bash scripts/build-album-images.sh"
     ],
+    "prod-build-setup": [
+      "bash scripts/prod-build-setup.sh"
+    ],
+    "prod-server-tune": [
+      "bash scripts/prod-server-tune.sh"
+    ],
     "convert-images": [
       "bash scripts/convert-images-webp.sh"
     ],
