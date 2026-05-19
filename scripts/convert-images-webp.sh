@@ -125,9 +125,9 @@ convert_one() {
   thumb_out="$thumb_dir/$base.webp"
   out_rel="${out#"$PROJECT_ROOT/"}"
   thumb_rel="${thumb_out#"$PROJECT_ROOT/"}"
-  tmp_suffix=".$$.${RANDOM}.tmp.webp"
-  tmp="$out$tmp_suffix"
-  thumb_tmp="$thumb_out$tmp_suffix"
+  tmp_suffix=".tmp.$$.${RANDOM}"
+  tmp="${out}${tmp_suffix}"
+  thumb_tmp="${thumb_out}${tmp_suffix}"
 
   # Start with a quality that usually keeps visual quality while reducing strongly.
   if [[ ! -r "$src" || ! -s "$src" ]]; then

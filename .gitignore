@@ -1,0 +1,8 @@
+# Ignore generated and uploaded image/audio directories
+src/albums/
+src/audio/
+src/row/
+src/thumbs/
+
+# Ignore build output and temporary files
+storage/build-images.log

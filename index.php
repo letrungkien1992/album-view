@@ -2110,7 +2110,7 @@ if ($requestPath === '/__upload_album__') {
         send_json(['ok' => false, 'message' => 'No valid image files were uploaded.'], 400);
     }
 
-    $buildResult = queue_build_row_and_thumbs($rootDir, $buildLockFile, $buildLogFile);
+    $buildResult = queue_build_row_and_thumbs($rootDir, $buildLockFile, $buildLogFile, $albumFolder);
     $titleMap = load_album_titles($albumTitlesFile);
     if ($albumTitle !== '') {
         $titleMap[$albumFolder] = $albumTitle;
