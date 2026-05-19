@@ -66,6 +66,69 @@ function send_error_text(int $status, string $message): void
     exit;
 }
 
+function versioned_asset_path(string $assetPath, string $rootDir): string
+{
+    if (
+        $assetPath === ''
+        || preg_match('/^(?:[a-z]+:)?\/\//i', $assetPath) === 1
+        || str_starts_with($assetPath, 'data:')
+        || str_starts_with($assetPath, '#')
+    ) {
+        return $assetPath;
+    }
+
+    $pathPart = parse_url($assetPath, PHP_URL_PATH);
+    if (!is_string($pathPart) || $pathPart === '') {
+        return $assetPath;
+    }
+
+    $assetFile = $rootDir . '/' . ltrim($pathPart, '/');
+    if (!is_file($assetFile)) {
+        return $assetPath;
+    }
+
+    $version = filemtime($assetFile);
+    if ($version === false) {
+        return $assetPath;
+    }
+
+    $separator = str_contains($assetPath, '?') ? '&' : '?';
+    return $assetPath . $separator . 'v=' . $version;
+}
+
+function render_html_with_versioned_assets(string $htmlFile, string $rootDir): string
+{
+    $html = @file_get_contents($htmlFile);
+    if (!is_string($html)) {
+        return '';
+    }
+
+    return (string) preg_replace_callback(
+        '/\b(href|src)=(["\'])([^"\']+)\2/i',
+        static function (array $matches) use ($rootDir): string {
+            $attr = $matches[1] ?? '';
+            $quote = $matches[2] ?? '"';
+            $path = $matches[3] ?? '';
+            return $attr . '=' . $quote . versioned_asset_path($path, $rootDir) . $quote;
+        },
+        $html
+    );
+}
+
+function send_html_page(string $htmlFile, string $rootDir): void
+{
+    $html = render_html_with_versioned_assets($htmlFile, $rootDir);
+    if ($html === '') {
+        send_error_text(500, 'Cannot render HTML page.');
+    }
+
+    send_status(200);
+    header('Content-Type: text/html; charset=utf-8');
+    header('Content-Length: ' . strlen($html));
+    echo $html;
+    exit;
+}
+
 function parse_ini_size(string $value): int
 {
     $raw = trim($value);
@@ -1742,11 +1805,7 @@ if ($requestPath === '/login') {
     if (!is_file($loginFile)) {
         send_error_text(404, 'Login file not found.');
     }
-    send_status(200);
-    header('Content-Type: text/html; charset=utf-8');
-    header('Content-Length: ' . filesize($loginFile));
-    readfile($loginFile);
-    exit;
+    send_html_page($loginFile, $rootDir);
 }
 
 if (path_starts_with($requestPath, '/__audio__/')) {
@@ -2568,11 +2627,7 @@ if ($requestPath === '/' || $requestPath === '/index.php' || str_ends_with_compa
     if ($requestPath !== '/' && $requestPath !== '/index.php') {
         redirect_to(with_base($basePath, '/'));
     }
-    send_status(200);
-    header('Content-Type: text/html; charset=utf-8');
-    header('Content-Length: ' . filesize($viewerFile));
-    readfile($viewerFile);
-    exit;
+    send_html_page($viewerFile, $rootDir);
 }
 
 send_error_text(404, 'Not Found');
