@@ -178,6 +178,23 @@ function resolve_client_log_file(string $primary, string $fallback): string
     return $fallback;
 }
 
+function upload_log(string $message): void
+{
+    global $clientLogFile, $clientLogFallbackFile;
+    $logTarget = resolve_client_log_file($clientLogFile, $clientLogFallbackFile);
+    append_client_log($logTarget, $message);
+}
+
+function describe_upload_file_for_log(array $upload): string
+{
+    $name = isset($upload['name']) && is_string($upload['name']) ? basename($upload['name']) : 'unknown';
+    $error = isset($upload['error']) ? (int) $upload['error'] : UPLOAD_ERR_NO_FILE;
+    $tmpName = isset($upload['tmp_name']) && is_string($upload['tmp_name']) ? $upload['tmp_name'] : '';
+    $tmpPresent = $tmpName !== '' ? 'yes' : 'no';
+    $uploaded = $tmpPresent === 'yes' && is_uploaded_file($tmpName) ? 'yes' : 'no';
+    return 'name=' . $name . ' error=' . $error . ' tmp=' . $tmpPresent . ' uploaded=' . $uploaded;
+}
+
 function session_username(): string
 {
     $username = $_SESSION['auth_user'] ?? '';
@@ -1942,6 +1959,37 @@ if ($requestPath === '/__upload_album__') {
         $uploadType = 'files';
     }
     $albumInputName = isset($_POST['album']) ? trim((string) $_POST['album']) : '';
+    $uploadStartTime = microtime(true);
+    $clientIp = '';
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $clientIp = trim(explode(',', (string) $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
+    }
+    if ($clientIp === '' && !empty($_SERVER['REMOTE_ADDR'])) {
+        $clientIp = trim((string) $_SERVER['REMOTE_ADDR']);
+    }
+    if ($clientIp === '') {
+        $clientIp = 'unknown';
+    }
+    $contentType = isset($_SERVER['CONTENT_TYPE']) ? (string) $_SERVER['CONTENT_TYPE'] : '';
+    $contentLength = isset($_SERVER['CONTENT_LENGTH']) ? (string) $_SERVER['CONTENT_LENGTH'] : '';
+    $filesCount = 0;
+    if (isset($_FILES['files']) && is_array($_FILES['files'])) {
+        $namesField = $_FILES['files']['name'] ?? [];
+        $filesCount = is_array($namesField) ? count($namesField) : ($namesField !== '' ? 1 : 0);
+    }
+    $zipName = '';
+    if (isset($_FILES['zip_file']) && is_array($_FILES['zip_file'])) {
+        $zipName = isset($_FILES['zip_file']['name']) ? (string) $_FILES['zip_file']['name'] : '';
+    }
+    upload_log(
+        'upload_album_start type=' . $uploadType
+        . ' album_input=' . ($albumInputName !== '' ? $albumInputName : 'empty')
+        . ' files=' . $filesCount
+        . ($zipName !== '' ? ' zip=' . $zipName : '')
+        . ($contentType !== '' ? ' content_type=' . $contentType : '')
+        . ($contentLength !== '' ? ' content_length=' . $contentLength : '')
+        . ' ip=' . $clientIp
+    );
     if ($albumInputName === '' && isset($_GET['album']) && is_string($_GET['album'])) {
         $albumInputName = trim($_GET['album']);
     }
@@ -2031,6 +2079,11 @@ if ($requestPath === '/__upload_album__') {
     if ($albumTitle === '') {
         $albumTitle = album_title_from_folder($albumFolder);
     }
+    upload_log(
+        'upload_album_prepare album=' . $albumFolder
+        . ' title=' . ($albumTitle !== '' ? $albumTitle : 'unknown')
+        . ' type=' . $uploadType
+    );
     $saved = 0;
     $skipped = 0;
 
@@ -2098,6 +2151,7 @@ if ($requestPath === '/__upload_album__') {
                 $saved += 1;
             } else {
                 $skipped += 1;
+                upload_log('upload_album_file_failed album=' . $albumFolder . ' type=' . $uploadType . ' ' . describe_upload_file_for_log($file));
             }
         }
     }
@@ -2109,6 +2163,18 @@ if ($requestPath === '/__upload_album__') {
     }
 
     $buildResult = queue_build_row_and_thumbs($rootDir, $buildLockFile, $buildLogFile, $albumFolder);
+    upload_log(
+        'upload_album_finish album=' . $albumFolder
+        . ' type=' . $uploadType
+        . ' saved=' . $saved
+        . ' skipped=' . $skipped
+        . ' queued=' . ($buildResult['queued'] ? '1' : '0')
+        . ' already_running=' . ($buildResult['already_running'] ? '1' : '0')
+        . ' pid=' . ((int) ($buildResult['pid'] ?? 0))
+        . ' code=' . ((int) ($buildResult['code'] ?? 0))
+        . ' message=' . (isset($buildResult['message']) ? $buildResult['message'] : 'none')
+        . ' duration_ms=' . (int) ((microtime(true) - $uploadStartTime) * 1000)
+    );
     $titleMap = load_album_titles($albumTitlesFile);
     if ($albumTitle !== '') {
         $titleMap[$albumFolder] = $albumTitle;
