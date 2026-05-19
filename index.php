@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 $rootDir = __DIR__;
@@ -385,8 +386,7 @@ function try_restore_auth_from_tokken(
     int $ttlSeconds,
     int $refreshIntervalSeconds,
     string $basePath
-): void
-{
+): void {
     if (is_authenticated()) {
         return;
     }
@@ -436,8 +436,7 @@ function refresh_auth_from_session(
     int $ttlSeconds,
     int $refreshIntervalSeconds,
     string $basePath
-): void
-{
+): void {
     $username = session_username();
     if ($username === '') {
         return;
@@ -1485,8 +1484,7 @@ function build_albums(
     array $albumTitles = [],
     array $albumHidden = [],
     array $albumHiddenImages = []
-): array
-{
+): array {
     $albums = [];
     $folderMap = [];
     foreach (list_subdirs($albumsDir) as $folderName) {
