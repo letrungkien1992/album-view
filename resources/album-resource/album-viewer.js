@@ -11,7 +11,8 @@
         return;
       }
       const base = matched[1] || "";
-      const target = (base === "" ? "/" : base + "/") + query + (window.location.hash || "");
+      const target =
+        (base === "" ? "/" : base + "/") + query + (window.location.hash || "");
       window.history.replaceState(window.history.state, document.title, target);
     } catch (_err) {
       // Ignore history API errors on locked-down browsers.
@@ -46,7 +47,7 @@
     albums: "src/albums/",
     row: "src/row/",
     thumbs: "src/thumbs/",
-    audio: "__audio__/"
+    audio: "__audio__/",
   };
   const defaultLang = "vi";
   const imageRowsPerBatch = 5;
@@ -57,7 +58,7 @@
     { value: "time_desc", labelKey: "sort_time_desc" },
     { value: "time_asc", labelKey: "sort_time_asc" },
     { value: "name_asc", labelKey: "sort_name_asc" },
-    { value: "name_desc", labelKey: "sort_name_desc" }
+    { value: "name_desc", labelKey: "sort_name_desc" },
   ];
   const loadMoreThreshold = 320;
   const imageObserverMargin = "350px 0px";
@@ -93,7 +94,8 @@
       invite_requests_button: "Quản lý yêu cầu",
       invite_requests_kicker: "Quản trị",
       invite_requests_title: "Danh sách yêu cầu mời",
-      invite_requests_subtitle: "Xem toàn bộ email guest đã gửi yêu cầu vào hệ thống.",
+      invite_requests_subtitle:
+        "Xem toàn bộ email guest đã gửi yêu cầu vào hệ thống.",
       invite_requests_refresh: "Tải lại",
       invite_requests_loading: "Đang tải danh sách yêu cầu...",
       invite_requests_empty: "Chưa có yêu cầu nào.",
@@ -142,7 +144,8 @@
       no_album_empty: "Upload ảnh và chờ server xử lý để hiển thị.",
       error_title: "Lỗi tải dữ liệu",
       error_desc: "Không đọc được dữ liệu album từ server",
-      error_empty: "Không tải được album. Hãy kiểm tra quyền thư mục và cấu hình PHP trên server.",
+      error_empty:
+        "Không tải được album. Hãy kiểm tra quyền thư mục và cấu hình PHP trên server.",
       settings_button: "Settings",
       language_label: "Ngôn ngữ",
       theme_label: "Theme",
@@ -181,7 +184,7 @@
       upload_audio_col_title: "Tên file",
       upload_audio_col_action: "Thao tác",
       upload_audio_delete: "Xóa",
-      upload_audio_delete_confirm: "Xóa file \"{file}\"?",
+      upload_audio_delete_confirm: 'Xóa file "{file}"?',
       upload_audio_delete_success: "Đã xóa file.",
       upload_audio_delete_fail: "Xóa file thất bại.",
       upload_audio_list_empty: "Chưa có file âm thanh nào.",
@@ -190,12 +193,13 @@
       audio_preview_close: "Đóng",
       audio_preview_volume: "Âm lượng",
       upload_audio_file_required: "Vui lòng chọn ít nhất 1 file âm thanh.",
-      upload_audio_success: "Đã upload {count} file audio vào thư mục src/audio.",
+      upload_audio_success:
+        "Đã upload {count} file audio vào thư mục src/audio.",
       upload_audio_fail: "Upload audio thất bại.",
       image_delete: "Xóa ảnh",
       image_hide_label: "Ẩn ảnh",
       image_show_label: "Hiện ảnh",
-      image_delete_confirm: "Xóa ảnh \"{file}\"?",
+      image_delete_confirm: 'Xóa ảnh "{file}"?',
       image_delete_success: "Đã xóa ảnh.",
       image_delete_fail: "Xóa ảnh thất bại.",
       upload_modal_title: "Tải ảnh lên",
@@ -216,17 +220,19 @@
       upload_album_name_required: "Vui lòng nhập tên album.",
       upload_file_required: "Vui lòng chọn dữ liệu upload.",
       upload_album_auth_required: "Bạn cần đăng nhập để upload album.",
-      upload_album_success: "Đã upload {count} ảnh vào album \"{album}\".",
-      upload_album_queued: "Ảnh đã upload xong. Hệ thống đang build nền để tạo row/thumbs.",
-      upload_build_failed: "Build ảnh nền lỗi (code: {code}). Kiểm tra server log storage/build-images.log",
+      upload_album_success: 'Đã upload {count} ảnh vào album "{album}".',
+      upload_album_queued:
+        "Ảnh đã upload xong. Hệ thống đang build nền để tạo row/thumbs.",
+      upload_build_failed:
+        "Build ảnh nền lỗi (code: {code}). Kiểm tra server log storage/build-images.log",
       upload_album_fail: "Upload ảnh thất bại.",
       retry_album_label: "Build lại album",
-      retry_album_confirm: "Chạy build lại album \"{album}\"?",
-      retry_album_success: "Đã đưa album \"{album}\" vào hàng chờ build nền.",
+      retry_album_confirm: 'Chạy build lại album "{album}"?',
+      retry_album_success: 'Đã đưa album "{album}" vào hàng chờ build nền.',
       retry_album_fail: "Build lại album thất bại.",
       delete_album_label: "Xóa album",
-      delete_album_confirm: "Xóa toàn bộ album \"{album}\"?",
-      delete_album_success: "Đã xóa album \"{album}\".",
+      delete_album_confirm: 'Xóa toàn bộ album "{album}"?',
+      delete_album_success: 'Đã xóa album "{album}".',
       delete_album_fail: "Xóa album thất bại.",
       album_hide_label: "Ẩn album",
       album_show_label: "Hiện album",
@@ -251,7 +257,8 @@
       slideshow_stop: "Dừng chiếu",
       slideshow_music_on: "Bật nhạc",
       slideshow_music_off: "Tắt nhạc",
-      slideshow_audio_empty: "Không tìm thấy file audio trong thư mục src/audio."
+      slideshow_audio_empty:
+        "Không tìm thấy file audio trong thư mục src/audio.",
     },
     en: {
       lang_name: "English",
@@ -265,10 +272,12 @@
       guest_kicker: "Guest access",
       guest_title: "Guest Invite",
       guest_page_title: "Invite Request - Album Viewer",
-      guest_subtitle: "Enter your email to send an invite request to the admin.",
+      guest_subtitle:
+        "Enter your email to send an invite request to the admin.",
       guest_email_label: "Email",
       guest_email_placeholder: "Enter your email",
-      guest_token_prompt: "Enter the email associated with this invite token to log in.",
+      guest_token_prompt:
+        "Enter the email associated with this invite token to log in.",
       guest_token_invalid: "Invalid or expired token.",
       guest_token_login: "Login using token",
       guest_admin_login: "Login",
@@ -282,7 +291,8 @@
       invite_requests_button: "Manage requests",
       invite_requests_kicker: "Administration",
       invite_requests_title: "Invitation request list",
-      invite_requests_subtitle: "Review every guest email request submitted to the system.",
+      invite_requests_subtitle:
+        "Review every guest email request submitted to the system.",
       invite_requests_refresh: "Refresh",
       invite_requests_loading: "Loading request list...",
       invite_requests_empty: "No requests yet.",
@@ -328,7 +338,8 @@
       no_album_empty: "Upload images and wait for server processing.",
       error_title: "Load error",
       error_desc: "Cannot load album data from server",
-      error_empty: "Cannot load albums. Check folder permissions and PHP configuration on the server.",
+      error_empty:
+        "Cannot load albums. Check folder permissions and PHP configuration on the server.",
       settings_button: "Settings",
       language_label: "Language",
       theme_label: "Theme",
@@ -367,7 +378,7 @@
       upload_audio_col_title: "Title",
       upload_audio_col_action: "Action",
       upload_audio_delete: "Delete",
-      upload_audio_delete_confirm: "Delete file \"{file}\"?",
+      upload_audio_delete_confirm: 'Delete file "{file}"?',
       upload_audio_delete_success: "File deleted.",
       upload_audio_delete_fail: "Failed to delete file.",
       upload_audio_list_empty: "No audio files yet.",
@@ -381,7 +392,7 @@
       image_delete: "Delete image",
       image_hide_label: "Hide image",
       image_show_label: "Show image",
-      image_delete_confirm: "Delete image \"{file}\"?",
+      image_delete_confirm: 'Delete image "{file}"?',
       image_delete_success: "Image deleted.",
       image_delete_fail: "Failed to delete image.",
       upload_modal_title: "Upload image",
@@ -396,23 +407,26 @@
       upload_zip_label: "Select Zip:",
       upload_help_files: "Select multiple image files to upload",
       upload_help_folder: "Select a folder to upload image files",
-      upload_help_zip: "Upload zip file, images will be extracted automatically",
+      upload_help_zip:
+        "Upload zip file, images will be extracted automatically",
       upload_cancel: "Cancel",
       upload_submit: "Upload image",
       upload_album_name_required: "Please enter album name.",
       upload_file_required: "Please select upload data.",
       upload_album_auth_required: "You need to login to upload album.",
-      upload_album_success: "Uploaded {count} image(s) to album \"{album}\".",
-      upload_album_queued: "Upload completed. Server is building row/thumbs in background.",
-      upload_build_failed: "Background image build failed (code: {code}). Check server log storage/build-images.log",
+      upload_album_success: 'Uploaded {count} image(s) to album "{album}".',
+      upload_album_queued:
+        "Upload completed. Server is building row/thumbs in background.",
+      upload_build_failed:
+        "Background image build failed (code: {code}). Check server log storage/build-images.log",
       upload_album_fail: "Upload failed.",
       retry_album_label: "Retry album build",
-      retry_album_confirm: "Rebuild album \"{album}\"?",
-      retry_album_success: "Album \"{album}\" was queued for background build.",
+      retry_album_confirm: 'Rebuild album "{album}"?',
+      retry_album_success: 'Album "{album}" was queued for background build.',
       retry_album_fail: "Album rebuild failed.",
       delete_album_label: "Delete album",
-      delete_album_confirm: "Delete album \"{album}\"?",
-      delete_album_success: "Deleted album \"{album}\".",
+      delete_album_confirm: 'Delete album "{album}"?',
+      delete_album_success: 'Deleted album "{album}".',
       delete_album_fail: "Delete album failed.",
       album_hide_label: "Hide album",
       album_show_label: "Show album",
@@ -437,8 +451,8 @@
       slideshow_stop: "Stop",
       slideshow_music_on: "Music on",
       slideshow_music_off: "Music off",
-      slideshow_audio_empty: "No audio files found in src/audio folder."
-    }
+      slideshow_audio_empty: "No audio files found in src/audio folder.",
+    },
   };
   const defaultColorPacks = [
     {
@@ -446,25 +460,25 @@
       text: { vi: "option-1", en: "option-1" },
       colors: {
         light: ["#1F2A37", "#5F6F86", "#EEF3FA", "#2E6FB3", "#9FB0C3"],
-        dark: ["#F4F8FF", "#A8B8CE", "#253347", "#6CB2FF", "#5A6F88"]
-      }
+        dark: ["#F4F8FF", "#A8B8CE", "#253347", "#6CB2FF", "#5A6F88"],
+      },
     },
     {
       value: "option-2",
       text: { vi: "Option 2", en: "Option 2" },
       colors: {
         light: ["#2A1F15", "#756150", "#FFF4E8", "#D9631E", "#C7AC93"],
-        dark: ["#FFF5EC", "#D8C3AE", "#433227", "#FF9D52", "#7A5E49"]
-      }
+        dark: ["#FFF5EC", "#D8C3AE", "#433227", "#FF9D52", "#7A5E49"],
+      },
     },
     {
       value: "option-3",
       text: { vi: "Option 3", en: "Option 3" },
       colors: {
         light: ["#17191D", "#4E5B70", "#D6FBFF", "#E94C56", "#56AEB9"],
-        dark: ["#F8FAFF", "#B4C1D2", "#253B45", "#FF6F75", "#3D7680"]
-      }
-    }
+        dark: ["#F8FAFF", "#B4C1D2", "#253B45", "#FF6F75", "#3D7680"],
+      },
+    },
   ];
 
   const $albumList = $("#album-list");
@@ -522,8 +536,12 @@
   const $audioPreviewTime = $("#audio-preview-time");
   const $audioPreviewClose = $("#audio-preview-close");
   const $audioPreviewVolumeToggle = $("#audio-preview-volume-toggle");
-  const $audioPreviewVolumeWrap = $audioPreviewVolumeToggle.closest(".audio-preview-volume-wrap");
-  const $audioPreviewVolumePopover = $audioPreviewVolumeWrap.find(".audio-preview-volume-popover");
+  const $audioPreviewVolumeWrap = $audioPreviewVolumeToggle.closest(
+    ".audio-preview-volume-wrap",
+  );
+  const $audioPreviewVolumePopover = $audioPreviewVolumeWrap.find(
+    ".audio-preview-volume-popover",
+  );
   const $audioPreviewVolumeRange = $("#audio-preview-volume-range");
   const $audioColNo = $("#audio-col-no");
   const $audioColTitle = $("#audio-col-title");
@@ -614,12 +632,13 @@
         text: { vi: pack.text.vi, en: pack.text.en },
         colors: {
           light: pack.colors.light.slice(0, 5),
-          dark: pack.colors.dark.slice(0, 5)
-        }
+          dark: pack.colors.dark.slice(0, 5),
+        },
       };
     }),
     radius: Number(localStorage.getItem("album-viewer-radius") || "1"),
-    sidebarCollapsed: localStorage.getItem("album-viewer-sidebar-collapsed") === "1",
+    sidebarCollapsed:
+      localStorage.getItem("album-viewer-sidebar-collapsed") === "1",
     mobileSidebarOpen: false,
     collapsedFolders: {},
     dict: fallbackDict,
@@ -662,13 +681,19 @@
     inviteSearchCollapsed: true,
     viewerPreloadPromises: {},
     confirmResolver: null,
-    slideshowAudioVolume: Number(localStorage.getItem("album-viewer-slideshow-audio-volume") || "0.6"),
-    slideshowAudioLastVolume: Number(localStorage.getItem("album-viewer-slideshow-audio-last-volume") || "0.6"),
+    slideshowAudioVolume: Number(
+      localStorage.getItem("album-viewer-slideshow-audio-volume") || "0.6",
+    ),
+    slideshowAudioLastVolume: Number(
+      localStorage.getItem("album-viewer-slideshow-audio-last-volume") || "0.6",
+    ),
     slideshowAudioList: [],
     slideshowAudioIndex: 0,
     previewAudioFile: "",
     previewAudioPlaying: false,
-    previewAudioVolume: Number(localStorage.getItem("album-viewer-preview-audio-volume") || "0.8"),
+    previewAudioVolume: Number(
+      localStorage.getItem("album-viewer-preview-audio-volume") || "0.8",
+    ),
     previewAnchorRow: null,
     previewAnchorSlot: null,
     pageMode: "gallery",
@@ -682,15 +707,16 @@
       created: "",
       ip: "",
       path: "",
-      agent: ""
+      agent: "",
     },
     hiddenImageBase: {},
-    hiddenImageCurrent: {}
+    hiddenImageCurrent: {},
   };
 
   function getPageModeFromLocation() {
     const path = String(window.location.pathname || "").replace(/\/+$/, "");
-    const route = new URLSearchParams(window.location.search || "").get("route") || "";
+    const route =
+      new URLSearchParams(window.location.search || "").get("route") || "";
     if (path.endsWith("/admin") || route === "admin") {
       return "admin";
     }
@@ -709,19 +735,33 @@
   if (Number.isNaN(state.radius) || state.radius < 0 || state.radius > 2) {
     state.radius = 1;
   }
-  if (!Number.isFinite(state.slideshowAudioVolume) || state.slideshowAudioVolume < 0 || state.slideshowAudioVolume > 1) {
+  if (
+    !Number.isFinite(state.slideshowAudioVolume) ||
+    state.slideshowAudioVolume < 0 ||
+    state.slideshowAudioVolume > 1
+  ) {
     state.slideshowAudioVolume = 0.6;
   }
-  if (!Number.isFinite(state.slideshowAudioLastVolume) || state.slideshowAudioLastVolume <= 0 || state.slideshowAudioLastVolume > 1) {
+  if (
+    !Number.isFinite(state.slideshowAudioLastVolume) ||
+    state.slideshowAudioLastVolume <= 0 ||
+    state.slideshowAudioLastVolume > 1
+  ) {
     state.slideshowAudioLastVolume = 0.6;
   }
-  if (!Number.isFinite(state.previewAudioVolume) || state.previewAudioVolume < 0 || state.previewAudioVolume > 1) {
+  if (
+    !Number.isFinite(state.previewAudioVolume) ||
+    state.previewAudioVolume < 0 ||
+    state.previewAudioVolume > 1
+  ) {
     state.previewAudioVolume = 0.8;
   }
   previewAudio.volume = state.previewAudioVolume;
   previewAudio.muted = state.previewAudioVolume <= 0;
   try {
-    const parsed = JSON.parse(localStorage.getItem("album-viewer-collapsed-folders") || "{}");
+    const parsed = JSON.parse(
+      localStorage.getItem("album-viewer-collapsed-folders") || "{}",
+    );
     state.collapsedFolders = parsed && typeof parsed === "object" ? parsed : {};
   } catch (_) {
     state.collapsedFolders = {};
@@ -758,24 +798,24 @@
     if (resolved === "dark") {
       return (
         '<svg class="icon-stroke sidebar-weather-icon" viewBox="0 0 24 24" aria-hidden="true">' +
-          '<path d="M20 16.2a4.5 4.5 0 0 0-1.6-8.7A6.5 6.5 0 0 0 6.1 9.2 3.8 3.8 0 0 0 6 16.8h14z"></path>' +
-          '<path d="M16.5 5.4a3.3 3.3 0 0 0 2.8 4.9A3.9 3.9 0 1 1 16.5 5.4z"></path>' +
-          '<line x1="9" y1="18.2" x2="8.2" y2="20"></line>' +
-          '<line x1="13" y1="18.2" x2="12.2" y2="20"></line>' +
-          '<line x1="17" y1="18.2" x2="16.2" y2="20"></line>' +
+        '<path d="M20 16.2a4.5 4.5 0 0 0-1.6-8.7A6.5 6.5 0 0 0 6.1 9.2 3.8 3.8 0 0 0 6 16.8h14z"></path>' +
+        '<path d="M16.5 5.4a3.3 3.3 0 0 0 2.8 4.9A3.9 3.9 0 1 1 16.5 5.4z"></path>' +
+        '<line x1="9" y1="18.2" x2="8.2" y2="20"></line>' +
+        '<line x1="13" y1="18.2" x2="12.2" y2="20"></line>' +
+        '<line x1="17" y1="18.2" x2="16.2" y2="20"></line>' +
         "</svg>"
       );
     }
     return (
       '<svg class="icon-stroke sidebar-weather-icon" viewBox="0 0 24 24" aria-hidden="true">' +
-        '<path d="M20 16.2a4.5 4.5 0 0 0-1.6-8.7A6.5 6.5 0 0 0 6.1 9.2 3.8 3.8 0 0 0 6 16.8h14z"></path>' +
-        '<circle cx="16.5" cy="5.5" r="2.3"></circle>' +
-        '<line x1="16.5" y1="1.6" x2="16.5" y2="2.6"></line>' +
-        '<line x1="19.3" y1="2.7" x2="18.6" y2="3.4"></line>' +
-        '<line x1="20.4" y1="5.5" x2="19.4" y2="5.5"></line>' +
-        '<line x1="9" y1="18.2" x2="8.2" y2="20"></line>' +
-        '<line x1="13" y1="18.2" x2="12.2" y2="20"></line>' +
-        '<line x1="17" y1="18.2" x2="16.2" y2="20"></line>' +
+      '<path d="M20 16.2a4.5 4.5 0 0 0-1.6-8.7A6.5 6.5 0 0 0 6.1 9.2 3.8 3.8 0 0 0 6 16.8h14z"></path>' +
+      '<circle cx="16.5" cy="5.5" r="2.3"></circle>' +
+      '<line x1="16.5" y1="1.6" x2="16.5" y2="2.6"></line>' +
+      '<line x1="19.3" y1="2.7" x2="18.6" y2="3.4"></line>' +
+      '<line x1="20.4" y1="5.5" x2="19.4" y2="5.5"></line>' +
+      '<line x1="9" y1="18.2" x2="8.2" y2="20"></line>' +
+      '<line x1="13" y1="18.2" x2="12.2" y2="20"></line>' +
+      '<line x1="17" y1="18.2" x2="16.2" y2="20"></line>' +
       "</svg>"
     );
   }
@@ -789,7 +829,9 @@
       return item.value;
     });
     if (!available.includes(state.colorPack)) {
-      state.colorPack = available.includes("option-1") ? "option-1" : (available[0] || "option-1");
+      state.colorPack = available.includes("option-1")
+        ? "option-1"
+        : available[0] || "option-1";
       localStorage.setItem("album-viewer-color-pack", state.colorPack);
     }
   }
@@ -803,7 +845,9 @@
   }
 
   function expandHex(hex) {
-    const raw = String(hex || "").trim().replace(/^#/, "");
+    const raw = String(hex || "")
+      .trim()
+      .replace(/^#/, "");
     if (raw.length === 3) {
       return raw
         .split("")
@@ -898,7 +942,10 @@
     if (!stem) {
       return false;
     }
-    return !!(state.hiddenImageCurrent[folderKey] && state.hiddenImageCurrent[folderKey][stem]);
+    return !!(
+      state.hiddenImageCurrent[folderKey] &&
+      state.hiddenImageCurrent[folderKey][stem]
+    );
   }
 
   function setImageHidden(folder, name, hidden) {
@@ -922,7 +969,11 @@
 
   function buildHiddenImageChanges() {
     const changes = [];
-    const folders = new Set(Object.keys(state.hiddenImageBase || {}).concat(Object.keys(state.hiddenImageCurrent || {})));
+    const folders = new Set(
+      Object.keys(state.hiddenImageBase || {}).concat(
+        Object.keys(state.hiddenImageCurrent || {}),
+      ),
+    );
     folders.forEach(function (folder) {
       const base = state.hiddenImageBase[folder] || {};
       const curr = state.hiddenImageCurrent[folder] || {};
@@ -950,7 +1001,7 @@
     return rgbToHex({
       r: base.r + (mix.r - base.r) * a,
       g: base.g + (mix.g - base.g) * a,
-      b: base.b + (mix.b - base.b) * a
+      b: base.b + (mix.b - base.b) * a,
     });
   }
 
@@ -995,7 +1046,7 @@
       "--accent-2": palette[1],
       "--accent-3": palette[2],
       "--accent-4": palette[3],
-      "--accent-5": palette[4]
+      "--accent-5": palette[4],
     });
   }
 
@@ -1013,7 +1064,9 @@
   }
 
   function updateAdminUserClass() {
-    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    const isAdminUser =
+      String(state.authRole || "").toLowerCase() === "admin" &&
+      !!String(state.authUser || "").trim();
     $("body").toggleClass("is-admin-user", isAdminUser);
   }
 
@@ -1021,7 +1074,9 @@
     if (!$adminNavButton.length) {
       return;
     }
-    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    const isAdminUser =
+      String(state.authRole || "").toLowerCase() === "admin" &&
+      !!String(state.authUser || "").trim();
     if (!isAdminUser) {
       $adminNavButton.addClass("is-hidden");
       return;
@@ -1029,7 +1084,10 @@
     const isAdminPage = state.pageMode === "admin";
     $adminNavButton
       .removeClass("is-hidden")
-      .attr("aria-label", isAdminPage ? t("admin_nav_back") : t("admin_nav_open"))
+      .attr(
+        "aria-label",
+        isAdminPage ? t("admin_nav_back") : t("admin_nav_open"),
+      )
       .attr("title", isAdminPage ? t("admin_nav_back") : t("admin_nav_open"))
       .find(".text")
       .text(isAdminPage ? t("admin_nav_back") : t("admin_nav_open"));
@@ -1039,7 +1097,9 @@
     if (!$inviteRequestsButton.length) {
       return;
     }
-    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    const isAdminUser =
+      String(state.authRole || "").toLowerCase() === "admin" &&
+      !!String(state.authUser || "").trim();
     const isAdminPage = state.pageMode === "admin";
     if (!isAdminUser || !isAdminPage) {
       $inviteRequestsButton.addClass("is-hidden").removeClass("is-active");
@@ -1055,7 +1115,9 @@
   }
 
   function escapeHtml(value) {
-    return $("<div></div>").text(value == null ? "" : String(value)).html();
+    return $("<div></div>")
+      .text(value == null ? "" : String(value))
+      .html();
   }
 
   function formatInviteDate(value) {
@@ -1070,7 +1132,7 @@
     try {
       return new Intl.DateTimeFormat(state.lang === "en" ? "en-US" : "vi-VN", {
         dateStyle: "medium",
-        timeStyle: "short"
+        timeStyle: "short",
       }).format(date);
     } catch (_err) {
       return date.toLocaleString();
@@ -1089,27 +1151,47 @@
   function getInviteRequestStatus(entry) {
     const guestToken = entry && entry.guest_token;
     const guestTokenLocked = !!(entry && entry.guest_token_locked);
-    const hasToken = !(guestToken === null || guestToken === undefined || String(guestToken).trim() === "");
+    const hasToken = !(
+      guestToken === null ||
+      guestToken === undefined ||
+      String(guestToken).trim() === ""
+    );
     if (!hasToken) {
-      return { key: "invite_status_pending", className: "is-pending", action: "access" };
+      return {
+        key: "invite_status_pending",
+        className: "is-pending",
+        action: "access",
+      };
     }
 
     if (guestTokenLocked) {
-      return { key: "invite_status_locked", className: "is-locked", action: "unlock" };
+      return {
+        key: "invite_status_locked",
+        className: "is-locked",
+        action: "unlock",
+      };
     }
 
     const expiresAt = parseInviteDate(
-      (entry && entry.guest_token_expires_at)
-      || (entry && entry.guest_token_expire_at)
-      || (entry && entry.token_expires_at)
-      || (entry && entry.guest_token_expires)
-      || (entry && entry.expires_at)
+      (entry && entry.guest_token_expires_at) ||
+        (entry && entry.guest_token_expire_at) ||
+        (entry && entry.token_expires_at) ||
+        (entry && entry.guest_token_expires) ||
+        (entry && entry.expires_at),
     );
     if (expiresAt && expiresAt.getTime() <= Date.now()) {
-      return { key: "invite_status_expired", className: "is-expired", action: "renew" };
+      return {
+        key: "invite_status_expired",
+        className: "is-expired",
+        action: "renew",
+      };
     }
 
-    return { key: "invite_status_active", className: "is-active", action: "lock" };
+    return {
+      key: "invite_status_active",
+      className: "is-active",
+      action: "lock",
+    };
   }
 
   function describeUserAgent(value) {
@@ -1128,13 +1210,23 @@
       lines.push("Intel cho biết máy Mac dùng chip Intel.");
     }
     if (osMatch) {
-      lines.push("Mac OS X " + osMatch[1] + " là phiên bản hệ điều hành macOS " + osMatch[1].replaceAll("_", ".") + ".");
+      lines.push(
+        "Mac OS X " +
+          osMatch[1] +
+          " là phiên bản hệ điều hành macOS " +
+          osMatch[1].replaceAll("_", ".") +
+          ".",
+      );
     }
     if (chromeMatch) {
       lines.push("Trình duyệt là Chrome phiên bản " + chromeMatch[1] + ".");
     }
     if (webkitMatch) {
-      lines.push("AppleWebKit/" + webkitMatch[1] + " cho biết engine trình duyệt đang dựa trên WebKit/Blink.");
+      lines.push(
+        "AppleWebKit/" +
+          webkitMatch[1] +
+          " cho biết engine trình duyệt đang dựa trên WebKit/Blink.",
+      );
     }
 
     if (!lines.length) {
@@ -1143,7 +1235,7 @@
 
     return {
       raw: userAgent,
-      lines: lines
+      lines: lines,
     };
   }
 
@@ -1196,12 +1288,14 @@
       { value: "pending", label: t("invite_status_pending") },
       { value: "active", label: t("invite_status_active") },
       { value: "locked", label: t("invite_status_locked") },
-      { value: "expired", label: t("invite_status_expired") }
+      { value: "expired", label: t("invite_status_expired") },
     ];
   }
 
   function normalizeSearchValue(value) {
-    return String(value || "").trim().toLowerCase();
+    return String(value || "")
+      .trim()
+      .toLowerCase();
   }
 
   function matchInviteRequestFilter(value, query) {
@@ -1216,16 +1310,24 @@
     const filters = state.inviteRequestFilters || {};
     return (Array.isArray(requests) ? requests : []).filter(function (entry) {
       const status = getInviteRequestStatus(entry);
-      const countValue = Number.isFinite(Number(entry && entry.request_count)) ? String(Number(entry.request_count)) : "0";
+      const countValue = Number.isFinite(Number(entry && entry.request_count))
+        ? String(Number(entry.request_count))
+        : "0";
       const createdValue = formatInviteDate(entry && entry.created_at);
-      const pathValue = summarizeRequestPathForTable(entry && entry.request_path);
+      const pathValue = summarizeRequestPathForTable(
+        entry && entry.request_path,
+      );
       const agentShort = summarizeUserAgentForTable(entry && entry.user_agent);
       const agentRaw = entry && entry.user_agent;
-      if (!matchInviteRequestFilter(entry && entry.guest_email, filters.email)) {
+      if (
+        !matchInviteRequestFilter(entry && entry.guest_email, filters.email)
+      ) {
         return false;
       }
       if (normalizeSearchValue(filters.status)) {
-        const statusValue = String(status.key || "").toLowerCase().replace(/^invite_status_/, "");
+        const statusValue = String(status.key || "")
+          .toLowerCase()
+          .replace(/^invite_status_/, "");
         if (normalizeSearchValue(filters.status) !== statusValue) {
           return false;
         }
@@ -1239,10 +1341,17 @@
       if (!matchInviteRequestFilter(entry && entry.ip, filters.ip)) {
         return false;
       }
-      if (!matchInviteRequestFilter(pathValue + " " + (entry && entry.request_path), filters.path)) {
+      if (
+        !matchInviteRequestFilter(
+          pathValue + " " + (entry && entry.request_path),
+          filters.path,
+        )
+      ) {
         return false;
       }
-      if (!matchInviteRequestFilter(agentShort + " " + agentRaw, filters.agent)) {
+      if (
+        !matchInviteRequestFilter(agentShort + " " + agentRaw, filters.agent)
+      ) {
         return false;
       }
       return true;
@@ -1257,86 +1366,156 @@
       created: String($form.find('[name="invite_created"]').val() || "").trim(),
       ip: String($form.find('[name="invite_ip"]').val() || "").trim(),
       path: String($form.find('[name="invite_path"]').val() || "").trim(),
-      agent: String($form.find('[name="invite_agent"]').val() || "").trim()
+      agent: String($form.find('[name="invite_agent"]').val() || "").trim(),
     };
   }
 
   function setInviteRequestFilters(filters) {
     state.inviteRequestFilters = {
-      email: String(filters && filters.email || "").trim(),
-      status: String(filters && filters.status || "").trim(),
-      count: String(filters && filters.count || "").trim(),
-      created: String(filters && filters.created || "").trim(),
-      ip: String(filters && filters.ip || "").trim(),
-      path: String(filters && filters.path || "").trim(),
-      agent: String(filters && filters.agent || "").trim()
+      email: String((filters && filters.email) || "").trim(),
+      status: String((filters && filters.status) || "").trim(),
+      count: String((filters && filters.count) || "").trim(),
+      created: String((filters && filters.created) || "").trim(),
+      ip: String((filters && filters.ip) || "").trim(),
+      path: String((filters && filters.path) || "").trim(),
+      agent: String((filters && filters.agent) || "").trim(),
     };
   }
 
   function renderInviteRequestSearchForm() {
     const filters = state.inviteRequestFilters || {};
     const isCollapsed = Boolean(state.inviteSearchCollapsed);
-    const statusOptions = getInviteRequestStatusOptions().map(function (option) {
-      const selected = String(option.value || "") === String(filters.status || "");
-      return '<option value="' + escapeHtml(option.value) + '"' + (selected ? ' selected="selected"' : "") + '>' + escapeHtml(option.label) + "</option>";
-    }).join("");
+    const statusOptions = getInviteRequestStatusOptions()
+      .map(function (option) {
+        const selected =
+          String(option.value || "") === String(filters.status || "");
+        return (
+          '<option value="' +
+          escapeHtml(option.value) +
+          '"' +
+          (selected ? ' selected="selected"' : "") +
+          ">" +
+          escapeHtml(option.label) +
+          "</option>"
+        );
+      })
+      .join("");
 
-    const searchIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>';
-    const resetIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 9 9 9"/></svg>';
-    const caretIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+    const searchIcon =
+      '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>';
+    const resetIcon =
+      '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 9 9 9"/></svg>';
+    const caretIcon =
+      '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
 
     return [
       '<section class="admin-request-search">',
-        '<header class="admin-request-search-header">',
-          '<div class="admin-request-search-title">',
-            '<span class="admin-request-search-icon">' + searchIcon + '</span>',
-            '<span>' + t("invite_requests_search_title") + '</span>',
-          '</div>',
-          '<div class="admin-request-search-header-actions">',
-            '<button type="button" id="invite-request-search-reset-header" class="admin-request-search-header-action" aria-label="' + t("invite_requests_search_reset") + '">' + resetIcon + '</button>',
-            '<button type="button" id="invite-request-search-toggle" class="admin-request-search-header-action admin-request-search-header-action--toggle" aria-expanded="' + (!isCollapsed).toString() + '">' + caretIcon + '</button>',
-          '</div>',
-        '</header>',
-        '<div class="admin-request-search-details' + (isCollapsed ? ' is-collapsed' : '') + '">',
-          '<p class="admin-request-search-subtitle">' + t("invite_requests_search_subtitle") + '</p>',
-          '<div id="invite-request-search-form" class="admin-request-search-form">',
-            '<div class="admin-request-search-grid">',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_email") + '</span>',
-                '<input name="invite_email" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.email || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_status") + '</span>',
-                '<select name="invite_status" class="admin-request-search-input admin-request-search-select">' + statusOptions + '</select>',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_count") + '</span>',
-                '<input name="invite_count" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.count || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_created") + '</span>',
-                '<input name="invite_created" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.created || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_ip") + '</span>',
-                '<input name="invite_ip" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.ip || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_path") + '</span>',
-                '<input name="invite_path" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.path || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
-                '<span class="admin-request-search-label">' + t("invite_requests_col_agent") + '</span>',
-                '<input name="invite_agent" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.agent || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
-              '</label>',
-            '</div>',
-            '<div class="admin-request-search-actions">',
-              '<button type="button" id="invite-request-search-submit" class="admin-request-search-submit">' + t("invite_requests_search_apply") + '</button>',
-              '<button type="button" id="invite-request-search-reset" class="admin-request-search-reset">' + t("invite_requests_search_reset") + '</button>',
-            '</div>',
-          '</div>',
-        '</div>',
-      '</section>'
+      '<header class="admin-request-search-header">',
+      '<div class="admin-request-search-title">',
+      '<span class="admin-request-search-icon">' + searchIcon + "</span>",
+      "<span>" + t("invite_requests_search_title") + "</span>",
+      "</div>",
+      '<div class="admin-request-search-header-actions">',
+      '<button type="button" id="invite-request-search-reset-header" class="admin-request-search-header-action" aria-label="' +
+        t("invite_requests_search_reset") +
+        '">' +
+        resetIcon +
+        "</button>",
+      '<button type="button" id="invite-request-search-toggle" class="admin-request-search-header-action admin-request-search-header-action--toggle" aria-expanded="' +
+        (!isCollapsed).toString() +
+        '">' +
+        caretIcon +
+        "</button>",
+      "</div>",
+      "</header>",
+      '<div class="admin-request-search-details' +
+        (isCollapsed ? " is-collapsed" : "") +
+        '">',
+      '<p class="admin-request-search-subtitle">' +
+        t("invite_requests_search_subtitle") +
+        "</p>",
+      '<div id="invite-request-search-form" class="admin-request-search-form">',
+      '<div class="admin-request-search-grid">',
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_email") +
+        "</span>",
+      '<input name="invite_email" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.email || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_status") +
+        "</span>",
+      '<select name="invite_status" class="admin-request-search-input admin-request-search-select">' +
+        statusOptions +
+        "</select>",
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_count") +
+        "</span>",
+      '<input name="invite_count" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.count || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_created") +
+        "</span>",
+      '<input name="invite_created" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.created || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_ip") +
+        "</span>",
+      '<input name="invite_ip" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.ip || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_path") +
+        "</span>",
+      '<input name="invite_path" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.path || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+      '<span class="admin-request-search-label">' +
+        t("invite_requests_col_agent") +
+        "</span>",
+      '<input name="invite_agent" class="admin-request-search-input" type="text" value="' +
+        escapeHtml(filters.agent || "") +
+        '" placeholder="' +
+        t("invite_requests_search_placeholder") +
+        '">',
+      "</label>",
+      "</div>",
+      '<div class="admin-request-search-actions">',
+      '<button type="button" id="invite-request-search-submit" class="admin-request-search-submit">' +
+        t("invite_requests_search_apply") +
+        "</button>",
+      '<button type="button" id="invite-request-search-reset" class="admin-request-search-reset">' +
+        t("invite_requests_search_reset") +
+        "</button>",
+      "</div>",
+      "</div>",
+      "</div>",
+      "</section>",
     ].join("");
   }
 
@@ -1391,7 +1570,7 @@
         '<div class="admin-user-agent-title">User agent</div>' +
         '<div class="admin-user-agent-raw"></div>' +
         '<ul class="admin-user-agent-lines"></ul>' +
-      '</div>'
+        "</div>",
     );
 
     $tooltip.find(".admin-user-agent-raw").text(details.raw);
@@ -1411,11 +1590,17 @@
 
     const rect = anchorEl.getBoundingClientRect();
     const tooltipRect = $tooltip[0].getBoundingClientRect();
-    const left = Math.min(window.innerWidth - tooltipRect.width - 12, Math.max(12, rect.left));
-    const top = Math.min(window.innerHeight - tooltipRect.height - 12, rect.bottom + 8);
+    const left = Math.min(
+      window.innerWidth - tooltipRect.width - 12,
+      Math.max(12, rect.left),
+    );
+    const top = Math.min(
+      window.innerHeight - tooltipRect.height - 12,
+      rect.bottom + 8,
+    );
     $tooltip.css({
       left: String(left) + "px",
-      top: String(top) + "px"
+      top: String(top) + "px",
     });
 
     window.requestAnimationFrame(function () {
@@ -1432,64 +1617,166 @@
       return;
     }
 
-    const requests = Array.isArray(state.inviteRequests) ? state.inviteRequests : [];
+    const requests = Array.isArray(state.inviteRequests)
+      ? state.inviteRequests
+      : [];
     const filteredRequests = filterInviteRequests(requests);
     const loadingHtml = state.inviteRequestsLoading
-      ? '<p class="admin-request-empty">' + t("invite_requests_loading") + "</p>"
+      ? '<p class="admin-request-empty">' +
+        t("invite_requests_loading") +
+        "</p>"
       : "";
-    const rows = filteredRequests.map(function (entry, index) {
-      const email = escapeHtml(entry && entry.guest_email);
-      const createdAt = escapeHtml(formatInviteDate(entry && entry.created_at));
-      const ip = escapeHtml(entry && entry.ip);
-      const userAgent = escapeHtml(entry && entry.user_agent);
-      const userAgentShort = escapeHtml(summarizeUserAgentForTable(entry && entry.user_agent));
-      const requestPath = escapeHtml(summarizeRequestPathForTable(entry && entry.request_path));
-      const requestPathRaw = escapeHtml(entry && entry.request_path);
-      const requestCount = Number.isFinite(Number(entry && entry.request_count)) ? Number(entry.request_count) : 0;
-      const status = getInviteRequestStatus(entry);
-      const actionLabel = getInviteRequestActionLabel(status.action);
-      const actionIcon = getInviteRequestActionIcon(status.action);
-      const guestEmailRaw = escapeHtml(entry && entry.guest_email);
-      const expiredGrantButton = status.key === "invite_status_expired"
-        ? '<button type="button" class="admin-request-action-button is-state-action is-secondary" data-action="access" data-guest-email="' + guestEmailRaw + '" aria-label="' + escapeHtml(getInviteRequestActionLabel("access")) + '" title="' + escapeHtml(getInviteRequestActionLabel("access")) + '">' + getInviteRequestActionIcon("access") + '</button>'
-        : "";
-      const copyLinkButton = status.key === "invite_status_active" && String(entry && entry.guest_token || "").trim()
-        ? '<button type="button" class="admin-request-action-button is-state-action is-copy" data-action="copy" data-guest-email="' + guestEmailRaw + '" data-token="' + escapeHtml(String(entry && entry.guest_token || "")) + '" data-request-path="' + escapeHtml(String(entry && entry.request_path || "")) + '" aria-label="' + escapeHtml(getInviteRequestActionLabel("copy")) + '" title="' + escapeHtml(getInviteRequestActionLabel("copy")) + '">' + getInviteRequestActionIcon("copy") + '</button>'
-        : "";
-      return [
-        "<tr>",
-        "<td>" + (index + 1) + "</td>",
-        "<td class=\"admin-request-email\">" + email + "</td>",
-        "<td>" + requestCount + "</td>",
-        '<td><span class="admin-request-status ' + status.className + '">' + escapeHtml(t(status.key)) + "</span></td>",
-        "<td>" + createdAt + "</td>",
-        "<td>" + ip + "</td>",
-        '<td class="admin-request-path" title="' + requestPathRaw + '">' + requestPath + "</td>",
-        '<td><button type="button" class="admin-request-agent-button" data-user-agent="' + userAgent + '">' + userAgentShort + "</button></td>",
-        '<td class="admin-request-actions"><button type="button" class="admin-request-action-button is-state-action" data-action="' + escapeHtml(status.action) + '" data-guest-email="' + guestEmailRaw + '" aria-label="' + escapeHtml(actionLabel) + '" title="' + escapeHtml(actionLabel) + '">' + actionIcon + "</button>" + expiredGrantButton + copyLinkButton + "<button type=\"button\" class=\"admin-request-action-button is-delete\" data-action=\"delete\" data-guest-email=\"" + guestEmailRaw + "\" aria-label=\"" + escapeHtml(t('invite_requests_action_delete')) + "\" title=\"" + escapeHtml(t('invite_requests_action_delete')) + "\"><svg class=\"icon-stroke\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><polyline points=\"3 6 5 6 21 6\"></polyline><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"></path><line x1=\"10\" y1=\"11\" x2=\"10\" y2=\"17\"></line><line x1=\"14\" y1=\"11\" x2=\"14\" y2=\"17\"></line></svg></button></td>",
-        "</tr>"
-      ].join("");
-    }).join("");
+    const rows = filteredRequests
+      .map(function (entry, index) {
+        const email = escapeHtml(entry && entry.guest_email);
+        const createdAt = escapeHtml(
+          formatInviteDate(entry && entry.created_at),
+        );
+        const ip = escapeHtml(entry && entry.ip);
+        const userAgent = escapeHtml(entry && entry.user_agent);
+        const userAgentShort = escapeHtml(
+          summarizeUserAgentForTable(entry && entry.user_agent),
+        );
+        const requestPath = escapeHtml(
+          summarizeRequestPathForTable(entry && entry.request_path),
+        );
+        const requestPathRaw = escapeHtml(entry && entry.request_path);
+        const requestCount = Number.isFinite(
+          Number(entry && entry.request_count),
+        )
+          ? Number(entry.request_count)
+          : 0;
+        const status = getInviteRequestStatus(entry);
+        const actionLabel = getInviteRequestActionLabel(status.action);
+        const actionIcon = getInviteRequestActionIcon(status.action);
+        const guestEmailRaw = escapeHtml(entry && entry.guest_email);
+        const expiredGrantButton =
+          status.key === "invite_status_expired"
+            ? '<button type="button" class="admin-request-action-button is-state-action is-secondary" data-action="access" data-guest-email="' +
+              guestEmailRaw +
+              '" aria-label="' +
+              escapeHtml(getInviteRequestActionLabel("access")) +
+              '" title="' +
+              escapeHtml(getInviteRequestActionLabel("access")) +
+              '">' +
+              getInviteRequestActionIcon("access") +
+              "</button>"
+            : "";
+        const copyLinkButton =
+          status.key === "invite_status_active" &&
+          String((entry && entry.guest_token) || "").trim()
+            ? '<button type="button" class="admin-request-action-button is-state-action is-copy" data-action="copy" data-guest-email="' +
+              guestEmailRaw +
+              '" data-token="' +
+              escapeHtml(String((entry && entry.guest_token) || "")) +
+              '" data-request-path="' +
+              escapeHtml(String((entry && entry.request_path) || "")) +
+              '" aria-label="' +
+              escapeHtml(getInviteRequestActionLabel("copy")) +
+              '" title="' +
+              escapeHtml(getInviteRequestActionLabel("copy")) +
+              '">' +
+              getInviteRequestActionIcon("copy") +
+              "</button>"
+            : "";
+        return [
+          "<tr>",
+          "<td>" + (index + 1) + "</td>",
+          '<td class="admin-request-email">' + email + "</td>",
+          "<td>" + requestCount + "</td>",
+          '<td><span class="admin-request-status ' +
+            status.className +
+            '">' +
+            escapeHtml(t(status.key)) +
+            "</span></td>",
+          "<td>" + createdAt + "</td>",
+          "<td>" + ip + "</td>",
+          '<td class="admin-request-path" title="' +
+            requestPathRaw +
+            '">' +
+            requestPath +
+            "</td>",
+          '<td><button type="button" class="admin-request-agent-button" data-user-agent="' +
+            userAgent +
+            '">' +
+            userAgentShort +
+            "</button></td>",
+          '<td class="admin-request-actions"><button type="button" class="admin-request-action-button is-state-action" data-action="' +
+            escapeHtml(status.action) +
+            '" data-guest-email="' +
+            guestEmailRaw +
+            '" aria-label="' +
+            escapeHtml(actionLabel) +
+            '" title="' +
+            escapeHtml(actionLabel) +
+            '">' +
+            actionIcon +
+            "</button>" +
+            expiredGrantButton +
+            copyLinkButton +
+            '<button type="button" class="admin-request-action-button is-delete" data-action="delete" data-guest-email="' +
+            guestEmailRaw +
+            '" aria-label="' +
+            escapeHtml(t("invite_requests_action_delete")) +
+            '" title="' +
+            escapeHtml(t("invite_requests_action_delete")) +
+            '"><svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button></td>',
+          "</tr>",
+        ].join("");
+      })
+      .join("");
 
     const emptyHtml = state.inviteRequestsLoading
       ? loadingHtml
-      : (filteredRequests.length === 0
-      ? '<p class="admin-request-empty">' + (requests.length > 0 ? t("invite_requests_no_match") : t("invite_requests_empty")) + "</p>"
-      : '<div class="admin-request-table-wrap"><table class="admin-request-table"><thead><tr><th>' + t("invite_requests_col_no") + '</th><th>' + t("invite_requests_col_email") + '</th><th>' + t("invite_requests_col_count") + '</th><th>' + t("invite_requests_col_status") + '</th><th>' + t("invite_requests_col_created") + '</th><th>' + t("invite_requests_col_ip") + '</th><th>' + t("invite_requests_col_path") + '</th><th>' + t("invite_requests_col_agent") + '</th><th>' + t("invite_requests_col_action") + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>');
+      : filteredRequests.length === 0
+        ? '<p class="admin-request-empty">' +
+          (requests.length > 0
+            ? t("invite_requests_no_match")
+            : t("invite_requests_empty")) +
+          "</p>"
+        : '<div class="admin-request-table-wrap"><table class="admin-request-table"><thead><tr><th>' +
+          t("invite_requests_col_no") +
+          "</th><th>" +
+          t("invite_requests_col_email") +
+          "</th><th>" +
+          t("invite_requests_col_count") +
+          "</th><th>" +
+          t("invite_requests_col_status") +
+          "</th><th>" +
+          t("invite_requests_col_created") +
+          "</th><th>" +
+          t("invite_requests_col_ip") +
+          "</th><th>" +
+          t("invite_requests_col_path") +
+          "</th><th>" +
+          t("invite_requests_col_agent") +
+          "</th><th>" +
+          t("invite_requests_col_action") +
+          "</th></tr></thead><tbody>" +
+          rows +
+          "</tbody></table></div>";
 
     $adminPlaceholderForm.html(
       '<section class="admin-request-panel">' +
         '<header class="admin-request-panel-header">' +
-          '<div>' +
-            '<p class="admin-request-kicker">' + t("invite_requests_kicker") + '</p>' +
-            '<h3 class="admin-request-title">' + t("invite_requests_title") + '</h3>' +
-            '<p class="admin-request-subtitle">' + t("invite_requests_subtitle") + '</p>' +
-          '</div>' +
-          '<button id="invite-requests-refresh" type="button" class="admin-request-refresh">' + t("invite_requests_refresh") + '</button>' +
-        '</header>' +
+        "<div>" +
+        '<p class="admin-request-kicker">' +
+        t("invite_requests_kicker") +
+        "</p>" +
+        '<h3 class="admin-request-title">' +
+        t("invite_requests_title") +
+        "</h3>" +
+        '<p class="admin-request-subtitle">' +
+        t("invite_requests_subtitle") +
+        "</p>" +
+        "</div>" +
+        '<button id="invite-requests-refresh" type="button" class="admin-request-refresh">' +
+        t("invite_requests_refresh") +
+        "</button>" +
+        "</header>" +
         renderInviteRequestSearchForm() +
         emptyHtml +
-      '</section>'
+        "</section>",
     );
 
     $("#invite-requests-refresh").on("click", function () {
@@ -1509,7 +1796,7 @@
         created: "",
         ip: "",
         path: "",
-        agent: ""
+        agent: "",
       });
       renderAdminRequestsPanel();
     }
@@ -1523,7 +1810,10 @@
       const collapsed = !$details.hasClass("is-collapsed");
       state.inviteSearchCollapsed = collapsed;
       $details.toggleClass("is-collapsed", collapsed);
-      $("#invite-request-search-toggle").attr("aria-expanded", (!collapsed).toString());
+      $("#invite-request-search-toggle").attr(
+        "aria-expanded",
+        (!collapsed).toString(),
+      );
     }
 
     $("#invite-request-search-toggle").on("click", function (event) {
@@ -1546,7 +1836,11 @@
     if (state.inviteRequestsLoading) {
       return $.Deferred().resolve(null).promise();
     }
-    if (!forceReload && Array.isArray(state.inviteRequests) && state.inviteRequests.length > 0) {
+    if (
+      !forceReload &&
+      Array.isArray(state.inviteRequests) &&
+      state.inviteRequests.length > 0
+    ) {
       renderAdminRequestsPanel();
       return $.Deferred().resolve(state.inviteRequests).promise();
     }
@@ -1557,7 +1851,9 @@
 
     return $.getJSON(buildApiUrl("__invite_requests__"))
       .then(function (data) {
-        state.inviteRequests = Array.isArray(data && data.requests) ? data.requests : [];
+        state.inviteRequests = Array.isArray(data && data.requests)
+          ? data.requests
+          : [];
         state.adminPanel = "requests";
         return state.inviteRequests;
       })
@@ -1569,7 +1865,9 @@
       .always(function () {
         state.inviteRequestsLoading = false;
         renderAdminRequestsPanel();
-        $adminPlaceholderForm.find(".admin-request-panel").removeClass("is-loading");
+        $adminPlaceholderForm
+          .find(".admin-request-panel")
+          .removeClass("is-loading");
       });
   }
 
@@ -1587,21 +1885,31 @@
       }
     });
     $guestEmail.attr("aria-label", t("guest_email_label"));
-    const submitLabel = guestTokenLoginMode ? t("guest_admin_login") : t("guest_submit");
+    const submitLabel = guestTokenLoginMode
+      ? t("guest_admin_login")
+      : t("guest_submit");
     $guestInviteSubmit
       .text(submitLabel)
       .attr("aria-label", submitLabel)
       .attr("title", submitLabel);
-    $guestGateSubtitle.text(guestTokenLoginMode ? t("guest_token_prompt") : t("guest_subtitle"));
+    $guestGateSubtitle.text(
+      guestTokenLoginMode ? t("guest_token_prompt") : t("guest_subtitle"),
+    );
   }
 
   function updateStaticTexts() {
     $("html").attr("lang", state.lang);
     const isAdminPage = state.pageMode === "admin";
-    document.title = isAdminPage ? t("admin_page_title") : (state.authUser ? t("sidebar_title") : t("guest_page_title"));
+    document.title = isAdminPage
+      ? t("admin_page_title")
+      : state.authUser
+        ? t("sidebar_title")
+        : t("guest_page_title");
     $sidebarTitle.text(t("sidebar_title"));
     $sidebarHint.html(t("sidebar_hint"));
-    $settingsToggle.removeClass("is-hidden").attr("aria-label", t("settings_button"));
+    $settingsToggle
+      .removeClass("is-hidden")
+      .attr("aria-label", t("settings_button"));
     if (isAdminPage) {
       $settingsPanel.addClass("is-hidden");
     }
@@ -1623,7 +1931,9 @@
     $audioUploadFilesLabel.text(t("upload_audio_files_label"));
     $audioUploadHelpText.text(t("upload_audio_help"));
     $audioUploadCancel.text(t("upload_cancel"));
-    $audioUploadSubmit.attr("aria-label", t("upload_audio_submit")).attr("title", t("upload_audio_submit"));
+    $audioUploadSubmit
+      .attr("aria-label", t("upload_audio_submit"))
+      .attr("title", t("upload_audio_submit"));
     $audioPreviewToggle
       .attr("aria-label", t("audio_preview_play"))
       .attr("title", t("audio_preview_play"));
@@ -1634,16 +1944,24 @@
     $audioPreviewClose
       .attr("aria-label", t("audio_preview_close"))
       .attr("title", t("audio_preview_close"));
-    $(".thumb-delete").attr("aria-label", t("image_delete")).attr("title", t("image_delete"));
+    $(".thumb-delete")
+      .attr("aria-label", t("image_delete"))
+      .attr("title", t("image_delete"));
     setPreviewPlaying(state.previewAudioPlaying);
     updatePreviewVolumeControls();
     $("#upload-modal-title").text(t("upload_modal_title"));
     $("#upload-album-label").text(t("upload_album_label"));
     $uploadAlbumName.attr("placeholder", t("upload_album_placeholder"));
     $("#upload-type-label").text(t("upload_type_label"));
-    $uploadTypeOptions.find("[data-upload-type='files']").text(t("upload_type_files"));
-    $uploadTypeOptions.find("[data-upload-type='folder']").text(t("upload_type_folder"));
-    $uploadTypeOptions.find("[data-upload-type='zip']").text(t("upload_type_zip"));
+    $uploadTypeOptions
+      .find("[data-upload-type='files']")
+      .text(t("upload_type_files"));
+    $uploadTypeOptions
+      .find("[data-upload-type='folder']")
+      .text(t("upload_type_folder"));
+    $uploadTypeOptions
+      .find("[data-upload-type='zip']")
+      .text(t("upload_type_zip"));
     $uploadCancel.text(t("upload_cancel"));
     $uploadSubmit.text(t("upload_submit"));
     $confirmModalTitle.text(t("confirm_title"));
@@ -1660,8 +1978,12 @@
       .attr("title", t("edit_page_label"))
       .find(".text")
       .text(t("edit_page_label"));
-    $sidebarEditSave.attr("aria-label", t("edit_save_label")).attr("title", t("edit_save_label"));
-    $sidebarEditCancel.attr("aria-label", t("edit_cancel_label")).attr("title", t("edit_cancel_label"));
+    $sidebarEditSave
+      .attr("aria-label", t("edit_save_label"))
+      .attr("title", t("edit_save_label"));
+    $sidebarEditCancel
+      .attr("aria-label", t("edit_cancel_label"))
+      .attr("title", t("edit_cancel_label"));
     $settingsLogout
       .attr("aria-label", t("logout_label"))
       .attr("title", t("logout_label"))
@@ -1697,16 +2019,19 @@
   function renderSortMenu() {
     $albumSortMenu.empty();
     sortModeDefs.forEach(function (item) {
-      const $btn = $("<button type='button' class='album-sort-option'></button>")
+      const $btn = $(
+        "<button type='button' class='album-sort-option'></button>",
+      )
         .attr("data-sort-mode", item.value)
         .text(t(item.labelKey))
         .toggleClass("is-active", state.sortMode === item.value);
-    $albumSortMenu.append($btn);
-  });
-}
+      $albumSortMenu.append($btn);
+    });
+  }
 
   function updateScrollTopVisibility() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const scrollTop =
+      window.pageYOffset || document.documentElement.scrollTop || 0;
     $scrollTop.toggleClass("is-visible", scrollTop > 280);
   }
 
@@ -1731,7 +2056,7 @@
     const base = name.replace(/\.[^.]+$/, "");
     const patterns = [
       /(\d{4})[-_](\d{2})[-_](\d{2})[ T_-](\d{2})[.:_-](\d{2})[.:_-](\d{2})/,
-      /(\d{4})(\d{2})(\d{2})[ T_-]?(\d{2})(\d{2})(\d{2})/
+      /(\d{4})(\d{2})(\d{2})[ T_-]?(\d{2})(\d{2})(\d{2})/,
     ];
     for (let i = 0; i < patterns.length; i += 1) {
       const match = base.match(patterns[i]);
@@ -1744,7 +2069,7 @@
         Number(match[3]),
         Number(match[4]),
         Number(match[5]),
-        Number(match[6])
+        Number(match[6]),
       ).getTime();
       if (Number.isFinite(ts) && ts > 0) {
         return Math.floor(ts / 1000);
@@ -1756,39 +2081,45 @@
   function compareNaturalText(a, b) {
     return String(a || "").localeCompare(String(b || ""), undefined, {
       numeric: true,
-      sensitivity: "base"
+      sensitivity: "base",
     });
   }
 
   function sortImageEntries(entries) {
     const mode = getNormalizedSortMode(state.sortMode);
-    return (Array.isArray(entries) ? entries.slice() : []).sort(function (a, b) {
-      const left = normalizeImageEntry(a);
-      const right = normalizeImageEntry(b);
-      const leftName = left.original || left.name || "";
-      const rightName = right.original || right.name || "";
-      const leftTime = left.uploadedAt || left.createdAt || left.nameTime || 0;
-      const rightTime = right.uploadedAt || right.createdAt || right.nameTime || 0;
+    return (Array.isArray(entries) ? entries.slice() : []).sort(
+      function (a, b) {
+        const left = normalizeImageEntry(a);
+        const right = normalizeImageEntry(b);
+        const leftName = left.original || left.name || "";
+        const rightName = right.original || right.name || "";
+        const leftTime =
+          left.uploadedAt || left.createdAt || left.nameTime || 0;
+        const rightTime =
+          right.uploadedAt || right.createdAt || right.nameTime || 0;
 
-      if (mode === "time_asc" || mode === "time_desc") {
-        if (leftTime !== rightTime) {
-          return mode === "time_asc" ? leftTime - rightTime : rightTime - leftTime;
+        if (mode === "time_asc" || mode === "time_desc") {
+          if (leftTime !== rightTime) {
+            return mode === "time_asc"
+              ? leftTime - rightTime
+              : rightTime - leftTime;
+          }
+          return compareNaturalText(leftName, rightName);
         }
-        return compareNaturalText(leftName, rightName);
-      }
-      if (mode === "name_desc") {
-        const nameCmpDesc = compareNaturalText(rightName, leftName);
-        if (nameCmpDesc !== 0) {
-          return nameCmpDesc;
+        if (mode === "name_desc") {
+          const nameCmpDesc = compareNaturalText(rightName, leftName);
+          if (nameCmpDesc !== 0) {
+            return nameCmpDesc;
+          }
+          return rightTime - leftTime;
+        }
+        const nameCmp = compareNaturalText(leftName, rightName);
+        if (nameCmp !== 0) {
+          return nameCmp;
         }
         return rightTime - leftTime;
-      }
-      const nameCmp = compareNaturalText(leftName, rightName);
-      if (nameCmp !== 0) {
-        return nameCmp;
-      }
-      return rightTime - leftTime;
-    });
+      },
+    );
   }
 
   function getCurrentSlideshowItems() {
@@ -1799,18 +2130,29 @@
     const hasItems = getCurrentSlideshowItems().length > 0;
     $albumSlideshowToggle.prop("disabled", !hasItems);
     $albumSlideshowToggle.toggleClass("is-playing", state.slideshowPlaying);
-    $albumSlideshowToggle.attr("aria-label", t("slideshow_start")).attr("title", t("slideshow_start"));
+    $albumSlideshowToggle
+      .attr("aria-label", t("slideshow_start"))
+      .attr("title", t("slideshow_start"));
     $imageViewerSlideshowToggle
       .toggleClass("is-paused", !state.slideshowPlaying)
-      .attr("aria-label", state.slideshowPlaying ? t("slideshow_stop") : t("slideshow_start"))
-      .attr("title", state.slideshowPlaying ? t("slideshow_stop") : t("slideshow_start"));
+      .attr(
+        "aria-label",
+        state.slideshowPlaying ? t("slideshow_stop") : t("slideshow_start"),
+      )
+      .attr(
+        "title",
+        state.slideshowPlaying ? t("slideshow_stop") : t("slideshow_start"),
+      );
     updateAudioToggleState();
   }
 
   function updateAudioToggleState() {
     const hasAudio = state.slideshowAudioList.length > 0;
-    const volume = Number.isFinite(state.slideshowAudioVolume) ? state.slideshowAudioVolume : 0;
-    const label = volume <= 0 ? t("slideshow_music_on") : t("slideshow_music_off");
+    const volume = Number.isFinite(state.slideshowAudioVolume)
+      ? state.slideshowAudioVolume
+      : 0;
+    const label =
+      volume <= 0 ? t("slideshow_music_on") : t("slideshow_music_off");
     let levelClass = "volume-level-4";
     if (volume <= 0) {
       levelClass = "volume-level-0";
@@ -1822,13 +2164,17 @@
       levelClass = "volume-level-3";
     }
     $imageViewerAudioToggle
-      .removeClass("volume-level-0 volume-level-1 volume-level-2 volume-level-3 volume-level-4")
+      .removeClass(
+        "volume-level-0 volume-level-1 volume-level-2 volume-level-3 volume-level-4",
+      )
       .addClass(levelClass)
       .prop("disabled", !state.slideshowMode || !hasAudio)
       .attr("aria-label", label)
       .attr("title", label);
     $imageViewerAudioRange.prop("disabled", !state.slideshowMode || !hasAudio);
-    const sliderStep = Math.round(Math.max(0, Math.min(4, Math.round(volume * 4))));
+    const sliderStep = Math.round(
+      Math.max(0, Math.min(4, Math.round(volume * 4))),
+    );
     $imageViewerAudioRange.val(sliderStep);
   }
 
@@ -1851,9 +2197,16 @@
   previewAudio.addEventListener("error", function () {
     const err = previewAudio.error;
     if (err) {
-      console.error("Audio preview failed to load:", err.code, err.message || err.name);
+      console.error(
+        "Audio preview failed to load:",
+        err.code,
+        err.message || err.name,
+      );
     } else {
-      console.error("Audio preview failed to load for file:", state.previewAudioFile);
+      console.error(
+        "Audio preview failed to load for file:",
+        state.previewAudioFile,
+      );
     }
     setPreviewPlaying(false);
   });
@@ -1867,7 +2220,9 @@
     }
     const name = state.slideshowAudioList[state.slideshowAudioIndex];
     const nextSrc = getSlideshowAudioSrc(name);
-    const volume = Number.isFinite(state.slideshowAudioVolume) ? state.slideshowAudioVolume : 0;
+    const volume = Number.isFinite(state.slideshowAudioVolume)
+      ? state.slideshowAudioVolume
+      : 0;
     if (volume <= 0) {
       pauseSlideshowAudio(false);
       return;
@@ -1889,7 +2244,10 @@
     }
     slideshowAudioRequest = $.getJSON(buildApiUrl("__list_audio_public__"))
       .done(function (response) {
-        const files = response && response.ok && Array.isArray(response.files) ? response.files : [];
+        const files =
+          response && response.ok && Array.isArray(response.files)
+            ? response.files
+            : [];
         const orderedFiles = orderAudioFiles(files);
         state.slideshowAudioList = orderedFiles;
         if (!orderedFiles.length) {
@@ -1934,20 +2292,27 @@
     localStorage.setItem("album-viewer-slideshow-audio-volume", String(volume));
     if (volume > 0) {
       state.slideshowAudioLastVolume = volume;
-      localStorage.setItem("album-viewer-slideshow-audio-last-volume", String(volume));
+      localStorage.setItem(
+        "album-viewer-slideshow-audio-last-volume",
+        String(volume),
+      );
     }
     updateAudioToggleState();
   }
 
   function toggleSlideshowAudioMute() {
-    const current = Number.isFinite(state.slideshowAudioVolume) ? state.slideshowAudioVolume : 0;
+    const current = Number.isFinite(state.slideshowAudioVolume)
+      ? state.slideshowAudioVolume
+      : 0;
     if (current > 0) {
       setSlideshowAudioVolume(0);
       return;
     }
-    const fallback = Number.isFinite(state.slideshowAudioLastVolume) && state.slideshowAudioLastVolume > 0
-      ? state.slideshowAudioLastVolume
-      : 0.6;
+    const fallback =
+      Number.isFinite(state.slideshowAudioLastVolume) &&
+      state.slideshowAudioLastVolume > 0
+        ? state.slideshowAudioLastVolume
+        : 0.6;
     setSlideshowAudioVolume(fallback);
     if (state.slideshowMode && state.slideshowPlaying) {
       playSlideshowAudio();
@@ -1958,7 +2323,8 @@
     if (!state.slideshowAudioList.length) {
       return;
     }
-    state.slideshowAudioIndex = (state.slideshowAudioIndex + 1) % state.slideshowAudioList.length;
+    state.slideshowAudioIndex =
+      (state.slideshowAudioIndex + 1) % state.slideshowAudioList.length;
     playSlideshowAudio();
   });
 
@@ -1973,10 +2339,17 @@
   let isPreviewSeeking = false;
 
   function updatePreviewProgress() {
-    const duration = Number.isFinite(previewAudio.duration) ? previewAudio.duration : 0;
-    const current = Number.isFinite(previewAudio.currentTime) ? previewAudio.currentTime : 0;
-    const ratio = duration > 0 ? Math.min(1, Math.max(0, current / duration)) : 0;
-    $audioPreviewTime.text(formatAudioTime(current) + " / " + formatAudioTime(duration));
+    const duration = Number.isFinite(previewAudio.duration)
+      ? previewAudio.duration
+      : 0;
+    const current = Number.isFinite(previewAudio.currentTime)
+      ? previewAudio.currentTime
+      : 0;
+    const ratio =
+      duration > 0 ? Math.min(1, Math.max(0, current / duration)) : 0;
+    $audioPreviewTime.text(
+      formatAudioTime(current) + " / " + formatAudioTime(duration),
+    );
     $audioPreviewProgress.css("width", (ratio * 100).toFixed(2) + "%");
     const pct = (ratio * 100).toFixed(2);
     if (!isPreviewSeeking) {
@@ -1986,14 +2359,20 @@
   }
 
   function seekPreviewAudioByRatio(ratio) {
-    let duration = Number.isFinite(previewAudio.duration) ? previewAudio.duration : 0;
+    let duration = Number.isFinite(previewAudio.duration)
+      ? previewAudio.duration
+      : 0;
     if (!Number.isFinite(duration) || duration <= 0) {
       const seekable = previewAudio.seekable;
       if (seekable && seekable.length) {
         duration = seekable.end(seekable.length - 1);
       }
     }
-    if (!Number.isFinite(duration) || duration <= 0 || previewAudio.readyState < 1) {
+    if (
+      !Number.isFinite(duration) ||
+      duration <= 0 ||
+      previewAudio.readyState < 1
+    ) {
       pendingPreviewSeek = ratio;
       return;
     }
@@ -2010,13 +2389,19 @@
     }
     updatePreviewProgress();
     if (wasPlaying) {
-      previewAudio.play().then(function () {
-        setPreviewPlaying(true);
-      }).catch(function () {});
+      previewAudio
+        .play()
+        .then(function () {
+          setPreviewPlaying(true);
+        })
+        .catch(function () {});
     }
     if (ratio > 0.001) {
       setTimeout(function () {
-        if (!Number.isFinite(previewAudio.currentTime) || previewAudio.currentTime < 0.01) {
+        if (
+          !Number.isFinite(previewAudio.currentTime) ||
+          previewAudio.currentTime < 0.01
+        ) {
           pendingPreviewSeek = ratio;
         }
       }, 120);
@@ -2024,7 +2409,9 @@
   }
 
   function updatePreviewVolumeControls() {
-    const volume = Number.isFinite(state.previewAudioVolume) ? state.previewAudioVolume : 0;
+    const volume = Number.isFinite(state.previewAudioVolume)
+      ? state.previewAudioVolume
+      : 0;
     $audioPreviewVolumeRange.val(Math.round(volume * 100));
     $audioPreviewVolumeToggle.toggleClass("is-muted", volume <= 0.001);
   }
@@ -2034,7 +2421,10 @@
     state.previewAudioVolume = volume;
     previewAudio.volume = volume;
     previewAudio.muted = volume <= 0;
-    localStorage.setItem("album-viewer-preview-audio-volume", volume.toFixed(2));
+    localStorage.setItem(
+      "album-viewer-preview-audio-volume",
+      volume.toFixed(2),
+    );
     updatePreviewVolumeControls();
   }
 
@@ -2056,12 +2446,32 @@
       const $btn = $(this);
       const match = $btn.attr("data-filename") === state.previewAudioFile;
       $btn.toggleClass("is-playing", match && state.previewAudioPlaying);
-      $btn.attr("aria-label", state.previewAudioPlaying && match ? t("audio_preview_pause") : t("audio_preview_play"));
-      $btn.attr("title", state.previewAudioPlaying && match ? t("audio_preview_pause") : t("audio_preview_play"));
+      $btn.attr(
+        "aria-label",
+        state.previewAudioPlaying && match
+          ? t("audio_preview_pause")
+          : t("audio_preview_play"),
+      );
+      $btn.attr(
+        "title",
+        state.previewAudioPlaying && match
+          ? t("audio_preview_pause")
+          : t("audio_preview_play"),
+      );
     });
     $audioPreviewToggle
-      .attr("aria-label", state.previewAudioPlaying ? t("audio_preview_pause") : t("audio_preview_play"))
-      .attr("title", state.previewAudioPlaying ? t("audio_preview_pause") : t("audio_preview_play"));
+      .attr(
+        "aria-label",
+        state.previewAudioPlaying
+          ? t("audio_preview_pause")
+          : t("audio_preview_play"),
+      )
+      .attr(
+        "title",
+        state.previewAudioPlaying
+          ? t("audio_preview_pause")
+          : t("audio_preview_play"),
+      );
   }
 
   function stopPreviewAudio(reset) {
@@ -2083,7 +2493,13 @@
     }
     if ($audioPreviewPanel.length) {
       $audioPreviewPanel.removeClass("inline");
-      $audioPreviewPanel.css({ top: "", height: "", left: "", width: "", position: "" });
+      $audioPreviewPanel.css({
+        top: "",
+        height: "",
+        left: "",
+        width: "",
+        position: "",
+      });
       if ($audioPreviewHome && $audioPreviewHome.length) {
         $audioPreviewHome.append($audioPreviewPanel);
       }
@@ -2096,7 +2512,11 @@
     if (!$row || !$row.length) {
       return;
     }
-    if (state.previewAnchorRow && state.previewAnchorRow.get(0) === $row.get(0) && state.previewAnchorSlot) {
+    if (
+      state.previewAnchorRow &&
+      state.previewAnchorRow.get(0) === $row.get(0) &&
+      state.previewAnchorSlot
+    ) {
       return;
     }
     clearPreviewAnchor();
@@ -2125,13 +2545,17 @@
     const rowStep = 35;
     const panelHeight = 50;
     const insetX = 8;
-    const top = wrapRect.top + baseTop + Math.max(0, rowIndex) * rowStep - (wrapEl.scrollTop || 0);
+    const top =
+      wrapRect.top +
+      baseTop +
+      Math.max(0, rowIndex) * rowStep -
+      (wrapEl.scrollTop || 0);
     $audioPreviewPanel.css({
       position: "fixed",
       top: Math.max(0, top).toFixed(2) + "px",
       height: panelHeight.toFixed(2) + "px",
       left: (wrapRect.left + insetX).toFixed(2) + "px",
-      width: Math.max(0, wrapRect.width - insetX * 2).toFixed(2) + "px"
+      width: Math.max(0, wrapRect.width - insetX * 2).toFixed(2) + "px",
     });
   }
 
@@ -2143,7 +2567,10 @@
       const rowHeight = 52;
       const headerHeight = 42;
       const target = headerHeight + rowHeight * 5 + 2;
-      $audioTableWrap.css({ "max-height": target + "px", "overflow-y": "auto" });
+      $audioTableWrap.css({
+        "max-height": target + "px",
+        "overflow-y": "auto",
+      });
       return;
     }
     $audioTableWrap.css({ "max-height": "none", "overflow-y": "hidden" });
@@ -2163,7 +2590,8 @@
     updatePreviewOverlayPosition();
     setPreviewAudioVolume(state.previewAudioVolume);
     const nextSrc = getSlideshowAudioSrc(filename);
-    const isSame = state.previewAudioFile === filename && previewAudio.src === nextSrc;
+    const isSame =
+      state.previewAudioFile === filename && previewAudio.src === nextSrc;
     state.previewAudioFile = filename;
     $audioPreviewTitle.text(filename);
     setPreviewPanelOpen(true);
@@ -2172,11 +2600,14 @@
       previewAudio.src = nextSrc;
       previewAudio.currentTime = 0;
     }
-    previewAudio.play().then(function () {
-      setPreviewPlaying(true);
-    }).catch(function () {
-      setPreviewPlaying(false);
-    });
+    previewAudio
+      .play()
+      .then(function () {
+        setPreviewPlaying(true);
+      })
+      .catch(function () {
+        setPreviewPlaying(false);
+      });
   }
 
   previewAudio.addEventListener("timeupdate", function () {
@@ -2223,7 +2654,11 @@
     try {
       const raw = localStorage.getItem(getAudioOrderKey());
       const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed.filter(function (item) { return typeof item === "string"; }) : [];
+      return Array.isArray(parsed)
+        ? parsed.filter(function (item) {
+            return typeof item === "string";
+          })
+        : [];
     } catch (_err) {
       return [];
     }
@@ -2242,7 +2677,9 @@
     files.forEach(function (name) {
       lookup.set(name, true);
     });
-    const ordered = order.filter(function (name) { return lookup.has(name); });
+    const ordered = order.filter(function (name) {
+      return lookup.has(name);
+    });
     files.forEach(function (name) {
       if (!order.includes(name)) {
         ordered.push(name);
@@ -2253,7 +2690,9 @@
 
   function updateAudioRowNumbers() {
     $audioList.find("tr.audio-table-row").each(function (index) {
-      $(this).find(".audio-col-no").text(String(index + 1));
+      $(this)
+        .find(".audio-col-no")
+        .text(String(index + 1));
     });
   }
 
@@ -2268,13 +2707,17 @@
     if (order.length) {
       saveAudioOrder(order);
       state.slideshowAudioList = order.slice();
-      if (state.authUser && state.authRole && state.authRole.toLowerCase() === "admin") {
+      if (
+        state.authUser &&
+        state.authRole &&
+        state.authRole.toLowerCase() === "admin"
+      ) {
         $.ajax({
           url: buildApiUrl("__audio_order__"),
           method: "POST",
           contentType: "application/json",
           data: JSON.stringify({ order: order }),
-          dataType: "json"
+          dataType: "json",
         }).fail(function () {
           // Keep local order if server fails.
         });
@@ -2290,7 +2733,9 @@
       $imageViewerSlideshowCounter.text("0 / 0");
       return;
     }
-    $imageViewerSlideshowCounter.text(String(state.viewerIndex + 1) + " / " + String(total));
+    $imageViewerSlideshowCounter.text(
+      String(state.viewerIndex + 1) + " / " + String(total),
+    );
   }
 
   function updateSearchClearState() {
@@ -2354,7 +2799,11 @@
     const safeUser = $("<div></div>").text(username).html();
     const safeRole = $("<div></div>").text(role).html();
     const html = role
-      ? '<span class="sidebar-user-username">' + safeUser + '</span> <span class="sidebar-user-role">(' + safeRole + ")</span>"
+      ? '<span class="sidebar-user-username">' +
+        safeUser +
+        '</span> <span class="sidebar-user-role">(' +
+        safeRole +
+        ")</span>"
       : '<span class="sidebar-user-username">' + safeUser + "</span>";
     $sidebarUserName.html(html).attr("title", displayName);
     $sidebarUserProfile.removeClass("is-hidden");
@@ -2402,7 +2851,9 @@
   }
 
   function getGuestTokenFromQuery() {
-    return String(new URLSearchParams(window.location.search || "").get("token") || "").trim();
+    return String(
+      new URLSearchParams(window.location.search || "").get("token") || "",
+    ).trim();
   }
 
   function setGuestTokenMode(enabled, guestEmail, options) {
@@ -2473,34 +2924,39 @@
       lockGuestInviteForm(true);
 
       const queryToken = getGuestTokenFromQuery();
-      const usingTokenLogin = guestTokenLoginMode || (queryToken !== "");
+      const usingTokenLogin = guestTokenLoginMode || queryToken !== "";
       const tokenValue = guestTokenValue || queryToken;
       const requestUrl = usingTokenLogin
         ? buildApiUrl("__guest_token_login__", { token: tokenValue })
         : buildApiUrl("__invite_request__");
-      const requestData = usingTokenLogin ? { token: tokenValue, email: email } : { email: email };
+      const requestData = usingTokenLogin
+        ? { token: tokenValue, email: email }
+        : { email: email };
 
       $.ajax({
         url: requestUrl,
         method: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(requestData)
+        data: JSON.stringify(requestData),
       })
         .done(function (response) {
           if (response && response.ok) {
             if (guestTokenLoginMode) {
-              const redirectUrl = String(response.redirect || "").trim() || "./";
+              const redirectUrl =
+                String(response.redirect || "").trim() || "./";
               window.location.href = redirectUrl;
               return;
             }
             $guestEmail.val("");
-            const successMessage = (response && response.message) || t("guest_sent");
+            const successMessage =
+              (response && response.message) || t("guest_sent");
             setGuestInviteMessage("");
             showResultModal(successMessage, "success");
             return;
           }
-          const failMessage = (response && response.message) || t("guest_failed");
+          const failMessage =
+            (response && response.message) || t("guest_failed");
           setGuestInviteMessage(failMessage);
           showResultModal(failMessage, "error");
         })
@@ -2547,7 +3003,11 @@
     $(document)
       .off("click.adminUserAgentTooltip")
       .on("click.adminUserAgentTooltip", function (event) {
-        if ($(event.target).closest(".admin-request-agent-button, #admin-user-agent-tooltip").length) {
+        if (
+          $(event.target).closest(
+            ".admin-request-agent-button, #admin-user-agent-tooltip",
+          ).length
+        ) {
           return;
         }
         closeUserAgentTooltip();
@@ -2563,87 +3023,118 @@
 
     $(document)
       .off("click.adminUserAgentButton")
-      .on("click.adminUserAgentButton", ".admin-request-agent-button", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        const raw = String($(this).attr("data-user-agent") || "");
-        showUserAgentTooltip(this, { user_agent: raw });
-      });
+      .on(
+        "click.adminUserAgentButton",
+        ".admin-request-agent-button",
+        function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          const raw = String($(this).attr("data-user-agent") || "");
+          showUserAgentTooltip(this, { user_agent: raw });
+        },
+      );
   }
 
   function bindAdminRequestActionEvents() {
     $(document)
       .off("click.adminRequestAction")
-      .on("click.adminRequestAction", ".admin-request-action-button", function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+      .on(
+        "click.adminRequestAction",
+        ".admin-request-action-button",
+        function (event) {
+          event.preventDefault();
+          event.stopPropagation();
 
-        const $button = $(this);
-        const action = String($button.attr("data-action") || "").trim().toLowerCase();
-        const guestEmail = String($button.attr("data-guest-email") || "").trim();
-        if (!action || !guestEmail) {
-          return;
-        }
-        const actionLabel = getInviteRequestActionLabel(action);
-        const token = String($button.attr("data-token") || "").trim();
-        const requestPath = String($button.attr("data-request-path") || "").trim();
-        if (action === "copy") {
-          if (!token) {
-            showResultModal(t("invite_requests_copy_fail"), "error");
+          const $button = $(this);
+          const action = String($button.attr("data-action") || "")
+            .trim()
+            .toLowerCase();
+          const guestEmail = String(
+            $button.attr("data-guest-email") || "",
+          ).trim();
+          if (!action || !guestEmail) {
             return;
           }
-          let copyUrl = requestPath || window.location.pathname;
-          try {
-            const urlObj = new URL(copyUrl, window.location.origin);
-            if (urlObj.pathname.endsWith("/index.php")) {
-              urlObj.pathname = urlObj.pathname.replace(/\/index\.php$/, "/");
-            }
-            if (urlObj.searchParams.get("route") === "__invite_request__") {
-              urlObj.searchParams.delete("route");
-            }
-            urlObj.searchParams.set("token", token);
-            copyUrl = urlObj.href;
-          } catch (_err) {
-            copyUrl = window.location.origin.replace(/\/$/, "") + "/" + copyUrl.replace(/^\/+/, "");
-            copyUrl += (copyUrl.indexOf("?") === -1 ? "?" : "&") + "token=" + encodeURIComponent(token);
-          }
-          copyTextToClipboard(copyUrl)
-            .then(function () {
-              showResultModal(t("invite_requests_copy_success"), "success");
-            })
-            .fail(function () {
+          const actionLabel = getInviteRequestActionLabel(action);
+          const token = String($button.attr("data-token") || "").trim();
+          const requestPath = String(
+            $button.attr("data-request-path") || "",
+          ).trim();
+          if (action === "copy") {
+            if (!token) {
               showResultModal(t("invite_requests_copy_fail"), "error");
-            });
-          return;
-        }
-        const confirmMessage = t("invite_requests_action_confirm", { action: actionLabel });
-
-        const executeAction = function (renewDays) {
-          performInviteRequestAction(action, guestEmail, $button, renewDays)
-            .then(function () {
-              showResultModal(t("invite_requests_updated"), "success");
-              return loadInviteRequests(true);
-            })
-            .fail(function (xhr) {
-              const payload = xhr && xhr.responseJSON;
-              const message = (payload && payload.message) || t("invite_requests_fail");
-              showResultModal(message, "error");
-            });
-        };
-
-        const confirmOptions = action === "renew" ? { showRenewDays: true, defaultRenewDays: 7 } : {};
-        openConfirmModal(action === "delete" ? t("invite_requests_delete_confirm") : confirmMessage, confirmOptions).then(function (confirmed) {
-          if (!confirmed) {
+              return;
+            }
+            let copyUrl = requestPath || window.location.pathname;
+            try {
+              const urlObj = new URL(copyUrl, window.location.origin);
+              if (urlObj.pathname.endsWith("/index.php")) {
+                urlObj.pathname = urlObj.pathname.replace(/\/index\.php$/, "/");
+              }
+              if (urlObj.searchParams.get("route") === "__invite_request__") {
+                urlObj.searchParams.delete("route");
+              }
+              urlObj.searchParams.set("token", token);
+              copyUrl = urlObj.href;
+            } catch (_err) {
+              copyUrl =
+                window.location.origin.replace(/\/$/, "") +
+                "/" +
+                copyUrl.replace(/^\/+/, "");
+              copyUrl +=
+                (copyUrl.indexOf("?") === -1 ? "?" : "&") +
+                "token=" +
+                encodeURIComponent(token);
+            }
+            copyTextToClipboard(copyUrl)
+              .then(function () {
+                showResultModal(t("invite_requests_copy_success"), "success");
+              })
+              .fail(function () {
+                showResultModal(t("invite_requests_copy_fail"), "error");
+              });
             return;
           }
-          const renewDays = confirmOptions.showRenewDays
-            ? Number.isFinite(confirmOptions.selectedRenewDays)
-              ? confirmOptions.selectedRenewDays
-              : Number($confirmModalDays.val() || "")
-            : undefined;
-          executeAction(renewDays);
-        });
-      });
+          const confirmMessage = t("invite_requests_action_confirm", {
+            action: actionLabel,
+          });
+
+          const executeAction = function (renewDays) {
+            performInviteRequestAction(action, guestEmail, $button, renewDays)
+              .then(function () {
+                showResultModal(t("invite_requests_updated"), "success");
+                return loadInviteRequests(true);
+              })
+              .fail(function (xhr) {
+                const payload = xhr && xhr.responseJSON;
+                const message =
+                  (payload && payload.message) || t("invite_requests_fail");
+                showResultModal(message, "error");
+              });
+          };
+
+          const confirmOptions =
+            action === "renew"
+              ? { showRenewDays: true, defaultRenewDays: 7 }
+              : {};
+          openConfirmModal(
+            action === "delete"
+              ? t("invite_requests_delete_confirm")
+              : confirmMessage,
+            confirmOptions,
+          ).then(function (confirmed) {
+            if (!confirmed) {
+              return;
+            }
+            const renewDays = confirmOptions.showRenewDays
+              ? Number.isFinite(confirmOptions.selectedRenewDays)
+                ? confirmOptions.selectedRenewDays
+                : Number($confirmModalDays.val() || "")
+              : undefined;
+            executeAction(renewDays);
+          });
+        },
+      );
   }
 
   function copyTextToClipboard(text) {
@@ -2653,12 +3144,18 @@
       deferred.reject();
       return deferred.promise();
     }
-    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-      navigator.clipboard.writeText(value).then(function () {
-        deferred.resolve(value);
-      }).catch(function () {
-        deferred.reject();
-      });
+    if (
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === "function"
+    ) {
+      navigator.clipboard
+        .writeText(value)
+        .then(function () {
+          deferred.resolve(value);
+        })
+        .catch(function () {
+          deferred.reject();
+        });
       return deferred.promise();
     }
     const $textarea = $("<textarea>")
@@ -2683,7 +3180,9 @@
   }
 
   function performInviteRequestAction(action, guestEmail, $button, days) {
-    const normalizedAction = String(action || "").trim().toLowerCase();
+    const normalizedAction = String(action || "")
+      .trim()
+      .toLowerCase();
     const normalizedEmail = String(guestEmail || "").trim();
     if (!normalizedAction || !normalizedEmail) {
       return $.Deferred().reject().promise();
@@ -2691,7 +3190,7 @@
 
     const payload = {
       action: normalizedAction,
-      guest_email: normalizedEmail
+      guest_email: normalizedEmail,
     };
     if (normalizedAction === "renew" && typeof days !== "undefined") {
       payload.days = Number(days) || undefined;
@@ -2701,7 +3200,7 @@
       url: buildApiUrl("__invite_request_action__"),
       method: "POST",
       dataType: "json",
-      data: payload
+      data: payload,
     });
 
     if ($button && $button.length) {
@@ -2768,18 +3267,19 @@
             playBtn.setAttribute("data-filename", name);
             playBtn.innerHTML =
               '<svg class="icon-stroke icon-play" viewBox="0 0 24 24" aria-hidden="true">' +
-                '<polygon points="8,6 18,12 8,18"></polygon>' +
+              '<polygon points="8,6 18,12 8,18"></polygon>' +
               "</svg>" +
               '<svg class="icon-stroke icon-pause" viewBox="0 0 24 24" aria-hidden="true">' +
-                '<line x1="9" y1="6" x2="9" y2="18"></line>' +
-                '<line x1="15" y1="6" x2="15" y2="18"></line>' +
+              '<line x1="9" y1="6" x2="9" y2="18"></line>' +
+              '<line x1="15" y1="6" x2="15" y2="18"></line>' +
               "</svg>";
             const deleteBtn = document.createElement("button");
             deleteBtn.type = "button";
             deleteBtn.className = "audio-table-delete";
             deleteBtn.setAttribute("aria-label", t("upload_audio_delete"));
             deleteBtn.setAttribute("data-filename", name);
-            deleteBtn.innerHTML = '<svg class="icon-stroke" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+            deleteBtn.innerHTML =
+              '<svg class="icon-stroke" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
             actionWrap.appendChild(playBtn);
             actionWrap.appendChild(deleteBtn);
             tdAction.appendChild(actionWrap);
@@ -2790,7 +3290,9 @@
           });
         }
         if (state.previewAudioFile) {
-          const $row = $audioList.find('tr[data-filename="' + CSS.escape(state.previewAudioFile) + '"]');
+          const $row = $audioList.find(
+            'tr[data-filename="' + CSS.escape(state.previewAudioFile) + '"]',
+          );
           if ($row.length) {
             ensurePreviewAnchor($row);
           } else {
@@ -2801,8 +3303,8 @@
       })
       .fail(function () {
         $audioList.empty();
-          $("#audio-table-wrap").addClass("is-hidden");
-          $audioListEmpty.removeClass("is-hidden");
+        $("#audio-table-wrap").addClass("is-hidden");
+        $audioListEmpty.removeClass("is-hidden");
       });
   }
 
@@ -2827,7 +3329,10 @@
     if (state.confirmOptions && state.confirmOptions.showRenewDays) {
       const rawValue = String($confirmModalDays.val() || "");
       const parsedDays = Number.parseInt(rawValue, 10);
-      state.confirmOptions.selectedRenewDays = Number.isFinite(parsedDays) && parsedDays > 0 ? parsedDays : state.confirmOptions.defaultRenewDays || 7;
+      state.confirmOptions.selectedRenewDays =
+        Number.isFinite(parsedDays) && parsedDays > 0
+          ? parsedDays
+          : state.confirmOptions.defaultRenewDays || 7;
     }
     $confirmModal.addClass("is-hidden").attr("aria-hidden", "true");
     const resolver = state.confirmResolver;
@@ -2839,10 +3344,16 @@
 
   function showResultModal(message, type, options) {
     const raw = String(type || "success").toLowerCase();
-    const kind = ["success", "error", "warning", "info"].includes(raw) ? raw : "success";
+    const kind = ["success", "error", "warning", "info"].includes(raw)
+      ? raw
+      : "success";
     const opts = options && typeof options === "object" ? options : {};
-    const autoCloseMs = typeof opts.autoCloseMs === "number" && opts.autoCloseMs >= 0 ? opts.autoCloseMs : 4200;
-    const $target = opts.target && opts.target.length ? opts.target : $alertStack;
+    const autoCloseMs =
+      typeof opts.autoCloseMs === "number" && opts.autoCloseMs >= 0
+        ? opts.autoCloseMs
+        : 4200;
+    const $target =
+      opts.target && opts.target.length ? opts.target : $alertStack;
     const titleKey =
       kind === "error"
         ? "notice_error"
@@ -2875,7 +3386,7 @@
         '<button type="button" class="app-alert-close" aria-label="Close" title="Close">' +
         '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>' +
         "</button>" +
-        "</div>"
+        "</div>",
     );
     $alert.find(".app-alert-title").text(t(titleKey));
     $alert.find(".app-alert-message").text(String(message || ""));
@@ -2911,7 +3422,11 @@
     $confirmYes.text(t("confirm_yes"));
     if (opts.showRenewDays) {
       $confirmModalRenewDays.removeClass("is-hidden");
-      $confirmModalDays.val(Number.isFinite(opts.defaultRenewDays) && opts.defaultRenewDays > 0 ? String(opts.defaultRenewDays) : "7");
+      $confirmModalDays.val(
+        Number.isFinite(opts.defaultRenewDays) && opts.defaultRenewDays > 0
+          ? String(opts.defaultRenewDays)
+          : "7",
+      );
     } else {
       $confirmModalRenewDays.addClass("is-hidden");
     }
@@ -2926,7 +3441,9 @@
 
   function syncUploadTypeUi() {
     $uploadTypeOptions.find(".upload-type-btn").removeClass("is-active");
-    $uploadTypeOptions.find("[data-upload-type='" + state.uploadType + "']").addClass("is-active");
+    $uploadTypeOptions
+      .find("[data-upload-type='" + state.uploadType + "']")
+      .addClass("is-active");
     $uploadFilesInput.addClass("is-hidden");
     $uploadFolderInput.addClass("is-hidden");
     $uploadZipInput.addClass("is-hidden");
@@ -3020,7 +3537,10 @@
           if (!status || !status.running) {
             const buildCode = Number(status && status.code);
             if (!Number.isNaN(buildCode) && buildCode > 0) {
-              showResultModal(t("upload_build_failed", { code: buildCode }), "error");
+              showResultModal(
+                t("upload_build_failed", { code: buildCode }),
+                "error",
+              );
             }
             loadAlbums(preferredFolder).catch(function () {
               renderError();
@@ -3126,7 +3646,7 @@
           observer.unobserve(entry.target);
         });
       },
-      { rootMargin: imageObserverMargin, threshold: 0.01 }
+      { rootMargin: imageObserverMargin, threshold: 0.01 },
     );
   }
 
@@ -3134,14 +3654,24 @@
     if (entry && typeof entry === "object") {
       return {
         name: entry.name || "",
-        root: entry.root === "thumbs" ? "thumbs" : entry.root === "row" ? "row" : "albums",
+        root:
+          entry.root === "thumbs"
+            ? "thumbs"
+            : entry.root === "row"
+              ? "row"
+              : "albums",
         detail: entry.detail || entry.name || "",
-        detailRoot: entry.detail_root === "thumbs" ? "thumbs" : entry.detail_root === "row" ? "row" : "albums",
+        detailRoot:
+          entry.detail_root === "thumbs"
+            ? "thumbs"
+            : entry.detail_root === "row"
+              ? "row"
+              : "albums",
         original: entry.original || entry.name || "",
         originalRoot: entry.original_root === "row" ? "row" : "albums",
         uploadedAt: normalizeTimestamp(entry.uploaded_at || entry.uploadedAt),
         createdAt: normalizeTimestamp(entry.created_at || entry.createdAt),
-        nameTime: extractTimestampFromName(entry.original || entry.name || "")
+        nameTime: extractTimestampFromName(entry.original || entry.name || ""),
       };
     }
     return {
@@ -3153,7 +3683,7 @@
       originalRoot: "albums",
       uploadedAt: 0,
       createdAt: 0,
-      nameTime: extractTimestampFromName(entry)
+      nameTime: extractTimestampFromName(entry),
     };
   }
 
@@ -3247,27 +3777,43 @@
     const normalized = normalizeImageEntry(imageEntry);
     const fileName = normalized.name;
     const baseRoot = sourceRoots[normalized.root] || sourceRoots.albums;
-    const imagePath = baseRoot + encodeURIComponent(folderName) + "/" + encodeURIComponent(fileName);
+    const imagePath =
+      baseRoot +
+      encodeURIComponent(folderName) +
+      "/" +
+      encodeURIComponent(fileName);
     const detailName = normalized.detail || fileName;
     const detailBase = sourceRoots[normalized.detailRoot] || sourceRoots.albums;
-    const detailPath = detailBase + encodeURIComponent(folderName) + "/" + encodeURIComponent(detailName);
+    const detailPath =
+      detailBase +
+      encodeURIComponent(folderName) +
+      "/" +
+      encodeURIComponent(detailName);
     const originalName = normalized.original || fileName;
-    const originalBase = sourceRoots[normalized.originalRoot] || sourceRoots.albums;
-    const originalPath = originalBase + encodeURIComponent(folderName) + "/" + encodeURIComponent(originalName);
+    const originalBase =
+      sourceRoots[normalized.originalRoot] || sourceRoots.albums;
+    const originalPath =
+      originalBase +
+      encodeURIComponent(folderName) +
+      "/" +
+      encodeURIComponent(originalName);
     return {
       fileName: fileName,
       imagePath: imagePath,
       detailPath: detailPath,
       detailName: detailName,
       originalPath: originalPath,
-      originalName: originalName
+      originalName: originalName,
     };
   }
 
   function createImageCard(folderName, imageEntry, altText, immediateLoad) {
     const info = resolveImageInfo(folderName, imageEntry);
     const baseName = toCaptionBaseName(info.originalName || info.fileName);
-    const isHidden = isImageHidden(folderName, info.originalName || info.fileName || "");
+    const isHidden = isImageHidden(
+      folderName,
+      info.originalName || info.fileName || "",
+    );
     const fallbackPaths = [];
     if (info.detailPath && info.detailPath !== info.imagePath) {
       fallbackPaths.push(info.detailPath);
@@ -3278,7 +3824,14 @@
     const cardEl = $template.get(0).content.firstElementChild.cloneNode(true);
     const $card = $(cardEl);
     const $img = $card.find("img");
-    queueImageLoad($img, $card, info.imagePath, altText, !!immediateLoad, fallbackPaths);
+    queueImageLoad(
+      $img,
+      $card,
+      info.imagePath,
+      altText,
+      !!immediateLoad,
+      fallbackPaths,
+    );
     $img.attr("data-view-src", info.detailPath);
     $img.attr("data-view-name", info.detailName);
     $img.attr("data-original-src", info.originalPath);
@@ -3315,7 +3868,9 @@
         .attr("data-folder", String(folderName || ""))
         .attr("data-file", info.originalName || info.fileName || "");
       if (state.editingPage) {
-        const hideLabel = isHidden ? t("image_show_label") : t("image_hide_label");
+        const hideLabel = isHidden
+          ? t("image_show_label")
+          : t("image_hide_label");
         const iconSvg = isHidden
           ? '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>'
           : '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><line x1="4" y1="4" x2="20" y2="20"></line></svg>';
@@ -3328,14 +3883,26 @@
           .on("click", function (event) {
             event.preventDefault();
             event.stopPropagation();
-            const nextHidden = !isImageHidden(folderName, info.originalName || info.fileName || "");
-            setImageHidden(folderName, info.originalName || info.fileName || "", nextHidden);
-            const nextLabel = nextHidden ? t("image_show_label") : t("image_hide_label");
+            const nextHidden = !isImageHidden(
+              folderName,
+              info.originalName || info.fileName || "",
+            );
+            setImageHidden(
+              folderName,
+              info.originalName || info.fileName || "",
+              nextHidden,
+            );
+            const nextLabel = nextHidden
+              ? t("image_show_label")
+              : t("image_hide_label");
             const nextIcon = nextHidden
               ? '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>'
               : '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><line x1="4" y1="4" x2="20" y2="20"></line></svg>';
             $card.toggleClass("is-hidden-image", nextHidden);
-            $hideBtn.attr("aria-label", nextLabel).attr("title", nextLabel).html(nextIcon);
+            $hideBtn
+              .attr("aria-label", nextLabel)
+              .attr("title", nextLabel)
+              .html(nextIcon);
           });
       } else {
         $hideBtn.addClass("is-hidden");
@@ -3348,8 +3915,12 @@
   }
 
   function getItemsPerBatch(targetEl) {
-    const width = targetEl.getBoundingClientRect().width || targetEl.clientWidth || 0;
-    const columns = Math.max(1, Math.floor((width + imageGridGap) / (imageCardMinWidth + imageGridGap)));
+    const width =
+      targetEl.getBoundingClientRect().width || targetEl.clientWidth || 0;
+    const columns = Math.max(
+      1,
+      Math.floor((width + imageGridGap) / (imageCardMinWidth + imageGridGap)),
+    );
     return columns * imageRowsPerBatch;
   }
 
@@ -3361,7 +3932,7 @@
     return $(
       '<div class="batch-spinner" aria-hidden="true">' +
         '<span class="batch-spinner-dot"></span>' +
-      "</div>"
+        "</div>",
     ).get(0);
   }
 
@@ -3420,7 +3991,7 @@
                 };
                 imgEl.addEventListener("load", done, { once: true });
                 imgEl.addEventListener("error", done, { once: true });
-              })
+              }),
             );
           }
         }
@@ -3458,9 +4029,14 @@
   }
 
   function maybeLoadMoreByScroll() {
-    const viewportBottom = window.innerHeight || document.documentElement.clientHeight || 0;
+    const viewportBottom =
+      window.innerHeight || document.documentElement.clientHeight || 0;
     state.progressiveRenderers.forEach(function (renderer) {
-      if (!renderer || renderer.done || renderer.renderToken !== state.renderToken) {
+      if (
+        !renderer ||
+        renderer.done ||
+        renderer.renderToken !== state.renderToken
+      ) {
         return;
       }
       const rect = renderer.targetEl.getBoundingClientRect();
@@ -3470,17 +4046,24 @@
     });
   }
 
-  function registerProgressiveRenderer(targetEl, items, builder, onFirstBatchDone, renderToken) {
+  function registerProgressiveRenderer(
+    targetEl,
+    items,
+    builder,
+    onFirstBatchDone,
+    renderToken,
+  ) {
     const renderer = {
       targetEl: targetEl,
       items: items,
       builder: builder,
-      onFirstBatchDone: typeof onFirstBatchDone === "function" ? onFirstBatchDone : null,
+      onFirstBatchDone:
+        typeof onFirstBatchDone === "function" ? onFirstBatchDone : null,
       hasRenderedFirstBatch: false,
       cursor: 0,
       done: false,
       loading: false,
-      renderToken: renderToken
+      renderToken: renderToken,
     };
     state.progressiveRenderers.push(renderer);
     appendNextBatch(renderer);
@@ -3514,7 +4097,9 @@
     const album = state.albums[state.activeIndex] || state.albums[0];
     const searchTerm = String(state.searchQuery || "").trim();
     let images = Array.isArray(album.images) ? album.images : [];
-    let albumTitle = album.isAll ? t("view_all") : album.title || t("album_unnamed");
+    let albumTitle = album.isAll
+      ? t("view_all")
+      : album.title || t("album_unnamed");
     const hiddenFolders = getHiddenFolderSet();
     if (searchTerm) {
       const needle = normalizeSearchToken(searchTerm);
@@ -3526,35 +4111,46 @@
           });
       searchAlbums.forEach(function (item) {
         const folder = item.folder || "";
-        (Array.isArray(item.images) ? item.images : []).forEach(function (imageEntry) {
-          const normalized = normalizeImageEntry(imageEntry);
-          const haystack = normalizeSearchToken(folder + "/" + (normalized.original || normalized.name || ""));
-          if (haystack.indexOf(needle) !== -1) {
-            images.push({
-              folder: folder,
-              name: normalized.name,
-              root: normalized.root,
-              detail: normalized.detail,
-              detail_root: normalized.detailRoot,
-              original: normalized.original,
-              original_root: normalized.originalRoot,
-              uploaded_at: normalized.uploadedAt,
-              created_at: normalized.createdAt
-            });
-          }
-        });
+        (Array.isArray(item.images) ? item.images : []).forEach(
+          function (imageEntry) {
+            const normalized = normalizeImageEntry(imageEntry);
+            const haystack = normalizeSearchToken(
+              folder + "/" + (normalized.original || normalized.name || ""),
+            );
+            if (haystack.indexOf(needle) !== -1) {
+              images.push({
+                folder: folder,
+                name: normalized.name,
+                root: normalized.root,
+                detail: normalized.detail,
+                detail_root: normalized.detailRoot,
+                original: normalized.original,
+                original_root: normalized.originalRoot,
+                uploaded_at: normalized.uploadedAt,
+                created_at: normalized.createdAt,
+              });
+            }
+          },
+        );
       });
       albumTitle = t("search_title");
     } else if (!state.editingPage && album.isAll && hiddenFolders.size) {
       images = images.filter(function (entry) {
-        return !hiddenFolders.has(String(entry && entry.folder ? entry.folder : ""));
+        return !hiddenFolders.has(
+          String(entry && entry.folder ? entry.folder : ""),
+        );
       });
     }
     if (!state.editingPage) {
       const fallbackFolder = album.isAll ? "" : String(album.folder || "");
       images = images.filter(function (entry) {
-        const folder = String(entry && entry.folder ? entry.folder : fallbackFolder);
-        return !isImageHidden(folder, entry && (entry.original || entry.name || ""));
+        const folder = String(
+          entry && entry.folder ? entry.folder : fallbackFolder,
+        );
+        return !isImageHidden(
+          folder,
+          entry && (entry.original || entry.name || ""),
+        );
       });
     }
     images = sortImageEntries(images);
@@ -3581,13 +4177,22 @@
     updateSlideshowButtonState();
 
     if (!images.length) {
-      $imageGrid.html('<p class="empty">' + (searchTerm ? t("search_empty") : t("album_empty")) + "</p>");
+      $imageGrid.html(
+        '<p class="empty">' +
+          (searchTerm ? t("search_empty") : t("album_empty")) +
+          "</p>",
+      );
       hideGridLoading(currentRenderToken);
       return;
     }
 
     if (searchTerm || album.isAll) {
-      renderAllImagesByFolder(images, albumTitle, currentRenderToken, !!searchTerm);
+      renderAllImagesByFolder(
+        images,
+        albumTitle,
+        currentRenderToken,
+        !!searchTerm,
+      );
       return;
     }
 
@@ -3596,16 +4201,26 @@
       images,
       function (imageEntry) {
         const normalized = normalizeImageEntry(imageEntry);
-        return createImageCard(album.folder, normalized, albumTitle + " - " + normalized.name, false);
+        return createImageCard(
+          album.folder,
+          normalized,
+          albumTitle + " - " + normalized.name,
+          false,
+        );
       },
       function () {
         hideGridLoading(currentRenderToken);
       },
-      currentRenderToken
+      currentRenderToken,
     );
   }
 
-  function renderAllImagesByFolder(images, albumTitle, renderToken, forceExpand) {
+  function renderAllImagesByFolder(
+    images,
+    albumTitle,
+    renderToken,
+    forceExpand,
+  ) {
     $imageGrid.empty();
     let hasAnyExpandedGroup = false;
 
@@ -3632,57 +4247,40 @@
       return;
     }
 
-    folders
-      .forEach(function (folder) {
-        const displayFolder = getDisplayFolderName(folder);
-        const isCollapsed = forceExpand ? false : !!state.collapsedFolders[folder];
-        const $group = $("<section class='folder-group'></section>").toggleClass("is-collapsed", isCollapsed);
-        const $toggle = $(
-          "<button class='folder-toggle' type='button'>" +
-            "<span class='folder-title'></span>" +
-            "<span class='folder-rule' aria-hidden='true'></span>" +
-            "<span class='folder-chevron'>" +
-              "<svg class='icon-stroke' viewBox='0 0 24 24' aria-hidden='true'>" +
-                "<polyline points='6,10 12,16 18,10'></polyline>" +
-              "</svg>" +
-            "</span>" +
-          "</button>"
+    folders.forEach(function (folder) {
+      const displayFolder = getDisplayFolderName(folder);
+      const isCollapsed = forceExpand
+        ? false
+        : !!state.collapsedFolders[folder];
+      const $group = $("<section class='folder-group'></section>").toggleClass(
+        "is-collapsed",
+        isCollapsed,
+      );
+      const $toggle = $(
+        "<button class='folder-toggle' type='button'>" +
+          "<span class='folder-title'></span>" +
+          "<span class='folder-rule' aria-hidden='true'></span>" +
+          "<span class='folder-chevron'>" +
+          "<svg class='icon-stroke' viewBox='0 0 24 24' aria-hidden='true'>" +
+          "<polyline points='6,10 12,16 18,10'></polyline>" +
+          "</svg>" +
+          "</span>" +
+          "</button>",
+      );
+      $toggle.find(".folder-title").text(displayFolder);
+      $toggle.attr("aria-label", displayFolder);
+      $toggle.attr("aria-expanded", isCollapsed ? "false" : "true");
+
+      $toggle.on("click", function () {
+        const next = !state.collapsedFolders[folder];
+        state.collapsedFolders[folder] = next;
+        localStorage.setItem(
+          "album-viewer-collapsed-folders",
+          JSON.stringify(state.collapsedFolders),
         );
-        $toggle.find(".folder-title").text(displayFolder);
-        $toggle.attr("aria-label", displayFolder);
-        $toggle.attr("aria-expanded", isCollapsed ? "false" : "true");
-
-        $toggle.on("click", function () {
-          const next = !state.collapsedFolders[folder];
-          state.collapsedFolders[folder] = next;
-          localStorage.setItem("album-viewer-collapsed-folders", JSON.stringify(state.collapsedFolders));
-          $group.toggleClass("is-collapsed", next);
-          $toggle.attr("aria-expanded", next ? "false" : "true");
-          if (!next && !$groupGrid.attr("data-loaded")) {
-            $groupGrid.attr("data-loaded", "1");
-            registerProgressiveRenderer(
-              $groupGrid.get(0),
-              byFolder[folder],
-              function (imageEntry) {
-                const normalized = normalizeImageEntry(imageEntry);
-                return createImageCard(
-                  folder,
-                  normalized,
-                  albumTitle + " - " + folder + "/" + normalized.name,
-                  false
-                );
-              },
-              function () {
-                hideGridLoading(renderToken);
-              },
-              renderToken
-            );
-          }
-        });
-
-        const $groupGrid = $("<div class='folder-grid'></div>");
-        if (!isCollapsed) {
-          hasAnyExpandedGroup = true;
+        $group.toggleClass("is-collapsed", next);
+        $toggle.attr("aria-expanded", next ? "false" : "true");
+        if (!next && !$groupGrid.attr("data-loaded")) {
           $groupGrid.attr("data-loaded", "1");
           registerProgressiveRenderer(
             $groupGrid.get(0),
@@ -3693,19 +4291,43 @@
                 folder,
                 normalized,
                 albumTitle + " - " + folder + "/" + normalized.name,
-                false
+                false,
               );
             },
             function () {
               hideGridLoading(renderToken);
             },
-            renderToken
+            renderToken,
           );
         }
-
-        $group.append($toggle, $groupGrid);
-        $imageGrid.append($group);
       });
+
+      const $groupGrid = $("<div class='folder-grid'></div>");
+      if (!isCollapsed) {
+        hasAnyExpandedGroup = true;
+        $groupGrid.attr("data-loaded", "1");
+        registerProgressiveRenderer(
+          $groupGrid.get(0),
+          byFolder[folder],
+          function (imageEntry) {
+            const normalized = normalizeImageEntry(imageEntry);
+            return createImageCard(
+              folder,
+              normalized,
+              albumTitle + " - " + folder + "/" + normalized.name,
+              false,
+            );
+          },
+          function () {
+            hideGridLoading(renderToken);
+          },
+          renderToken,
+        );
+      }
+
+      $group.append($toggle, $groupGrid);
+      $imageGrid.append($group);
+    });
 
     // If user previously collapsed all groups, no renderer is registered.
     // In that case we must hide page loading immediately.
@@ -3795,37 +4417,53 @@
     visibleEntries.forEach(function (entry) {
       const album = entry.album;
       const index = entry.index;
-      const overrideTitle = !album.isAll && state.albumTitleOverrides
-        ? String(state.albumTitleOverrides[album.folder] || "")
-        : "";
+      const overrideTitle =
+        !album.isAll && state.albumTitleOverrides
+          ? String(state.albumTitleOverrides[album.folder] || "")
+          : "";
       const albumName = album.isAll
         ? t("view_all")
-        : (overrideTitle || album.title || t("album_default_name", { index: index + 1 }));
+        : overrideTitle ||
+          album.title ||
+          t("album_default_name", { index: index + 1 });
       let photoCount = Array.isArray(album.images) ? album.images.length : 0;
       if (album.isAll && !state.editingPage) {
         const hiddenFolders = getHiddenFolderSet();
-        photoCount = (Array.isArray(album.images) ? album.images : []).filter(function (entry) {
-          const folder = String(entry && entry.folder ? entry.folder : "");
-          if (hiddenFolders.size && hiddenFolders.has(folder)) {
-            return false;
-          }
-          return !isImageHidden(folder, entry && (entry.original || entry.name || ""));
-        }).length;
+        photoCount = (Array.isArray(album.images) ? album.images : []).filter(
+          function (entry) {
+            const folder = String(entry && entry.folder ? entry.folder : "");
+            if (hiddenFolders.size && hiddenFolders.has(folder)) {
+              return false;
+            }
+            return !isImageHidden(
+              folder,
+              entry && (entry.original || entry.name || ""),
+            );
+          },
+        ).length;
       } else if (!album.isAll && !state.editingPage) {
         const folder = String(album.folder || "");
         if (folder) {
-          photoCount = (Array.isArray(album.images) ? album.images : []).filter(function (entry) {
-            return !isImageHidden(folder, entry && (entry.original || entry.name || ""));
-          }).length;
+          photoCount = (Array.isArray(album.images) ? album.images : []).filter(
+            function (entry) {
+              return !isImageHidden(
+                folder,
+                entry && (entry.original || entry.name || ""),
+              );
+            },
+          ).length;
         }
       }
       const shortName = (albumName || "").trim().charAt(0).toUpperCase() || "•";
       const downloadAlbumKey = album.isAll ? "__all__" : album.folder || "";
-      const downloadHref = buildApiUrl("__download__", { album: downloadAlbumKey });
-      const canAdminAction = !album.isAll && String(state.authRole || "").toLowerCase() === "admin";
+      const downloadHref = buildApiUrl("__download__", {
+        album: downloadAlbumKey,
+      });
+      const canAdminAction =
+        !album.isAll && String(state.authRole || "").toLowerCase() === "admin";
       const itemActions = [];
       const $button = $(
-        "<button type='button'><span class='item-icon'></span><span class='item-label'></span><span class='item-count'></span></button>"
+        "<button type='button'><span class='item-icon'></span><span class='item-label'></span><span class='item-count'></span></button>",
       )
         .addClass("album-select")
         .attr("aria-label", albumName)
@@ -3871,7 +4509,7 @@
             '<polyline points="8,10 12,14 16,10"></polyline>' +
             '<path d="M5 18h14"></path>' +
             "</svg>" +
-            "</a>"
+            "</a>",
         );
         $download.on("click", function (event) {
           event.stopPropagation();
@@ -3880,7 +4518,9 @@
       }
       if (canAdminAction) {
         if (state.editingPage) {
-          const hiddenLabel = album.hidden ? t("album_show_label") : t("album_hide_label");
+          const hiddenLabel = album.hidden
+            ? t("album_show_label")
+            : t("album_hide_label");
           const iconSvg = album.hidden
             ? '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>'
             : '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><line x1="4" y1="4" x2="20" y2="20"></line></svg>';
@@ -3891,7 +4531,7 @@
               hiddenLabel +
               '">' +
               iconSvg +
-            "</button>"
+              "</button>",
           );
           $toggleHidden.on("click", function (event) {
             event.preventDefault();
@@ -3911,39 +4551,50 @@
             '<path d="M20 12a8 8 0 1 1-2.34-5.66"></path>' +
             '<polyline points="20,4 20,10 14,10"></polyline>' +
             "</svg>" +
-            "</button>"
+            "</button>",
         );
         $retry.on("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          openConfirmModal(t("retry_album_confirm", { album: albumName })).then(function (confirmed) {
-            if (!confirmed) {
-              return;
-            }
-            $retry.prop("disabled", true);
-            $.ajax({
-              url: buildApiUrl("__rebuild_album__"),
-              method: "POST",
-              contentType: "application/json",
-              dataType: "json",
-              data: JSON.stringify({ album: album.folder || "" })
-            })
-              .done(function (response) {
-                if (!response || !response.ok) {
-                  showResultModal((response && response.message) || t("retry_album_fail"), "error");
-                  return;
-                }
-                showResultModal(t("retry_album_success", { album: albumName }), "success");
-                pollBuildAndReload(album.folder || "");
+          openConfirmModal(t("retry_album_confirm", { album: albumName })).then(
+            function (confirmed) {
+              if (!confirmed) {
+                return;
+              }
+              $retry.prop("disabled", true);
+              $.ajax({
+                url: buildApiUrl("__rebuild_album__"),
+                method: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ album: album.folder || "" }),
               })
-              .fail(function (xhr) {
-                const payload = xhr && xhr.responseJSON;
-                showResultModal((payload && payload.message) || t("retry_album_fail"), "error");
-              })
-              .always(function () {
-                $retry.prop("disabled", false);
-              });
-            });
+                .done(function (response) {
+                  if (!response || !response.ok) {
+                    showResultModal(
+                      (response && response.message) || t("retry_album_fail"),
+                      "error",
+                    );
+                    return;
+                  }
+                  showResultModal(
+                    t("retry_album_success", { album: albumName }),
+                    "success",
+                  );
+                  pollBuildAndReload(album.folder || "");
+                })
+                .fail(function (xhr) {
+                  const payload = xhr && xhr.responseJSON;
+                  showResultModal(
+                    (payload && payload.message) || t("retry_album_fail"),
+                    "error",
+                  );
+                })
+                .always(function () {
+                  $retry.prop("disabled", false);
+                });
+            },
+          );
         });
 
         const $delete = $(
@@ -3959,12 +4610,14 @@
             '<line x1="10" y1="11" x2="10" y2="17"></line>' +
             '<line x1="14" y1="11" x2="14" y2="17"></line>' +
             "</svg>" +
-            "</button>"
+            "</button>",
         );
         $delete.on("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          openConfirmModal(t("delete_album_confirm", { album: albumName })).then(function (confirmed) {
+          openConfirmModal(
+            t("delete_album_confirm", { album: albumName }),
+          ).then(function (confirmed) {
             if (!confirmed) {
               return;
             }
@@ -3974,26 +4627,35 @@
               method: "POST",
               contentType: "application/json",
               dataType: "json",
-              data: JSON.stringify({ album: album.folder || "" })
+              data: JSON.stringify({ album: album.folder || "" }),
             })
               .done(function (response) {
                 if (!response || !response.ok) {
-                  showResultModal((response && response.message) || t("delete_album_fail"), "error");
+                  showResultModal(
+                    (response && response.message) || t("delete_album_fail"),
+                    "error",
+                  );
                   return;
                 }
-                showResultModal(t("delete_album_success", { album: albumName }), "success");
+                showResultModal(
+                  t("delete_album_success", { album: albumName }),
+                  "success",
+                );
                 loadAlbums().catch(function () {
                   renderError();
                 });
               })
               .fail(function (xhr) {
                 const payload = xhr && xhr.responseJSON;
-                showResultModal((payload && payload.message) || t("delete_album_fail"), "error");
+                showResultModal(
+                  (payload && payload.message) || t("delete_album_fail"),
+                  "error",
+                );
               })
               .always(function () {
                 $delete.prop("disabled", false);
               });
-            });
+          });
         });
         itemActions.push($retry, $delete);
       }
@@ -4010,25 +4672,37 @@
             t("album_actions_label") +
             '">' +
             '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true">' +
-              '<circle cx="12" cy="5" r="1.8"></circle>' +
-              '<circle cx="12" cy="12" r="1.8"></circle>' +
-              '<circle cx="12" cy="19" r="1.8"></circle>' +
+            '<circle cx="12" cy="5" r="1.8"></circle>' +
+            '<circle cx="12" cy="12" r="1.8"></circle>' +
+            '<circle cx="12" cy="19" r="1.8"></circle>' +
             "</svg>" +
-          "</button>"
+            "</button>",
         );
-        const $actionsMenu = $('<div class="album-actions-menu" aria-hidden="true"></div>');
+        const $actionsMenu = $(
+          '<div class="album-actions-menu" aria-hidden="true"></div>',
+        );
         itemActions.forEach(function ($action, actionIndex) {
           $action.addClass("album-action-item");
-          $action.css("--album-action-delay", String((itemActions.length - actionIndex - 1) * 38) + "ms");
+          $action.css(
+            "--album-action-delay",
+            String((itemActions.length - actionIndex - 1) * 38) + "ms",
+          );
           $actionsMenu.append($action);
         });
         $actionsToggle.on("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
           const willOpen = !$actionsMenu.hasClass("is-open");
-          $(".album-actions-menu.is-open").not($actionsMenu).removeClass("is-open").attr("aria-hidden", "true");
-          $(".album-actions-toggle.is-open").not($actionsToggle).removeClass("is-open");
-          $actionsMenu.toggleClass("is-open", willOpen).attr("aria-hidden", willOpen ? "false" : "true");
+          $(".album-actions-menu.is-open")
+            .not($actionsMenu)
+            .removeClass("is-open")
+            .attr("aria-hidden", "true");
+          $(".album-actions-toggle.is-open")
+            .not($actionsToggle)
+            .removeClass("is-open");
+          $actionsMenu
+            .toggleClass("is-open", willOpen)
+            .attr("aria-hidden", willOpen ? "false" : "true");
           $actionsToggle.toggleClass("is-open", willOpen);
         });
         $actionsMenu.on("click", function (event) {
@@ -4083,7 +4757,7 @@
       imageRenameByKey[folder + "||" + oldName] = {
         folder: folder,
         old_name: oldName,
-        new_stem: newStem
+        new_stem: newStem,
       };
     });
 
@@ -4103,7 +4777,7 @@
       }
       hiddenAlbums.push({
         folder: folder,
-        hidden: !!album.hidden
+        hidden: !!album.hidden,
       });
     });
 
@@ -4119,7 +4793,7 @@
         return imageRenameByKey[key];
       }),
       hidden_albums: hiddenAlbums,
-      hidden_images: hiddenImages
+      hidden_images: hiddenImages,
     };
   }
 
@@ -4175,22 +4849,31 @@
 
   function savePageEdits() {
     const payload = collectEditPayload();
-    if (!payload.album_titles.length && !payload.image_names.length && !payload.hidden_albums.length && !payload.hidden_images.length) {
+    if (
+      !payload.album_titles.length &&
+      !payload.image_names.length &&
+      !payload.hidden_albums.length &&
+      !payload.hidden_images.length
+    ) {
       return;
     }
 
     const activeAlbum = state.albums[state.activeIndex] || null;
-    const preferredFolder = activeAlbum && !activeAlbum.isAll ? String(activeAlbum.folder || "") : "";
+    const preferredFolder =
+      activeAlbum && !activeAlbum.isAll ? String(activeAlbum.folder || "") : "";
     $.ajax({
       url: buildApiUrl("__edit_page_save__"),
       method: "POST",
       contentType: "application/json",
       dataType: "json",
-      data: JSON.stringify(payload)
+      data: JSON.stringify(payload),
     })
       .done(function (response) {
         if (!response || !response.ok) {
-          showResultModal((response && response.message) || t("edit_save_fail"), "error");
+          showResultModal(
+            (response && response.message) || t("edit_save_fail"),
+            "error",
+          );
           return;
         }
         showResultModal(t("edit_save_success"), "success");
@@ -4201,7 +4884,10 @@
       })
       .fail(function (xhr) {
         const failPayload = xhr && xhr.responseJSON;
-        showResultModal((failPayload && failPayload.message) || t("edit_save_fail"), "error");
+        showResultModal(
+          (failPayload && failPayload.message) || t("edit_save_fail"),
+          "error",
+        );
       });
   }
 
@@ -4210,7 +4896,7 @@
     return {
       code: code,
       name: pack.lang_name || code.toUpperCase(),
-      flag: pack.lang_flag || "🌐"
+      flag: pack.lang_flag || "🌐",
     };
   }
 
@@ -4236,7 +4922,7 @@
           '<span class="text">' +
           meta.name +
           "</span>" +
-          "</button>"
+          "</button>",
       );
 
       $button.on("click", function () {
@@ -4251,7 +4937,7 @@
     return [
       { value: "light", icon: "☀️", label: t("theme_light") },
       { value: "dark", icon: "🌙", label: t("theme_dark") },
-      { value: "system", icon: "🖥️", label: t("theme_system") }
+      { value: "system", icon: "🖥️", label: t("theme_system") },
     ];
   }
 
@@ -4271,7 +4957,7 @@
           '<span class="text">' +
           item.label +
           "</span>" +
-          "</button>"
+          "</button>",
       );
 
       $button.on("click", function () {
@@ -4291,9 +4977,9 @@
       const text = pack.text || {};
       return {
         value: pack.value,
-        lightColors: (((pack.colors || {}).light) || []).slice(0, 5),
-        darkColors: (((pack.colors || {}).dark) || []).slice(0, 5),
-        label: text[state.lang] || text.en || text.vi || pack.value
+        lightColors: ((pack.colors || {}).light || []).slice(0, 5),
+        darkColors: ((pack.colors || {}).dark || []).slice(0, 5),
+        label: text[state.lang] || text.en || text.vi || pack.value,
       };
     });
   }
@@ -4312,14 +4998,22 @@
           '<span class="color-strip-row color-strip-light">' +
           item.lightColors
             .map(function (hex) {
-              return '<span class="color-chip" style="background:' + hex + '"></span>';
+              return (
+                '<span class="color-chip" style="background:' +
+                hex +
+                '"></span>'
+              );
             })
             .join("") +
           "</span>" +
           '<span class="color-strip-row color-strip-dark">' +
           item.darkColors
             .map(function (hex) {
-              return '<span class="color-chip" style="background:' + hex + '"></span>';
+              return (
+                '<span class="color-chip" style="background:' +
+                hex +
+                '"></span>'
+              );
             })
             .join("") +
           "</span>" +
@@ -4327,7 +5021,7 @@
           '<span class="text">' +
           item.label +
           "</span>" +
-          "</button>"
+          "</button>",
       );
 
       $button.on("click", function () {
@@ -4368,7 +5062,10 @@
         return;
       }
       state.sidebarCollapsed = !state.sidebarCollapsed;
-      localStorage.setItem("album-viewer-sidebar-collapsed", state.sidebarCollapsed ? "1" : "0");
+      localStorage.setItem(
+        "album-viewer-sidebar-collapsed",
+        state.sidebarCollapsed ? "1" : "0",
+      );
       applySidebarState();
     });
 
@@ -4391,7 +5088,11 @@
         showResultModal(t("edit_auth_required"), "error");
         return;
       }
-      if (String(state.authRole || "").trim().toLowerCase() !== "admin") {
+      if (
+        String(state.authRole || "")
+          .trim()
+          .toLowerCase() !== "admin"
+      ) {
         showResultModal(t("edit_auth_required"), "error");
         return;
       }
@@ -4433,7 +5134,7 @@
       $.ajax({
         url: buildApiUrl("__auth_logout__"),
         method: "POST",
-        dataType: "json"
+        dataType: "json",
       })
         .done(function (response) {
           if (response && response.ok) {
@@ -4505,9 +5206,13 @@
       openAudioUploadModal();
     });
 
-    $audioUploadModal.on("click", "[data-role='close-audio-upload-modal']", function () {
-      closeAudioUploadModal();
-    });
+    $audioUploadModal.on(
+      "click",
+      "[data-role='close-audio-upload-modal']",
+      function () {
+        closeAudioUploadModal();
+      },
+    );
 
     $audioList.on("click", ".audio-table-delete", function () {
       const filename = $(this).attr("data-filename") || "";
@@ -4524,7 +5229,7 @@
           method: "POST",
           contentType: "application/json",
           data: JSON.stringify({ file: filename }),
-          dataType: "json"
+          dataType: "json",
         })
           .done(function (response) {
             if (response && response.ok) {
@@ -4534,12 +5239,18 @@
                 closePreviewPanel();
               }
             } else {
-              showResultModal((response && response.message) || t("upload_audio_delete_fail"), "error");
+              showResultModal(
+                (response && response.message) || t("upload_audio_delete_fail"),
+                "error",
+              );
             }
           })
           .fail(function (xhr) {
             const payload = xhr && xhr.responseJSON;
-            showResultModal((payload && payload.message) || t("upload_audio_delete_fail"), "error");
+            showResultModal(
+              (payload && payload.message) || t("upload_audio_delete_fail"),
+              "error",
+            );
           });
       });
     });
@@ -4555,9 +5266,12 @@
           previewAudio.pause();
           setPreviewPlaying(false);
         } else {
-          previewAudio.play().then(function () {
-            setPreviewPlaying(true);
-          }).catch(function () {});
+          previewAudio
+            .play()
+            .then(function () {
+              setPreviewPlaying(true);
+            })
+            .catch(function () {});
         }
         return;
       }
@@ -4598,11 +5312,16 @@
     $audioList.on("drop", ".audio-table-row", function (event) {
       event.preventDefault();
       const nativeEvent = event.originalEvent;
-      const filename = nativeEvent && nativeEvent.dataTransfer ? nativeEvent.dataTransfer.getData("text/plain") : "";
+      const filename =
+        nativeEvent && nativeEvent.dataTransfer
+          ? nativeEvent.dataTransfer.getData("text/plain")
+          : "";
       if (!filename) {
         return;
       }
-      const $dragRow = $audioList.find('tr[data-filename="' + CSS.escape(filename) + '"]');
+      const $dragRow = $audioList.find(
+        'tr[data-filename="' + CSS.escape(filename) + '"]',
+      );
       if (!$dragRow.length) {
         return;
       }
@@ -4628,9 +5347,12 @@
         setPreviewPlaying(false);
         return;
       }
-      previewAudio.play().then(function () {
-        setPreviewPlaying(true);
-      }).catch(function () {});
+      previewAudio
+        .play()
+        .then(function () {
+          setPreviewPlaying(true);
+        })
+        .catch(function () {});
     });
 
     $audioPreviewClose.on("click", function () {
@@ -4665,10 +5387,13 @@
       applyPreviewSeekFromInput();
     });
 
-    $audioPreviewSeek.on("change pointerup pointercancel mouseup touchend touchcancel", function () {
-      applyPreviewSeekFromInput();
-      isPreviewSeeking = false;
-    });
+    $audioPreviewSeek.on(
+      "change pointerup pointercancel mouseup touchend touchcancel",
+      function () {
+        applyPreviewSeekFromInput();
+        isPreviewSeeking = false;
+      },
+    );
 
     function positionPreviewVolumePopover() {
       if (!$audioPreviewVolumeWrap.hasClass("is-open")) {
@@ -4681,7 +5406,7 @@
       const rect = toggleEl.getBoundingClientRect();
       $audioPreviewVolumePopover.css({
         left: rect.left + rect.width / 2,
-        top: rect.top - 8
+        top: rect.top - 8,
       });
     }
 
@@ -4704,7 +5429,9 @@
     $audioPreviewVolumeToggle.on("click", function (event) {
       event.stopPropagation();
       if ($audioPreviewVolumeWrap.hasClass("is-open")) {
-        const current = Number.isFinite(state.previewAudioVolume) ? state.previewAudioVolume : 0;
+        const current = Number.isFinite(state.previewAudioVolume)
+          ? state.previewAudioVolume
+          : 0;
         setPreviewAudioVolume(current > 0 ? 0 : 0.6);
         return;
       }
@@ -4715,9 +5442,12 @@
       event.stopPropagation();
     });
 
-    $audioPreviewVolumePopover.on("mousedown touchstart click", function (event) {
-      event.stopPropagation();
-    });
+    $audioPreviewVolumePopover.on(
+      "mousedown touchstart click",
+      function (event) {
+        event.stopPropagation();
+      },
+    );
 
     $(document).on("mousedown touchstart", function () {
       closePreviewVolumePopover();
@@ -4763,23 +5493,28 @@
         data: formData,
         processData: false,
         contentType: false,
-        dataType: "json"
+        dataType: "json",
       })
         .done(function (response) {
           if (!response || !response.ok) {
-            const failMessage = (response && response.message) || t("upload_audio_fail");
+            const failMessage =
+              (response && response.message) || t("upload_audio_fail");
             $audioUploadError.text(failMessage);
             showResultModal(failMessage, "error");
             return;
           }
-          showResultModal(t("upload_audio_success", { count: Number(response.saved || 0) }), "success");
+          showResultModal(
+            t("upload_audio_success", { count: Number(response.saved || 0) }),
+            "success",
+          );
           loadAudioList();
           $audioUploadInput.val("");
           $audioUploadError.text("");
         })
         .fail(function (xhr) {
           const payload = xhr && xhr.responseJSON;
-          const failMessage = (payload && payload.message) || t("upload_audio_fail");
+          const failMessage =
+            (payload && payload.message) || t("upload_audio_fail");
           $audioUploadError.text(failMessage);
           showResultModal(failMessage, "error");
         })
@@ -4901,16 +5636,20 @@
       $uploadCancel.prop("disabled", true);
       $albumUploadButton.prop("disabled", true).addClass("is-loading");
       $.ajax({
-        url: buildApiUrl("__upload_album__", { album: albumName, upload_type: state.uploadType }),
+        url: buildApiUrl("__upload_album__", {
+          album: albumName,
+          upload_type: state.uploadType,
+        }),
         method: "POST",
         data: formData,
         processData: false,
         contentType: false,
-        dataType: "json"
+        dataType: "json",
       })
         .done(function (response) {
           if (!response || !response.ok) {
-            const failMessage = (response && response.message) || t("upload_album_fail");
+            const failMessage =
+              (response && response.message) || t("upload_album_fail");
             $uploadError.text(failMessage);
             showResultModal(failMessage, "error");
             return;
@@ -4922,8 +5661,16 @@
           }
           const uploadedCount = Number(response.saved || 0);
           const queued = Boolean(response.build && response.build.queued);
-          const successText = t("upload_album_success", { count: uploadedCount, album: uploadedAlbumTitle });
-          showResultModal(queued ? successText + "\n" + t("upload_album_queued") : successText, "success");
+          const successText = t("upload_album_success", {
+            count: uploadedCount,
+            album: uploadedAlbumTitle,
+          });
+          showResultModal(
+            queued
+              ? successText + "\n" + t("upload_album_queued")
+              : successText,
+            "success",
+          );
           closeUploadModal();
           if (queued) {
             pollBuildAndReload(uploadedAlbumFolder);
@@ -4935,7 +5682,8 @@
         })
         .fail(function (xhr) {
           const payload = xhr && xhr.responseJSON;
-          const failMessage = (payload && payload.message) || t("upload_album_fail");
+          const failMessage =
+            (payload && payload.message) || t("upload_album_fail");
           $uploadError.text(failMessage);
           showResultModal(failMessage, "error");
         })
@@ -5079,29 +5827,44 @@
     if (!state.viewerItems.length) {
       return Promise.resolve(false);
     }
-    const clamped = Math.max(0, Math.min(state.viewerItems.length - 1, Number(index) || 0));
+    const clamped = Math.max(
+      0,
+      Math.min(state.viewerItems.length - 1, Number(index) || 0),
+    );
     const item = state.viewerItems[clamped];
     if (!item) {
       return Promise.resolve(false);
     }
-    const targets = [item.viewSrc, item.downloadSrc].filter(function (value, i, arr) {
-      return !!value && arr.indexOf(value) === i;
-    });
+    const targets = [item.viewSrc, item.downloadSrc].filter(
+      function (value, i, arr) {
+        return !!value && arr.indexOf(value) === i;
+      },
+    );
     if (!targets.length) {
       return Promise.resolve(false);
     }
-    return Promise.all(targets.map(preloadImageSource)).then(function (results) {
-      return results.some(Boolean);
-    });
+    return Promise.all(targets.map(preloadImageSource)).then(
+      function (results) {
+        return results.some(Boolean);
+      },
+    );
   }
 
-  function openImageViewer(src, fileName, alt, downloadSrc, downloadName, options) {
+  function openImageViewer(
+    src,
+    fileName,
+    alt,
+    downloadSrc,
+    downloadName,
+    options,
+  ) {
     const opts = options && typeof options === "object" ? options : {};
     const suppressLoading = !!opts.suppressLoading;
     const smoothSwap = !!opts.smoothSwap;
     const baseName = toCaptionBaseName(fileName);
     const downloadTarget = String(downloadSrc || src || "").trim();
-    const downloadFileName = String(downloadName || fileName || "").trim() || "image";
+    const downloadFileName =
+      String(downloadName || fileName || "").trim() || "image";
     const primarySrc = String(src || "").trim();
     const fallbackSrc = String(downloadTarget || "").trim();
     let triedFallback = false;
@@ -5160,7 +5923,9 @@
     const album = state.albums[state.activeIndex] || state.albums[0];
     const searchTerm = String(state.searchQuery || "").trim();
     let images = Array.isArray(album.images) ? album.images : [];
-    let albumTitle = album.isAll ? t("view_all") : album.title || t("album_unnamed");
+    let albumTitle = album.isAll
+      ? t("view_all")
+      : album.title || t("album_unnamed");
     const hiddenFolders = getHiddenFolderSet();
 
     if (!state.editingPage && album && !album.isAll && album.hidden) {
@@ -5177,23 +5942,27 @@
           });
       searchAlbums.forEach(function (item) {
         const folder = item.folder || "";
-        (Array.isArray(item.images) ? item.images : []).forEach(function (imageEntry) {
-          const normalized = normalizeImageEntry(imageEntry);
-          const haystack = normalizeSearchToken(folder + "/" + (normalized.original || normalized.name || ""));
-          if (haystack.indexOf(needle) !== -1) {
-            images.push({
-              folder: folder,
-              name: normalized.name,
-              root: normalized.root,
-              detail: normalized.detail,
-              detail_root: normalized.detailRoot,
-              original: normalized.original,
-              original_root: normalized.originalRoot,
-              uploaded_at: normalized.uploadedAt,
-              created_at: normalized.createdAt
-            });
-          }
-        });
+        (Array.isArray(item.images) ? item.images : []).forEach(
+          function (imageEntry) {
+            const normalized = normalizeImageEntry(imageEntry);
+            const haystack = normalizeSearchToken(
+              folder + "/" + (normalized.original || normalized.name || ""),
+            );
+            if (haystack.indexOf(needle) !== -1) {
+              images.push({
+                folder: folder,
+                name: normalized.name,
+                root: normalized.root,
+                detail: normalized.detail,
+                detail_root: normalized.detailRoot,
+                original: normalized.original,
+                original_root: normalized.originalRoot,
+                uploaded_at: normalized.uploadedAt,
+                created_at: normalized.createdAt,
+              });
+            }
+          },
+        );
       });
       albumTitle = t("search_title");
     } else if (!album.isAll) {
@@ -5208,12 +5977,14 @@
           original: normalized.original,
           original_root: normalized.originalRoot,
           uploaded_at: normalized.uploadedAt,
-          created_at: normalized.createdAt
+          created_at: normalized.createdAt,
         };
       });
     } else if (!state.editingPage && hiddenFolders.size) {
       images = images.filter(function (entry) {
-        return !hiddenFolders.has(String(entry && entry.folder ? entry.folder : ""));
+        return !hiddenFolders.has(
+          String(entry && entry.folder ? entry.folder : ""),
+        );
       });
     }
 
@@ -5233,7 +6004,9 @@
         const folder = entry.folder || "";
         const normalized = normalizeImageEntry(entry);
         const info = resolveImageInfo(folder, normalized);
-        const pathPart = folder ? folder + "/" + normalized.name : normalized.name;
+        const pathPart = folder
+          ? folder + "/" + normalized.name
+          : normalized.name;
         return {
           viewSrc: info.detailPath,
           viewName: info.detailName,
@@ -5241,7 +6014,7 @@
           thumbSrc: info.imagePath,
           thumbAlt: pathPart,
           downloadSrc: info.originalPath,
-          downloadName: info.originalName
+          downloadName: info.originalName,
         };
       })
       .filter(function (item) {
@@ -5274,7 +6047,11 @@
     }
     const activeEl = $active.get(0);
     if (activeEl && typeof activeEl.scrollIntoView === "function") {
-      activeEl.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
+      activeEl.scrollIntoView({
+        block: "center",
+        inline: "nearest",
+        behavior: "smooth",
+      });
     }
   }
 
@@ -5285,13 +6062,15 @@
     }
     const fragment = document.createDocumentFragment();
     state.viewerItems.forEach(function (item, index) {
-      const thumbLabel = toCaptionBaseName(item.downloadName || item.viewName || "");
+      const thumbLabel = toCaptionBaseName(
+        item.downloadName || item.viewName || "",
+      );
       const button = document.createElement("button");
       button.type = "button";
       button.className = "image-viewer-thumb";
       button.setAttribute("data-index", String(index));
-      button.setAttribute("aria-label", thumbLabel || ("Image " + (index + 1)));
-      button.setAttribute("title", thumbLabel || ("Image " + (index + 1)));
+      button.setAttribute("aria-label", thumbLabel || "Image " + (index + 1));
+      button.setAttribute("title", thumbLabel || "Image " + (index + 1));
 
       const img = document.createElement("img");
       img.loading = "lazy";
@@ -5313,13 +6092,23 @@
     if (!state.viewerItems.length) {
       return;
     }
-    const clamped = Math.max(0, Math.min(state.viewerItems.length - 1, Number(nextIndex) || 0));
+    const clamped = Math.max(
+      0,
+      Math.min(state.viewerItems.length - 1, Number(nextIndex) || 0),
+    );
     const item = state.viewerItems[clamped];
     state.viewerIndex = clamped;
     updateViewerNavButtons();
     updateSlideshowCounter();
     syncViewerThumbActive();
-    openImageViewer(item.viewSrc, item.viewName, item.alt, item.downloadSrc, item.downloadName, options);
+    openImageViewer(
+      item.viewSrc,
+      item.viewName,
+      item.alt,
+      item.downloadSrc,
+      item.downloadName,
+      options,
+    );
     preloadViewerItem((clamped + 1) % state.viewerItems.length);
   }
 
@@ -5362,7 +6151,10 @@
       return;
     }
     pauseSlideshowAudio(false);
-    $imageViewerAudioPopover.addClass("is-hidden").removeClass("is-open").attr("aria-hidden", "true");
+    $imageViewerAudioPopover
+      .addClass("is-hidden")
+      .removeClass("is-open")
+      .attr("aria-hidden", "true");
     updateAudioToggleState();
     state.slideshowControlsVisible = true;
     applySlideshowControlsVisibility();
@@ -5372,7 +6164,10 @@
   }
 
   function applySlideshowControlsVisibility() {
-    const hide = state.slideshowMode && mobileMedia.matches && !state.slideshowControlsVisible;
+    const hide =
+      state.slideshowMode &&
+      mobileMedia.matches &&
+      !state.slideshowControlsVisible;
     $imageViewer.toggleClass("is-slideshow-controls-hidden", hide);
   }
 
@@ -5412,7 +6207,9 @@
     if (!state.slideshowPlaying || !state.viewerItems.length) {
       return;
     }
-    const nextIndex = (state.viewerIndex + 1 + state.viewerItems.length) % state.viewerItems.length;
+    const nextIndex =
+      (state.viewerIndex + 1 + state.viewerItems.length) %
+      state.viewerItems.length;
     const preloadPromise = preloadViewerItem(nextIndex);
     state.slideshowTimer = window.setTimeout(function () {
       if (!state.slideshowPlaying || !state.viewerItems.length) {
@@ -5422,12 +6219,15 @@
         preloadPromise,
         new Promise(function (resolve) {
           window.setTimeout(resolve, 900);
-        })
+        }),
       ]).then(function () {
         if (!state.slideshowPlaying || !state.viewerItems.length) {
           return;
         }
-        openViewerItemByIndex(nextIndex, { suppressLoading: true, smoothSwap: true });
+        openViewerItemByIndex(nextIndex, {
+          suppressLoading: true,
+          smoothSwap: true,
+        });
         scheduleSlideshowStep();
       });
     }, 3500);
@@ -5446,14 +6246,25 @@
     setSlideshowMode(true);
     ensureSlideshowAudioList({ showEmpty: true, autoplay: true });
 
-    if ($imageViewer.hasClass("is-hidden") || state.viewerIndex < 0 || state.viewerIndex >= items.length) {
+    if (
+      $imageViewer.hasClass("is-hidden") ||
+      state.viewerIndex < 0 ||
+      state.viewerIndex >= items.length
+    ) {
       openViewerItemByIndex(0, { suppressLoading: true, smoothSwap: true });
     }
     updateSlideshowButtonState();
     scheduleSlideshowStep();
   }
 
-  function openImageViewerFromGrid(viewSrc, viewName, alt, downloadSrc, downloadName, thumbSrc) {
+  function openImageViewerFromGrid(
+    viewSrc,
+    viewName,
+    alt,
+    downloadSrc,
+    downloadName,
+    thumbSrc,
+  ) {
     state.slideshowPlaying = false;
     setSlideshowMode(false);
     state.viewerSidebarHidden = false;
@@ -5476,8 +6287,8 @@
           thumbSrc: thumbSrc || viewSrc,
           thumbAlt: viewName || alt,
           downloadSrc: downloadSrc,
-          downloadName: downloadName
-        }
+          downloadName: downloadName,
+        },
       ];
       index = 0;
     }
@@ -5516,7 +6327,7 @@
         state.viewerZoom.toFixed(2) +
         ") rotate(" +
         state.viewerRotation +
-        "deg)"
+        "deg)",
     );
   }
 
@@ -5526,26 +6337,30 @@
   }
 
   function getViewerPointerPoint(event) {
-    const nativeEvent = event && event.originalEvent ? event.originalEvent : event;
+    const nativeEvent =
+      event && event.originalEvent ? event.originalEvent : event;
     if (!nativeEvent) {
       return null;
     }
     if (nativeEvent.touches && nativeEvent.touches.length) {
       return {
         x: nativeEvent.touches[0].clientX,
-        y: nativeEvent.touches[0].clientY
+        y: nativeEvent.touches[0].clientY,
       };
     }
     if (nativeEvent.changedTouches && nativeEvent.changedTouches.length) {
       return {
         x: nativeEvent.changedTouches[0].clientX,
-        y: nativeEvent.changedTouches[0].clientY
+        y: nativeEvent.changedTouches[0].clientY,
       };
     }
-    if (typeof nativeEvent.clientX === "number" && typeof nativeEvent.clientY === "number") {
+    if (
+      typeof nativeEvent.clientX === "number" &&
+      typeof nativeEvent.clientY === "number"
+    ) {
       return {
         x: nativeEvent.clientX,
-        y: nativeEvent.clientY
+        y: nativeEvent.clientY,
       };
     }
     return null;
@@ -5685,17 +6500,27 @@
         if (!state.slideshowMode) {
           return;
         }
-        $imageViewerAudioPopover.removeClass("is-hidden").addClass("is-open").attr("aria-hidden", "false");
+        $imageViewerAudioPopover
+          .removeClass("is-hidden")
+          .addClass("is-open")
+          .attr("aria-hidden", "false");
       });
 
       $imageViewerAudioWrap.on("mouseleave", function () {
-        $imageViewerAudioPopover.addClass("is-hidden").removeClass("is-open").attr("aria-hidden", "true");
+        $imageViewerAudioPopover
+          .addClass("is-hidden")
+          .removeClass("is-open")
+          .attr("aria-hidden", "true");
       });
     }
 
-    $imageGrid.on("click touchstart touchend", ".thumb-download", function (event) {
-      event.stopPropagation();
-    });
+    $imageGrid.on(
+      "click touchstart touchend",
+      ".thumb-download",
+      function (event) {
+        event.stopPropagation();
+      },
+    );
 
     $imageViewerDownload.on("click touchstart touchend", function (event) {
       event.stopPropagation();
@@ -5710,8 +6535,10 @@
       }
       const $btn = $(this);
       const $card = $btn.closest(".image-card");
-      const folder = $btn.attr("data-folder") || $card.attr("data-folder") || "";
-      const file = $btn.attr("data-file") || $card.attr("data-original-name") || "";
+      const folder =
+        $btn.attr("data-folder") || $card.attr("data-folder") || "";
+      const file =
+        $btn.attr("data-file") || $card.attr("data-original-name") || "";
       if (!folder || !file) {
         return;
       }
@@ -5725,21 +6552,28 @@
           method: "POST",
           contentType: "application/json",
           data: JSON.stringify({ folder: folder, file: file }),
-          dataType: "json"
+          dataType: "json",
         })
           .done(function (response) {
             if (response && response.ok) {
               showResultModal(t("image_delete_success"), "success");
               const currentAlbum = state.albums[state.activeIndex] || {};
-              const preferred = currentAlbum && !currentAlbum.isAll ? currentAlbum.folder : "";
+              const preferred =
+                currentAlbum && !currentAlbum.isAll ? currentAlbum.folder : "";
               loadAlbums(preferred).catch(function () {});
             } else {
-              showResultModal((response && response.message) || t("image_delete_fail"), "error");
+              showResultModal(
+                (response && response.message) || t("image_delete_fail"),
+                "error",
+              );
             }
           })
           .fail(function (xhr) {
             const payload = xhr && xhr.responseJSON;
-            showResultModal((payload && payload.message) || t("image_delete_fail"), "error");
+            showResultModal(
+              (payload && payload.message) || t("image_delete_fail"),
+              "error",
+            );
           });
       });
     });
@@ -5749,13 +6583,27 @@
         return;
       }
       flashEvent($(this), "thumb-event-flash");
-      const viewSrc = $(this).attr("data-view-src") || $(this).attr("src") || $(this).attr("data-src") || "";
+      const viewSrc =
+        $(this).attr("data-view-src") ||
+        $(this).attr("src") ||
+        $(this).attr("data-src") ||
+        "";
       const downloadSrc = $(this).attr("data-original-src") || viewSrc;
       const alt = $(this).attr("alt") || "";
-      const thumbSrc = $(this).attr("src") || $(this).attr("data-src") || viewSrc;
-      const viewName = $(this).attr("data-view-name") || $(this).closest(".image-card").find(".caption").text();
+      const thumbSrc =
+        $(this).attr("src") || $(this).attr("data-src") || viewSrc;
+      const viewName =
+        $(this).attr("data-view-name") ||
+        $(this).closest(".image-card").find(".caption").text();
       const downloadName = $(this).attr("data-original-name") || viewName;
-      openImageViewerFromGrid(viewSrc, viewName, alt, downloadSrc, downloadName, thumbSrc);
+      openImageViewerFromGrid(
+        viewSrc,
+        viewName,
+        alt,
+        downloadSrc,
+        downloadName,
+        thumbSrc,
+      );
     });
 
     $imageViewerClose.on("click", function () {
@@ -5776,28 +6624,48 @@
     });
 
     $imageViewerPrev.on("click", function () {
-      openViewerItemByIndex(state.viewerIndex - 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+      openViewerItemByIndex(
+        state.viewerIndex - 1,
+        state.slideshowMode
+          ? { suppressLoading: true, smoothSwap: true }
+          : undefined,
+      );
       if (state.slideshowPlaying) {
         scheduleSlideshowStep();
       }
     });
 
     $imageViewerNext.on("click", function () {
-      openViewerItemByIndex(state.viewerIndex + 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+      openViewerItemByIndex(
+        state.viewerIndex + 1,
+        state.slideshowMode
+          ? { suppressLoading: true, smoothSwap: true }
+          : undefined,
+      );
       if (state.slideshowPlaying) {
         scheduleSlideshowStep();
       }
     });
 
     $imageViewerStagePrev.on("click", function () {
-      openViewerItemByIndex(state.viewerIndex - 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+      openViewerItemByIndex(
+        state.viewerIndex - 1,
+        state.slideshowMode
+          ? { suppressLoading: true, smoothSwap: true }
+          : undefined,
+      );
       if (state.slideshowPlaying) {
         scheduleSlideshowStep();
       }
     });
 
     $imageViewerStageNext.on("click", function () {
-      openViewerItemByIndex(state.viewerIndex + 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+      openViewerItemByIndex(
+        state.viewerIndex + 1,
+        state.slideshowMode
+          ? { suppressLoading: true, smoothSwap: true }
+          : undefined,
+      );
       if (state.slideshowPlaying) {
         scheduleSlideshowStep();
       }
@@ -5807,7 +6675,11 @@
       if (!state.slideshowMode || !mobileMedia.matches) {
         return;
       }
-      if ($(event.target).closest("button, a, .image-viewer-slideshow-head, .image-viewer-right-top").length) {
+      if (
+        $(event.target).closest(
+          "button, a, .image-viewer-slideshow-head, .image-viewer-right-top",
+        ).length
+      ) {
         return;
       }
       state.slideshowControlsVisible = !state.slideshowControlsVisible;
@@ -5836,7 +6708,10 @@
       }
       event.preventDefault();
       const nativeEvent = event.originalEvent;
-      const delta = nativeEvent && typeof nativeEvent.deltaY === "number" ? nativeEvent.deltaY : 0;
+      const delta =
+        nativeEvent && typeof nativeEvent.deltaY === "number"
+          ? nativeEvent.deltaY
+          : 0;
       const step = delta > 0 ? -0.1 : 0.1;
       setViewerZoom(state.viewerZoom + step);
     });
@@ -5899,22 +6774,37 @@
       }
       if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
         event.preventDefault();
-        openViewerItemByIndex(state.viewerIndex - 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+        openViewerItemByIndex(
+          state.viewerIndex - 1,
+          state.slideshowMode
+            ? { suppressLoading: true, smoothSwap: true }
+            : undefined,
+        );
       }
       if (event.key === "ArrowDown" || event.key === "ArrowRight") {
         event.preventDefault();
-        openViewerItemByIndex(state.viewerIndex + 1, state.slideshowMode ? { suppressLoading: true, smoothSwap: true } : undefined);
+        openViewerItemByIndex(
+          state.viewerIndex + 1,
+          state.slideshowMode
+            ? { suppressLoading: true, smoothSwap: true }
+            : undefined,
+        );
       }
     });
 
     $(document).on("click", function (event) {
-      if ($(event.target).closest(".album-actions-toggle, .album-actions-menu").length) {
+      if (
+        $(event.target).closest(".album-actions-toggle, .album-actions-menu")
+          .length
+      ) {
         return;
       }
       if ($(event.target).closest(".album-sort-control").length) {
         return;
       }
-      $(".album-actions-menu.is-open").removeClass("is-open").attr("aria-hidden", "true");
+      $(".album-actions-menu.is-open")
+        .removeClass("is-open")
+        .attr("aria-hidden", "true");
       $(".album-actions-toggle.is-open").removeClass("is-open");
       closeSortMenu();
     });
@@ -5941,12 +6831,14 @@
   }
 
   function loadLanguages() {
-    return $.getJSON("/resources/album-resource/lang.json").then(function (json) {
-      state.dict = json || fallbackDict;
-      if (!state.dict[state.lang]) {
-        state.lang = defaultLang;
-      }
-    });
+    return $.getJSON("/resources/album-resource/lang.json").then(
+      function (json) {
+        state.dict = json || fallbackDict;
+        if (!state.dict[state.lang]) {
+          state.lang = defaultLang;
+        }
+      },
+    );
   }
 
   function normalizeColorPacks(json) {
@@ -5960,9 +6852,13 @@
           return null;
         }
         const value = String(item.value || "").trim();
-        const text = item.text && typeof item.text === "object" ? item.text : {};
-        const colorsObj = item.colors && typeof item.colors === "object" ? item.colors : {};
-        const lightColors = Array.isArray(colorsObj.light) ? colorsObj.light : [];
+        const text =
+          item.text && typeof item.text === "object" ? item.text : {};
+        const colorsObj =
+          item.colors && typeof item.colors === "object" ? item.colors : {};
+        const lightColors = Array.isArray(colorsObj.light)
+          ? colorsObj.light
+          : [];
         const darkColors = Array.isArray(colorsObj.dark) ? colorsObj.dark : [];
         if (!value || unique[value]) {
           return null;
@@ -5991,12 +6887,12 @@
           value: value,
           text: {
             vi: String(text.vi || text.en || value),
-            en: String(text.en || text.vi || value)
+            en: String(text.en || text.vi || value),
           },
           colors: {
             light: normalizedLight,
-            dark: normalizedDark
-          }
+            dark: normalizedDark,
+          },
         };
       })
       .filter(Boolean);
@@ -6015,7 +6911,7 @@
         state.colorPacks = defaultColorPacks;
         ensureValidColorPack();
         applyColorPack();
-      }
+      },
     );
   }
 
@@ -6030,45 +6926,63 @@
             album.hiddenOriginal = album.hidden;
           }
           const folder = album.folder || "";
-          (Array.isArray(album.images) ? album.images : []).forEach(function (entry) {
-            if (entry && typeof entry === "object") {
-              entry.hidden = !!entry.hidden;
-            }
-            const normalized = normalizeImageEntry(entry);
-            allImages.push({
-              folder: folder,
-              name: normalized.name,
-              root: normalized.root,
-              detail: normalized.detail,
-              detail_root: normalized.detailRoot,
-              original: normalized.original,
-              original_root: normalized.originalRoot,
-              uploaded_at: normalized.uploadedAt,
-              created_at: normalized.createdAt,
-              hidden: !!(entry && entry.hidden)
-            });
-          });
+          (Array.isArray(album.images) ? album.images : []).forEach(
+            function (entry) {
+              if (entry && typeof entry === "object") {
+                entry.hidden = !!entry.hidden;
+              }
+              const normalized = normalizeImageEntry(entry);
+              allImages.push({
+                folder: folder,
+                name: normalized.name,
+                root: normalized.root,
+                detail: normalized.detail,
+                detail_root: normalized.detailRoot,
+                original: normalized.original,
+                original_root: normalized.originalRoot,
+                uploaded_at: normalized.uploadedAt,
+                created_at: normalized.createdAt,
+                hidden: !!(entry && entry.hidden),
+              });
+            },
+          );
         });
-        const allAlbum = { isAll: true, title: "", folder: "", images: allImages };
-    state.hasError = false;
-    state.albums = [allAlbum].concat(albums);
-    state.hiddenImageBase = buildHiddenImageBase(state.albums);
-    state.hiddenImageCurrent = cloneHiddenImageMap(state.hiddenImageBase);
-    if (state.albumTitleOverrides && typeof state.albumTitleOverrides === "object") {
-      state.albums.forEach(function (item) {
-        if (!item || item.isAll) {
-          return;
+        const allAlbum = {
+          isAll: true,
+          title: "",
+          folder: "",
+          images: allImages,
+        };
+        state.hasError = false;
+        state.albums = [allAlbum].concat(albums);
+        state.hiddenImageBase = buildHiddenImageBase(state.albums);
+        state.hiddenImageCurrent = cloneHiddenImageMap(state.hiddenImageBase);
+        if (
+          state.albumTitleOverrides &&
+          typeof state.albumTitleOverrides === "object"
+        ) {
+          state.albums.forEach(function (item) {
+            if (!item || item.isAll) {
+              return;
+            }
+            const folderKey = String(item.folder || "");
+            if (
+              !folderKey ||
+              !Object.prototype.hasOwnProperty.call(
+                state.albumTitleOverrides,
+                folderKey,
+              )
+            ) {
+              return;
+            }
+            const overrideTitle = String(
+              state.albumTitleOverrides[folderKey] || "",
+            );
+            if (overrideTitle && String(item.title || "") === overrideTitle) {
+              delete state.albumTitleOverrides[folderKey];
+            }
+          });
         }
-        const folderKey = String(item.folder || "");
-        if (!folderKey || !Object.prototype.hasOwnProperty.call(state.albumTitleOverrides, folderKey)) {
-          return;
-        }
-        const overrideTitle = String(state.albumTitleOverrides[folderKey] || "");
-        if (overrideTitle && String(item.title || "") === overrideTitle) {
-          delete state.albumTitleOverrides[folderKey];
-        }
-      });
-    }
         const preferred = String(preferredFolder || "").trim();
         if (preferred) {
           const nextIndex = state.albums.findIndex(function (item) {
@@ -6092,8 +7006,8 @@
             data: JSON.stringify({
               code: xhr.status,
               route: "__albums__",
-              detail: String(xhr.statusText || "")
-            })
+              detail: String(xhr.statusText || ""),
+            }),
           });
         }
         throw xhr;
@@ -6104,13 +7018,20 @@
     return $.getJSON(buildApiUrl("__auth_status__"))
       .then(function (data) {
         const auth = !!(data && data.authenticated);
-        const username = auth && data && data.username ? String(data.username) : "";
+        const username =
+          auth && data && data.username ? String(data.username) : "";
         const role = auth && data && data.role ? String(data.role) : "";
         state.authUser = username;
         state.authRole = role;
         updateAuthUi();
-        setViewMode(auth ? (state.pageMode === "admin" ? "admin" : "app") : "guest");
-        if (auth && state.pageMode === "admin" && String(role || "").toLowerCase() === "admin") {
+        setViewMode(
+          auth ? (state.pageMode === "admin" ? "admin" : "app") : "guest",
+        );
+        if (
+          auth &&
+          state.pageMode === "admin" &&
+          String(role || "").toLowerCase() === "admin"
+        ) {
           state.adminPanel = "requests";
           loadInviteRequests(true);
         }
