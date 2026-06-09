@@ -73,6 +73,65 @@
       sidebar_expand: "Mở menu",
       initial_title: "Chưa chọn album",
       initial_description: "Chọn album bên trái để xem ảnh.",
+      guest_kicker: "Guest access",
+      guest_title: "Mời truy cập",
+      guest_page_title: "Yêu cầu mời - Album Viewer",
+      guest_subtitle: "Nhập email của bạn để gửi lời mời tới quản trị viên.",
+      guest_email_label: "Email",
+      guest_email_placeholder: "Nhập email của bạn",
+      guest_token_prompt: "Nhập email đã được yêu cầu để đăng nhập.",
+      guest_token_invalid: "Token không hợp lệ hoặc đã hết hạn.",
+      guest_token_login: "Đăng nhập",
+      guest_admin_login: "Đăng nhập",
+      guest_submit: "Gửi yêu cầu",
+      guest_missing: "Vui lòng nhập email hợp lệ.",
+      guest_failed: "Không gửi được yêu cầu.",
+      guest_sent: "Đã gửi yêu cầu tới quản trị viên",
+      admin_nav_open: "Quản Trị",
+      admin_nav_back: "Album Ảnh",
+      admin_page_title: "Quản Trị - Album Viewer",
+      invite_requests_button: "Quản lý yêu cầu",
+      invite_requests_kicker: "Quản trị",
+      invite_requests_title: "Danh sách yêu cầu mời",
+      invite_requests_subtitle: "Xem toàn bộ email guest đã gửi yêu cầu vào hệ thống.",
+      invite_requests_refresh: "Tải lại",
+      invite_requests_loading: "Đang tải danh sách yêu cầu...",
+      invite_requests_empty: "Chưa có yêu cầu nào.",
+      invite_requests_fail: "Không tải được danh sách yêu cầu.",
+      invite_requests_col_no: "STT",
+      invite_requests_col_email: "Email",
+      invite_requests_col_count: "Số lần",
+      invite_requests_col_status: "Status",
+      invite_requests_col_created: "Tạo lúc",
+      invite_requests_col_ip: "IP",
+      invite_requests_col_path: "Path",
+      invite_requests_col_agent: "User agent",
+      invite_requests_col_action: "Action",
+      invite_requests_search_title: "Tìm kiếm",
+      invite_requests_search_subtitle: "Lọc nhanh theo từng cột bên dưới.",
+      invite_requests_search_apply: "Tìm kiếm",
+      invite_requests_search_reset: "Đặt lại",
+      invite_requests_search_placeholder: "Nhập giá trị",
+      invite_requests_search_all: "Tất cả",
+      invite_requests_search_hide_filters: "Ẩn bộ lọc",
+      invite_requests_search_show_filters: "Hiện bộ lọc",
+      invite_requests_no_match: "Không tìm thấy kết quả phù hợp.",
+      invite_requests_path_label: "Yêu cầu mời",
+      invite_requests_action_delete: "Xóa yêu cầu",
+      invite_requests_action_access: "Cấp token",
+      invite_requests_action_renew: "Gia hạn token",
+      invite_requests_action_copy: "Sao chép liên kết",
+      invite_requests_action_lock: "Khóa token",
+      invite_requests_action_unlock: "Mở khóa token",
+      invite_requests_action_confirm: "Xác nhận thao tác: {action}?",
+      invite_requests_copy_success: "Đã sao chép liên kết",
+      invite_requests_copy_fail: "Không thể sao chép liên kết",
+      invite_requests_delete_confirm: "Xóa yêu cầu này?",
+      invite_requests_updated: "Đã cập nhật yêu cầu.",
+      invite_status_pending: "Chờ",
+      invite_status_locked: "Khóa",
+      invite_status_active: "Đã cấp",
+      invite_status_expired: "Hết",
       album_unnamed: "Album không tên",
       album_count: "{count} ảnh",
       album_empty: "Album này chưa có ảnh.",
@@ -203,6 +262,62 @@
       sidebar_expand: "Expand menu",
       initial_title: "No album selected",
       initial_description: "Choose an album on the left to view photos.",
+      guest_kicker: "Guest access",
+      guest_title: "Guest Invite",
+      guest_page_title: "Invite Request - Album Viewer",
+      guest_subtitle: "Enter your email to send an invite request to the admin.",
+      guest_email_label: "Email",
+      guest_email_placeholder: "Enter your email",
+      guest_token_prompt: "Enter the email associated with this invite token to log in.",
+      guest_token_invalid: "Invalid or expired token.",
+      guest_token_login: "Login using token",
+      guest_admin_login: "Login",
+      guest_submit: "Send Request",
+      guest_missing: "Please enter a valid email address.",
+      guest_failed: "Could not send the request.",
+      guest_sent: "Request sent to the administrator.",
+      admin_nav_open: "Admin",
+      admin_nav_back: "Photo Albums",
+      admin_page_title: "Admin - Album Viewer",
+      invite_requests_button: "Manage requests",
+      invite_requests_kicker: "Administration",
+      invite_requests_title: "Invitation request list",
+      invite_requests_subtitle: "Review every guest email request submitted to the system.",
+      invite_requests_refresh: "Refresh",
+      invite_requests_loading: "Loading request list...",
+      invite_requests_empty: "No requests yet.",
+      invite_requests_fail: "Could not load request list.",
+      invite_requests_col_no: "No.",
+      invite_requests_col_email: "Email",
+      invite_requests_col_count: "Count",
+      invite_requests_col_status: "Status",
+      invite_requests_col_created: "Created",
+      invite_requests_col_ip: "IP",
+      invite_requests_col_path: "Path",
+      invite_requests_col_agent: "User agent",
+      invite_requests_col_action: "Action",
+      invite_requests_search_title: "Search",
+      invite_requests_search_subtitle: "Filter quickly by the columns below.",
+      invite_requests_search_apply: "Search",
+      invite_requests_search_reset: "Reset",
+      invite_requests_search_placeholder: "Enter value",
+      invite_requests_search_all: "All",
+      invite_requests_search_hide_filters: "Hide filters",
+      invite_requests_search_show_filters: "Show filters",
+      invite_requests_no_match: "No matching results.",
+      invite_requests_path_label: "Invite request",
+      invite_requests_action_delete: "Delete request",
+      invite_requests_action_access: "Grant token",
+      invite_requests_action_renew: "Renew token",
+      invite_requests_action_lock: "Lock token",
+      invite_requests_action_unlock: "Unlock token",
+      invite_requests_action_confirm: "Confirm action: {action}?",
+      invite_requests_delete_confirm: "Delete this request?",
+      invite_requests_updated: "Request updated.",
+      invite_status_pending: "Pending",
+      invite_status_locked: "Locked",
+      invite_status_active: "Granted",
+      invite_status_expired: "Expired",
       album_unnamed: "Untitled album",
       album_count: "{count} photos",
       album_empty: "This album has no photos yet.",
@@ -355,6 +470,19 @@
   const $albumList = $("#album-list");
   const $albumTitle = $("#album-title");
   const $albumDescription = $("#album-description");
+  const $guestGate = $("#guest-gate");
+  const $guestInviteForm = $("#guest-invite-form");
+  const $guestEmail = $("#guest-email");
+  const $guestInviteSubmit = $("#guest-invite-submit");
+  const $guestInviteMessage = $("#guest-invite-message");
+  const $guestGateSubtitle = $(".guest-gate-subtitle");
+  let guestTokenLoginMode = false;
+  let guestTokenValue = "";
+  let guestTokenPending = false;
+  const $adminNavButton = $("#admin-nav-button");
+  const $inviteRequestsButton = $("#invite-requests-button");
+  const $adminPlaceholder = $("#admin-placeholder");
+  const $adminPlaceholderForm = $("#admin-placeholder-form");
   const $albumSortToggle = $("#album-sort-toggle");
   const $albumSortMenu = $("#album-sort-menu");
   const $albumSlideshowToggle = $("#album-slideshow-toggle");
@@ -416,6 +544,8 @@
   const $confirmModal = $("#confirm-modal");
   const $confirmModalTitle = $("#confirm-modal-title");
   const $confirmModalMessage = $("#confirm-modal-message");
+  const $confirmModalRenewDays = $("#confirm-modal-renew-days");
+  const $confirmModalDays = $("#confirm-modal-days");
   const $confirmNo = $("#confirm-no");
   const $confirmYes = $("#confirm-yes");
   const $alertStack = $("#alert-stack");
@@ -529,6 +659,7 @@
     uploading: false,
     uploadingAudio: false,
     viewerPreloadCache: {},
+    inviteSearchCollapsed: true,
     viewerPreloadPromises: {},
     confirmResolver: null,
     slideshowAudioVolume: Number(localStorage.getItem("album-viewer-slideshow-audio-volume") || "0.6"),
@@ -540,9 +671,33 @@
     previewAudioVolume: Number(localStorage.getItem("album-viewer-preview-audio-volume") || "0.8"),
     previewAnchorRow: null,
     previewAnchorSlot: null,
+    pageMode: "gallery",
+    adminPanel: "",
+    inviteRequests: [],
+    inviteRequestsLoading: false,
+    inviteRequestFilters: {
+      email: "",
+      status: "",
+      count: "",
+      created: "",
+      ip: "",
+      path: "",
+      agent: ""
+    },
     hiddenImageBase: {},
     hiddenImageCurrent: {}
   };
+
+  function getPageModeFromLocation() {
+    const path = String(window.location.pathname || "").replace(/\/+$/, "");
+    const route = new URLSearchParams(window.location.search || "").get("route") || "";
+    if (path.endsWith("/admin") || route === "admin") {
+      return "admin";
+    }
+    return "gallery";
+  }
+
+  state.pageMode = getPageModeFromLocation();
 
   if (!["light", "dark", "system"].includes(state.theme)) {
     state.theme = "system";
@@ -848,11 +1003,608 @@
     $("html").css("--radius-factor", String(state.radius));
   }
 
+  function setViewMode(mode) {
+    const guest = mode === "guest";
+    const admin = mode === "admin";
+    $("body").toggleClass("is-auth-pending", false);
+    $("body").toggleClass("is-guest-view", guest);
+    $("body").toggleClass("is-app-view", !guest && !admin);
+    $("body").toggleClass("is-admin-view", admin);
+  }
+
+  function updateAdminUserClass() {
+    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    $("body").toggleClass("is-admin-user", isAdminUser);
+  }
+
+  function updateAdminNavUi() {
+    if (!$adminNavButton.length) {
+      return;
+    }
+    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    if (!isAdminUser) {
+      $adminNavButton.addClass("is-hidden");
+      return;
+    }
+    const isAdminPage = state.pageMode === "admin";
+    $adminNavButton
+      .removeClass("is-hidden")
+      .attr("aria-label", isAdminPage ? t("admin_nav_back") : t("admin_nav_open"))
+      .attr("title", isAdminPage ? t("admin_nav_back") : t("admin_nav_open"))
+      .find(".text")
+      .text(isAdminPage ? t("admin_nav_back") : t("admin_nav_open"));
+  }
+
+  function updateInviteRequestsButtonUi() {
+    if (!$inviteRequestsButton.length) {
+      return;
+    }
+    const isAdminUser = String(state.authRole || "").toLowerCase() === "admin" && !!String(state.authUser || "").trim();
+    const isAdminPage = state.pageMode === "admin";
+    if (!isAdminUser || !isAdminPage) {
+      $inviteRequestsButton.addClass("is-hidden").removeClass("is-active");
+      return;
+    }
+    $inviteRequestsButton
+      .removeClass("is-hidden")
+      .toggleClass("is-active", state.adminPanel === "requests")
+      .attr("aria-label", t("invite_requests_button"))
+      .attr("title", t("invite_requests_button"))
+      .find(".text")
+      .text(t("invite_requests_button"));
+  }
+
+  function escapeHtml(value) {
+    return $("<div></div>").text(value == null ? "" : String(value)).html();
+  }
+
+  function formatInviteDate(value) {
+    const raw = String(value || "").trim();
+    if (!raw) {
+      return "—";
+    }
+    const date = new Date(raw);
+    if (Number.isNaN(date.getTime())) {
+      return raw;
+    }
+    try {
+      return new Intl.DateTimeFormat(state.lang === "en" ? "en-US" : "vi-VN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(date);
+    } catch (_err) {
+      return date.toLocaleString();
+    }
+  }
+
+  function parseInviteDate(value) {
+    const raw = String(value || "").trim();
+    if (!raw) {
+      return null;
+    }
+    const date = new Date(raw);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function getInviteRequestStatus(entry) {
+    const guestToken = entry && entry.guest_token;
+    const guestTokenLocked = !!(entry && entry.guest_token_locked);
+    const hasToken = !(guestToken === null || guestToken === undefined || String(guestToken).trim() === "");
+    if (!hasToken) {
+      return { key: "invite_status_pending", className: "is-pending", action: "access" };
+    }
+
+    if (guestTokenLocked) {
+      return { key: "invite_status_locked", className: "is-locked", action: "unlock" };
+    }
+
+    const expiresAt = parseInviteDate(
+      (entry && entry.guest_token_expires_at)
+      || (entry && entry.guest_token_expire_at)
+      || (entry && entry.token_expires_at)
+      || (entry && entry.guest_token_expires)
+      || (entry && entry.expires_at)
+    );
+    if (expiresAt && expiresAt.getTime() <= Date.now()) {
+      return { key: "invite_status_expired", className: "is-expired", action: "renew" };
+    }
+
+    return { key: "invite_status_active", className: "is-active", action: "lock" };
+  }
+
+  function describeUserAgent(value) {
+    const userAgent = String(value || "").trim();
+    const lines = [];
+    const isMac = /Macintosh/i.test(userAgent);
+    const isIntel = /\bIntel\b/i.test(userAgent);
+    const osMatch = userAgent.match(/Mac OS X ([0-9_]+)/i);
+    const chromeMatch = userAgent.match(/Chrome\/([0-9.]+)/i);
+    const webkitMatch = userAgent.match(/AppleWebKit\/([0-9.]+)/i);
+
+    if (isMac) {
+      lines.push("Máy đang chạy trên Mac.");
+    }
+    if (isIntel) {
+      lines.push("Intel cho biết máy Mac dùng chip Intel.");
+    }
+    if (osMatch) {
+      lines.push("Mac OS X " + osMatch[1] + " là phiên bản hệ điều hành macOS " + osMatch[1].replaceAll("_", ".") + ".");
+    }
+    if (chromeMatch) {
+      lines.push("Trình duyệt là Chrome phiên bản " + chromeMatch[1] + ".");
+    }
+    if (webkitMatch) {
+      lines.push("AppleWebKit/" + webkitMatch[1] + " cho biết engine trình duyệt đang dựa trên WebKit/Blink.");
+    }
+
+    if (!lines.length) {
+      lines.push("Không thể phân tích user-agent này.");
+    }
+
+    return {
+      raw: userAgent,
+      lines: lines
+    };
+  }
+
+  function summarizeUserAgentForTable(value) {
+    const userAgent = String(value || "").trim();
+    const parts = [];
+    const osMatch = userAgent.match(/Mac OS X ([0-9_]+)/i);
+    const windowsMatch = userAgent.match(/Windows NT ([0-9.]+)/i);
+    const linuxMatch = userAgent.match(/Linux/i);
+    const chromeMatch = userAgent.match(/Chrome\/([0-9.]+)/i);
+    const isMac = /Macintosh/i.test(userAgent);
+    const isIntel = /\bIntel\b/i.test(userAgent);
+
+    if (isMac && osMatch) {
+      parts.push("macOS " + osMatch[1].replaceAll("_", "."));
+    } else if (windowsMatch) {
+      parts.push("Windows NT " + windowsMatch[1]);
+    } else if (linuxMatch) {
+      parts.push("Linux");
+    }
+
+    if (isIntel) {
+      parts.push("Intel");
+    }
+    if (chromeMatch) {
+      parts.push("Chrome " + chromeMatch[1].split(".")[0]);
+    }
+
+    if (!parts.length) {
+      return "—";
+    }
+
+    return parts.join(" • ");
+  }
+
+  function summarizeRequestPathForTable(value) {
+    const requestPath = String(value || "").trim();
+    if (!requestPath) {
+      return "—";
+    }
+    if (requestPath.includes("__invite_request__")) {
+      return t("invite_requests_path_label");
+    }
+    return requestPath;
+  }
+
+  function getInviteRequestStatusOptions() {
+    return [
+      { value: "", label: t("invite_requests_search_all") },
+      { value: "pending", label: t("invite_status_pending") },
+      { value: "active", label: t("invite_status_active") },
+      { value: "locked", label: t("invite_status_locked") },
+      { value: "expired", label: t("invite_status_expired") }
+    ];
+  }
+
+  function normalizeSearchValue(value) {
+    return String(value || "").trim().toLowerCase();
+  }
+
+  function matchInviteRequestFilter(value, query) {
+    const needle = normalizeSearchValue(query);
+    if (!needle) {
+      return true;
+    }
+    return normalizeSearchValue(value).includes(needle);
+  }
+
+  function filterInviteRequests(requests) {
+    const filters = state.inviteRequestFilters || {};
+    return (Array.isArray(requests) ? requests : []).filter(function (entry) {
+      const status = getInviteRequestStatus(entry);
+      const countValue = Number.isFinite(Number(entry && entry.request_count)) ? String(Number(entry.request_count)) : "0";
+      const createdValue = formatInviteDate(entry && entry.created_at);
+      const pathValue = summarizeRequestPathForTable(entry && entry.request_path);
+      const agentShort = summarizeUserAgentForTable(entry && entry.user_agent);
+      const agentRaw = entry && entry.user_agent;
+      if (!matchInviteRequestFilter(entry && entry.guest_email, filters.email)) {
+        return false;
+      }
+      if (normalizeSearchValue(filters.status)) {
+        const statusValue = String(status.key || "").toLowerCase().replace(/^invite_status_/, "");
+        if (normalizeSearchValue(filters.status) !== statusValue) {
+          return false;
+        }
+      }
+      if (!matchInviteRequestFilter(countValue, filters.count)) {
+        return false;
+      }
+      if (!matchInviteRequestFilter(createdValue, filters.created)) {
+        return false;
+      }
+      if (!matchInviteRequestFilter(entry && entry.ip, filters.ip)) {
+        return false;
+      }
+      if (!matchInviteRequestFilter(pathValue + " " + (entry && entry.request_path), filters.path)) {
+        return false;
+      }
+      if (!matchInviteRequestFilter(agentShort + " " + agentRaw, filters.agent)) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  function getInviteRequestFiltersFromForm($form) {
+    return {
+      email: String($form.find('[name="invite_email"]').val() || "").trim(),
+      status: String($form.find('[name="invite_status"]').val() || "").trim(),
+      count: String($form.find('[name="invite_count"]').val() || "").trim(),
+      created: String($form.find('[name="invite_created"]').val() || "").trim(),
+      ip: String($form.find('[name="invite_ip"]').val() || "").trim(),
+      path: String($form.find('[name="invite_path"]').val() || "").trim(),
+      agent: String($form.find('[name="invite_agent"]').val() || "").trim()
+    };
+  }
+
+  function setInviteRequestFilters(filters) {
+    state.inviteRequestFilters = {
+      email: String(filters && filters.email || "").trim(),
+      status: String(filters && filters.status || "").trim(),
+      count: String(filters && filters.count || "").trim(),
+      created: String(filters && filters.created || "").trim(),
+      ip: String(filters && filters.ip || "").trim(),
+      path: String(filters && filters.path || "").trim(),
+      agent: String(filters && filters.agent || "").trim()
+    };
+  }
+
+  function renderInviteRequestSearchForm() {
+    const filters = state.inviteRequestFilters || {};
+    const isCollapsed = Boolean(state.inviteSearchCollapsed);
+    const statusOptions = getInviteRequestStatusOptions().map(function (option) {
+      const selected = String(option.value || "") === String(filters.status || "");
+      return '<option value="' + escapeHtml(option.value) + '"' + (selected ? ' selected="selected"' : "") + '>' + escapeHtml(option.label) + "</option>";
+    }).join("");
+
+    const searchIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>';
+    const resetIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 3 3 9 9 9"/></svg>';
+    const caretIcon = '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+
+    return [
+      '<section class="admin-request-search">',
+        '<header class="admin-request-search-header">',
+          '<div class="admin-request-search-title">',
+            '<span class="admin-request-search-icon">' + searchIcon + '</span>',
+            '<span>' + t("invite_requests_search_title") + '</span>',
+          '</div>',
+          '<div class="admin-request-search-header-actions">',
+            '<button type="button" id="invite-request-search-reset-header" class="admin-request-search-header-action" aria-label="' + t("invite_requests_search_reset") + '">' + resetIcon + '</button>',
+            '<button type="button" id="invite-request-search-toggle" class="admin-request-search-header-action admin-request-search-header-action--toggle" aria-expanded="' + (!isCollapsed).toString() + '">' + caretIcon + '</button>',
+          '</div>',
+        '</header>',
+        '<div class="admin-request-search-details' + (isCollapsed ? ' is-collapsed' : '') + '">',
+          '<p class="admin-request-search-subtitle">' + t("invite_requests_search_subtitle") + '</p>',
+          '<div id="invite-request-search-form" class="admin-request-search-form">',
+            '<div class="admin-request-search-grid">',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_email") + '</span>',
+                '<input name="invite_email" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.email || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_status") + '</span>',
+                '<select name="invite_status" class="admin-request-search-input admin-request-search-select">' + statusOptions + '</select>',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_count") + '</span>',
+                '<input name="invite_count" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.count || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_created") + '</span>',
+                '<input name="invite_created" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.created || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_ip") + '</span>',
+                '<input name="invite_ip" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.ip || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_path") + '</span>',
+                '<input name="invite_path" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.path || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+              '<label class="admin-request-search-field admin-request-search-col-sm-12 admin-request-search-col-md-6 admin-request-search-col-lg-4 admin-request-search-col-xl-3">',
+                '<span class="admin-request-search-label">' + t("invite_requests_col_agent") + '</span>',
+                '<input name="invite_agent" class="admin-request-search-input" type="text" value="' + escapeHtml(filters.agent || "") + '" placeholder="' + t("invite_requests_search_placeholder") + '">',
+              '</label>',
+            '</div>',
+            '<div class="admin-request-search-actions">',
+              '<button type="button" id="invite-request-search-submit" class="admin-request-search-submit">' + t("invite_requests_search_apply") + '</button>',
+              '<button type="button" id="invite-request-search-reset" class="admin-request-search-reset">' + t("invite_requests_search_reset") + '</button>',
+            '</div>',
+          '</div>',
+        '</div>',
+      '</section>'
+    ].join("");
+  }
+
+  function getInviteRequestActionLabel(action) {
+    const key = "invite_requests_action_" + String(action || "").toLowerCase();
+    return t(key);
+  }
+
+  function getInviteRequestActionIcon(action) {
+    const normalized = String(action || "").toLowerCase();
+    if (normalized === "delete") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+    }
+    if (normalized === "access") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-5"/></svg>';
+    }
+    if (normalized === "renew") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><polyline points="21 3 21 9 15 9"/></svg>';
+    }
+    if (normalized === "lock") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>';
+    }
+    if (normalized === "unlock") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.5-1.8"/><path d="M14 10v-3"/></svg>';
+    }
+    if (normalized === "copy") {
+      return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    }
+    return '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle></svg>';
+  }
+
+  function closeUserAgentTooltip() {
+    const $tooltip = $("#admin-user-agent-tooltip");
+    if ($tooltip.length) {
+      $tooltip.removeClass("is-visible");
+      window.setTimeout(function () {
+        $tooltip.remove();
+      }, 180);
+    }
+  }
+
+  function showUserAgentTooltip(anchorEl, entry) {
+    if (!anchorEl) {
+      return;
+    }
+    closeUserAgentTooltip();
+
+    const details = describeUserAgent(entry && entry.user_agent);
+    const $tooltip = $(
+      '<div id="admin-user-agent-tooltip" class="admin-user-agent-tooltip" role="tooltip" aria-hidden="true">' +
+        '<button type="button" class="admin-user-agent-close" aria-label="Đóng" title="Đóng">×</button>' +
+        '<div class="admin-user-agent-title">User agent</div>' +
+        '<div class="admin-user-agent-raw"></div>' +
+        '<ul class="admin-user-agent-lines"></ul>' +
+      '</div>'
+    );
+
+    $tooltip.find(".admin-user-agent-raw").text(details.raw);
+    const $lines = $tooltip.find(".admin-user-agent-lines");
+    details.lines.forEach(function (line) {
+      $lines.append($("<li></li>").text(line));
+    });
+    $tooltip.find(".admin-user-agent-close").on("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      closeUserAgentTooltip();
+    });
+    $tooltip.on("click", function (event) {
+      event.stopPropagation();
+    });
+    $("body").append($tooltip);
+
+    const rect = anchorEl.getBoundingClientRect();
+    const tooltipRect = $tooltip[0].getBoundingClientRect();
+    const left = Math.min(window.innerWidth - tooltipRect.width - 12, Math.max(12, rect.left));
+    const top = Math.min(window.innerHeight - tooltipRect.height - 12, rect.bottom + 8);
+    $tooltip.css({
+      left: String(left) + "px",
+      top: String(top) + "px"
+    });
+
+    window.requestAnimationFrame(function () {
+      $tooltip.addClass("is-visible").attr("aria-hidden", "false");
+    });
+  }
+
+  function renderAdminRequestsPanel() {
+    if (!$adminPlaceholderForm.length) {
+      return;
+    }
+    if (state.pageMode !== "admin") {
+      $adminPlaceholderForm.empty();
+      return;
+    }
+
+    const requests = Array.isArray(state.inviteRequests) ? state.inviteRequests : [];
+    const filteredRequests = filterInviteRequests(requests);
+    const loadingHtml = state.inviteRequestsLoading
+      ? '<p class="admin-request-empty">' + t("invite_requests_loading") + "</p>"
+      : "";
+    const rows = filteredRequests.map(function (entry, index) {
+      const email = escapeHtml(entry && entry.guest_email);
+      const createdAt = escapeHtml(formatInviteDate(entry && entry.created_at));
+      const ip = escapeHtml(entry && entry.ip);
+      const userAgent = escapeHtml(entry && entry.user_agent);
+      const userAgentShort = escapeHtml(summarizeUserAgentForTable(entry && entry.user_agent));
+      const requestPath = escapeHtml(summarizeRequestPathForTable(entry && entry.request_path));
+      const requestPathRaw = escapeHtml(entry && entry.request_path);
+      const requestCount = Number.isFinite(Number(entry && entry.request_count)) ? Number(entry.request_count) : 0;
+      const status = getInviteRequestStatus(entry);
+      const actionLabel = getInviteRequestActionLabel(status.action);
+      const actionIcon = getInviteRequestActionIcon(status.action);
+      const guestEmailRaw = escapeHtml(entry && entry.guest_email);
+      const expiredGrantButton = status.key === "invite_status_expired"
+        ? '<button type="button" class="admin-request-action-button is-state-action is-secondary" data-action="access" data-guest-email="' + guestEmailRaw + '" aria-label="' + escapeHtml(getInviteRequestActionLabel("access")) + '" title="' + escapeHtml(getInviteRequestActionLabel("access")) + '">' + getInviteRequestActionIcon("access") + '</button>'
+        : "";
+      const copyLinkButton = status.key === "invite_status_active" && String(entry && entry.guest_token || "").trim()
+        ? '<button type="button" class="admin-request-action-button is-state-action is-copy" data-action="copy" data-guest-email="' + guestEmailRaw + '" data-token="' + escapeHtml(String(entry && entry.guest_token || "")) + '" data-request-path="' + escapeHtml(String(entry && entry.request_path || "")) + '" aria-label="' + escapeHtml(getInviteRequestActionLabel("copy")) + '" title="' + escapeHtml(getInviteRequestActionLabel("copy")) + '">' + getInviteRequestActionIcon("copy") + '</button>'
+        : "";
+      return [
+        "<tr>",
+        "<td>" + (index + 1) + "</td>",
+        "<td class=\"admin-request-email\">" + email + "</td>",
+        "<td>" + requestCount + "</td>",
+        '<td><span class="admin-request-status ' + status.className + '">' + escapeHtml(t(status.key)) + "</span></td>",
+        "<td>" + createdAt + "</td>",
+        "<td>" + ip + "</td>",
+        '<td class="admin-request-path" title="' + requestPathRaw + '">' + requestPath + "</td>",
+        '<td><button type="button" class="admin-request-agent-button" data-user-agent="' + userAgent + '">' + userAgentShort + "</button></td>",
+        '<td class="admin-request-actions"><button type="button" class="admin-request-action-button is-state-action" data-action="' + escapeHtml(status.action) + '" data-guest-email="' + guestEmailRaw + '" aria-label="' + escapeHtml(actionLabel) + '" title="' + escapeHtml(actionLabel) + '">' + actionIcon + "</button>" + expiredGrantButton + copyLinkButton + "<button type=\"button\" class=\"admin-request-action-button is-delete\" data-action=\"delete\" data-guest-email=\"" + guestEmailRaw + "\" aria-label=\"" + escapeHtml(t('invite_requests_action_delete')) + "\" title=\"" + escapeHtml(t('invite_requests_action_delete')) + "\"><svg class=\"icon-stroke\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><polyline points=\"3 6 5 6 21 6\"></polyline><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"></path><line x1=\"10\" y1=\"11\" x2=\"10\" y2=\"17\"></line><line x1=\"14\" y1=\"11\" x2=\"14\" y2=\"17\"></line></svg></button></td>",
+        "</tr>"
+      ].join("");
+    }).join("");
+
+    const emptyHtml = state.inviteRequestsLoading
+      ? loadingHtml
+      : (filteredRequests.length === 0
+      ? '<p class="admin-request-empty">' + (requests.length > 0 ? t("invite_requests_no_match") : t("invite_requests_empty")) + "</p>"
+      : '<div class="admin-request-table-wrap"><table class="admin-request-table"><thead><tr><th>' + t("invite_requests_col_no") + '</th><th>' + t("invite_requests_col_email") + '</th><th>' + t("invite_requests_col_count") + '</th><th>' + t("invite_requests_col_status") + '</th><th>' + t("invite_requests_col_created") + '</th><th>' + t("invite_requests_col_ip") + '</th><th>' + t("invite_requests_col_path") + '</th><th>' + t("invite_requests_col_agent") + '</th><th>' + t("invite_requests_col_action") + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>');
+
+    $adminPlaceholderForm.html(
+      '<section class="admin-request-panel">' +
+        '<header class="admin-request-panel-header">' +
+          '<div>' +
+            '<p class="admin-request-kicker">' + t("invite_requests_kicker") + '</p>' +
+            '<h3 class="admin-request-title">' + t("invite_requests_title") + '</h3>' +
+            '<p class="admin-request-subtitle">' + t("invite_requests_subtitle") + '</p>' +
+          '</div>' +
+          '<button id="invite-requests-refresh" type="button" class="admin-request-refresh">' + t("invite_requests_refresh") + '</button>' +
+        '</header>' +
+        renderInviteRequestSearchForm() +
+        emptyHtml +
+      '</section>'
+    );
+
+    $("#invite-requests-refresh").on("click", function () {
+      loadInviteRequests(true);
+    });
+    $("#invite-request-search-submit").on("click", function (event) {
+      event.preventDefault();
+      const $container = $("#invite-request-search-form");
+      setInviteRequestFilters(getInviteRequestFiltersFromForm($container));
+      renderAdminRequestsPanel();
+    });
+    function resetInviteRequestFilters() {
+      setInviteRequestFilters({
+        email: "",
+        status: "",
+        count: "",
+        created: "",
+        ip: "",
+        path: "",
+        agent: ""
+      });
+      renderAdminRequestsPanel();
+    }
+    $("#invite-request-search-reset").on("click", resetInviteRequestFilters);
+    $("#invite-request-search-reset-header").on("click", function () {
+      loadInviteRequests(true);
+    });
+
+    function toggleInviteRequestSearchDetails() {
+      const $details = $(".admin-request-search-details");
+      const collapsed = !$details.hasClass("is-collapsed");
+      state.inviteSearchCollapsed = collapsed;
+      $details.toggleClass("is-collapsed", collapsed);
+      $("#invite-request-search-toggle").attr("aria-expanded", (!collapsed).toString());
+    }
+
+    $("#invite-request-search-toggle").on("click", function (event) {
+      event.stopPropagation();
+      toggleInviteRequestSearchDetails();
+    });
+    $(".admin-request-search-header").on("click", function (event) {
+      const $target = $(event.target);
+      if ($target.closest("button, input, select, label").length) {
+        return;
+      }
+      toggleInviteRequestSearchDetails();
+    });
+  }
+
+  function loadInviteRequests(forceReload) {
+    if (state.pageMode !== "admin") {
+      return $.Deferred().resolve(null).promise();
+    }
+    if (state.inviteRequestsLoading) {
+      return $.Deferred().resolve(null).promise();
+    }
+    if (!forceReload && Array.isArray(state.inviteRequests) && state.inviteRequests.length > 0) {
+      renderAdminRequestsPanel();
+      return $.Deferred().resolve(state.inviteRequests).promise();
+    }
+
+    state.inviteRequestsLoading = true;
+    renderAdminRequestsPanel();
+    $adminPlaceholderForm.find(".admin-request-panel").addClass("is-loading");
+
+    return $.getJSON(buildApiUrl("__invite_requests__"))
+      .then(function (data) {
+        state.inviteRequests = Array.isArray(data && data.requests) ? data.requests : [];
+        state.adminPanel = "requests";
+        return state.inviteRequests;
+      })
+      .fail(function () {
+        state.inviteRequests = [];
+        state.adminPanel = "requests";
+        showResultModal(t("invite_requests_fail"), "error");
+      })
+      .always(function () {
+        state.inviteRequestsLoading = false;
+        renderAdminRequestsPanel();
+        $adminPlaceholderForm.find(".admin-request-panel").removeClass("is-loading");
+      });
+  }
+
+  function updateGuestInviteUi() {
+    $guestInviteForm.find("[data-i18n]").each(function () {
+      const key = $(this).attr("data-i18n");
+      if (key) {
+        $(this).text(t(key));
+      }
+    });
+    $guestInviteForm.find("[data-i18n-placeholder]").each(function () {
+      const key = $(this).attr("data-i18n-placeholder");
+      if (key) {
+        $(this).attr("placeholder", t(key));
+      }
+    });
+    $guestEmail.attr("aria-label", t("guest_email_label"));
+    const submitLabel = guestTokenLoginMode ? t("guest_admin_login") : t("guest_submit");
+    $guestInviteSubmit
+      .text(submitLabel)
+      .attr("aria-label", submitLabel)
+      .attr("title", submitLabel);
+    $guestGateSubtitle.text(guestTokenLoginMode ? t("guest_token_prompt") : t("guest_subtitle"));
+  }
+
   function updateStaticTexts() {
     $("html").attr("lang", state.lang);
+    const isAdminPage = state.pageMode === "admin";
+    document.title = isAdminPage ? t("admin_page_title") : (state.authUser ? t("sidebar_title") : t("guest_page_title"));
     $sidebarTitle.text(t("sidebar_title"));
     $sidebarHint.html(t("sidebar_hint"));
-    $settingsToggle.attr("aria-label", t("settings_button"));
+    $settingsToggle.removeClass("is-hidden").attr("aria-label", t("settings_button"));
+    if (isAdminPage) {
+      $settingsPanel.addClass("is-hidden");
+    }
     $albumUploadButton
       .attr("aria-label", t("upload_album_button"))
       .attr("title", t("upload_album_button"))
@@ -921,6 +1673,9 @@
     $albumSortToggle
       .attr("aria-label", t("sort_label"))
       .attr("title", t("sort_label"));
+    updateAdminNavUi();
+    updateInviteRequestsButtonUi();
+    updateGuestInviteUi();
     updateAudioToggleState();
     renderLanguageSwitches();
     renderThemeOptions();
@@ -929,6 +1684,9 @@
     renderSortMenu();
     syncUploadTypeUi();
     applySidebarState();
+    if (state.adminPanel === "requests") {
+      renderAdminRequestsPanel();
+    }
   }
 
   function closeSortMenu() {
@@ -1576,7 +2334,17 @@
       $settingsLogout.addClass("is-hidden").prop("disabled", true);
       $albumUploadButton.addClass("is-hidden").prop("disabled", true);
       $audioUploadButton.addClass("is-hidden").prop("disabled", true);
+      if ($adminNavButton.length) {
+        $adminNavButton.addClass("is-hidden");
+      }
+      if ($inviteRequestsButton.length) {
+        $inviteRequestsButton.addClass("is-hidden");
+      }
       state.authRole = "";
+      state.adminPanel = "";
+      state.inviteRequests = [];
+      state.inviteRequestsLoading = false;
+      updateAdminUserClass();
       closeUploadModal();
       closeAudioUploadModal();
       renderAlbumList();
@@ -1605,7 +2373,7 @@
       $sidebarEditCancel.addClass("is-hidden");
     }
     $settingsLogout.removeClass("is-hidden").prop("disabled", false);
-    if (isAdmin) {
+    if (state.pageMode === "admin" && isAdmin) {
       $albumUploadButton.removeClass("is-hidden").prop("disabled", false);
       $audioUploadButton.removeClass("is-hidden").prop("disabled", false);
     } else {
@@ -1615,6 +2383,9 @@
       closeAudioUploadModal();
     }
     $(".thumb-delete").toggleClass("is-hidden", !isAdmin);
+    updateAdminNavUi();
+    updateInviteRequestsButtonUi();
+    updateAdminUserClass();
     renderAlbumList();
   }
 
@@ -1624,6 +2395,331 @@
     $uploadFilesInput.val("");
     $uploadFolderInput.val("");
     $uploadZipInput.val("");
+  }
+
+  function setGuestInviteMessage(text) {
+    $guestInviteMessage.text(text || "");
+  }
+
+  function getGuestTokenFromQuery() {
+    return String(new URLSearchParams(window.location.search || "").get("token") || "").trim();
+  }
+
+  function setGuestTokenMode(enabled, guestEmail, options) {
+    const opts = options && typeof options === "object" ? options : {};
+    guestTokenLoginMode = !!enabled;
+    guestTokenValue = guestTokenLoginMode ? getGuestTokenFromQuery() : "";
+    if (guestTokenLoginMode) {
+      $guestGateSubtitle.text(t("guest_token_prompt"));
+      setGuestInviteMessage(t("guest_token_prompt"));
+    } else {
+      $guestGateSubtitle.text(t("guest_subtitle"));
+      if (opts.clearEmail) {
+        $guestEmail.val("");
+      }
+      setGuestInviteMessage("");
+    }
+    updateGuestInviteUi();
+  }
+
+  function loadGuestTokenStatus() {
+    const token = getGuestTokenFromQuery();
+    if (!token) {
+      return Promise.resolve();
+    }
+
+    guestTokenPending = true;
+    $guestEmail.val("");
+    setGuestTokenMode(true);
+    lockGuestInviteForm(true);
+
+    return $.getJSON(buildApiUrl("__guest_token_status__", { token: token }))
+      .then(function (response) {
+        if (response && response.ok) {
+          setGuestTokenMode(true);
+          return;
+        }
+        setGuestTokenMode(false, null, { clearEmail: true });
+        setGuestInviteMessage(t("guest_token_invalid"));
+      })
+      .catch(function () {
+        setGuestTokenMode(false, null, { clearEmail: true });
+        setGuestInviteMessage(t("guest_token_invalid"));
+      })
+      .always(function () {
+        guestTokenPending = false;
+        lockGuestInviteForm(false);
+      });
+  }
+
+  function lockGuestInviteForm(locked) {
+    $guestInviteSubmit.prop("disabled", locked);
+    $guestEmail.prop("disabled", locked);
+  }
+
+  function bindGuestInviteForm() {
+    if (!$guestInviteForm.length) {
+      return;
+    }
+    $guestInviteForm.on("submit", function (event) {
+      event.preventDefault();
+      const email = String($guestEmail.val() || "").trim();
+      if (!email) {
+        setGuestInviteMessage(t("guest_missing"));
+        return;
+      }
+
+      setGuestInviteMessage("");
+      lockGuestInviteForm(true);
+
+      const queryToken = getGuestTokenFromQuery();
+      const usingTokenLogin = guestTokenLoginMode || (queryToken !== "");
+      const tokenValue = guestTokenValue || queryToken;
+      const requestUrl = usingTokenLogin
+        ? buildApiUrl("__guest_token_login__", { token: tokenValue })
+        : buildApiUrl("__invite_request__");
+      const requestData = usingTokenLogin ? { token: tokenValue, email: email } : { email: email };
+
+      $.ajax({
+        url: requestUrl,
+        method: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(requestData)
+      })
+        .done(function (response) {
+          if (response && response.ok) {
+            if (guestTokenLoginMode) {
+              const redirectUrl = String(response.redirect || "").trim() || "./";
+              window.location.href = redirectUrl;
+              return;
+            }
+            $guestEmail.val("");
+            const successMessage = (response && response.message) || t("guest_sent");
+            setGuestInviteMessage("");
+            showResultModal(successMessage, "success");
+            return;
+          }
+          const failMessage = (response && response.message) || t("guest_failed");
+          setGuestInviteMessage(failMessage);
+          showResultModal(failMessage, "error");
+        })
+        .fail(function (xhr) {
+          const payload = xhr && xhr.responseJSON;
+          const failMessage = (payload && payload.message) || t("guest_failed");
+          setGuestInviteMessage(failMessage);
+          showResultModal(failMessage, "error");
+        })
+        .always(function () {
+          lockGuestInviteForm(false);
+        });
+    });
+  }
+
+  function bindAdminNavButton() {
+    if (!$adminNavButton.length) {
+      return;
+    }
+    $adminNavButton.on("click", function () {
+      if (state.pageMode === "admin") {
+        window.location.href = "./";
+      } else {
+        window.location.href = "./admin";
+      }
+    });
+  }
+
+  function bindInviteRequestsButton() {
+    if (!$inviteRequestsButton.length) {
+      return;
+    }
+    $inviteRequestsButton.on("click", function () {
+      if (state.pageMode !== "admin") {
+        return;
+      }
+      state.adminPanel = "requests";
+      updateInviteRequestsButtonUi();
+      loadInviteRequests(true);
+    });
+  }
+
+  function bindAdminRequestTooltipEvents() {
+    $(document)
+      .off("click.adminUserAgentTooltip")
+      .on("click.adminUserAgentTooltip", function (event) {
+        if ($(event.target).closest(".admin-request-agent-button, #admin-user-agent-tooltip").length) {
+          return;
+        }
+        closeUserAgentTooltip();
+      });
+
+    $(document)
+      .off("keydown.adminUserAgentTooltip")
+      .on("keydown.adminUserAgentTooltip", function (event) {
+        if (event.key === "Escape") {
+          closeUserAgentTooltip();
+        }
+      });
+
+    $(document)
+      .off("click.adminUserAgentButton")
+      .on("click.adminUserAgentButton", ".admin-request-agent-button", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        const raw = String($(this).attr("data-user-agent") || "");
+        showUserAgentTooltip(this, { user_agent: raw });
+      });
+  }
+
+  function bindAdminRequestActionEvents() {
+    $(document)
+      .off("click.adminRequestAction")
+      .on("click.adminRequestAction", ".admin-request-action-button", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const $button = $(this);
+        const action = String($button.attr("data-action") || "").trim().toLowerCase();
+        const guestEmail = String($button.attr("data-guest-email") || "").trim();
+        if (!action || !guestEmail) {
+          return;
+        }
+        const actionLabel = getInviteRequestActionLabel(action);
+        const token = String($button.attr("data-token") || "").trim();
+        const requestPath = String($button.attr("data-request-path") || "").trim();
+        if (action === "copy") {
+          if (!token) {
+            showResultModal(t("invite_requests_copy_fail"), "error");
+            return;
+          }
+          let copyUrl = requestPath || window.location.pathname;
+          try {
+            const urlObj = new URL(copyUrl, window.location.origin);
+            if (urlObj.pathname.endsWith("/index.php")) {
+              urlObj.pathname = urlObj.pathname.replace(/\/index\.php$/, "/");
+            }
+            if (urlObj.searchParams.get("route") === "__invite_request__") {
+              urlObj.searchParams.delete("route");
+            }
+            urlObj.searchParams.set("token", token);
+            copyUrl = urlObj.href;
+          } catch (_err) {
+            copyUrl = window.location.origin.replace(/\/$/, "") + "/" + copyUrl.replace(/^\/+/, "");
+            copyUrl += (copyUrl.indexOf("?") === -1 ? "?" : "&") + "token=" + encodeURIComponent(token);
+          }
+          copyTextToClipboard(copyUrl)
+            .then(function () {
+              showResultModal(t("invite_requests_copy_success"), "success");
+            })
+            .fail(function () {
+              showResultModal(t("invite_requests_copy_fail"), "error");
+            });
+          return;
+        }
+        const confirmMessage = t("invite_requests_action_confirm", { action: actionLabel });
+
+        const executeAction = function (renewDays) {
+          performInviteRequestAction(action, guestEmail, $button, renewDays)
+            .then(function () {
+              showResultModal(t("invite_requests_updated"), "success");
+              return loadInviteRequests(true);
+            })
+            .fail(function (xhr) {
+              const payload = xhr && xhr.responseJSON;
+              const message = (payload && payload.message) || t("invite_requests_fail");
+              showResultModal(message, "error");
+            });
+        };
+
+        const confirmOptions = action === "renew" ? { showRenewDays: true, defaultRenewDays: 7 } : {};
+        openConfirmModal(action === "delete" ? t("invite_requests_delete_confirm") : confirmMessage, confirmOptions).then(function (confirmed) {
+          if (!confirmed) {
+            return;
+          }
+          const renewDays = confirmOptions.showRenewDays
+            ? Number.isFinite(confirmOptions.selectedRenewDays)
+              ? confirmOptions.selectedRenewDays
+              : Number($confirmModalDays.val() || "")
+            : undefined;
+          executeAction(renewDays);
+        });
+      });
+  }
+
+  function copyTextToClipboard(text) {
+    const value = String(text || "");
+    const deferred = $.Deferred();
+    if (!value) {
+      deferred.reject();
+      return deferred.promise();
+    }
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      navigator.clipboard.writeText(value).then(function () {
+        deferred.resolve(value);
+      }).catch(function () {
+        deferred.reject();
+      });
+      return deferred.promise();
+    }
+    const $textarea = $("<textarea>")
+      .css({ position: "absolute", left: "-9999px", top: "0" })
+      .attr("readonly", true)
+      .val(value)
+      .appendTo("body");
+    $textarea[0].select();
+    try {
+      const success = document.execCommand("copy");
+      $textarea.remove();
+      if (success) {
+        deferred.resolve(value);
+      } else {
+        deferred.reject();
+      }
+    } catch (_err) {
+      $textarea.remove();
+      deferred.reject();
+    }
+    return deferred.promise();
+  }
+
+  function performInviteRequestAction(action, guestEmail, $button, days) {
+    const normalizedAction = String(action || "").trim().toLowerCase();
+    const normalizedEmail = String(guestEmail || "").trim();
+    if (!normalizedAction || !normalizedEmail) {
+      return $.Deferred().reject().promise();
+    }
+
+    const payload = {
+      action: normalizedAction,
+      guest_email: normalizedEmail
+    };
+    if (normalizedAction === "renew" && typeof days !== "undefined") {
+      payload.days = Number(days) || undefined;
+    }
+
+    const request = $.ajax({
+      url: buildApiUrl("__invite_request_action__"),
+      method: "POST",
+      dataType: "json",
+      data: payload
+    });
+
+    if ($button && $button.length) {
+      $button.prop("disabled", true).addClass("is-loading");
+    }
+
+    return request
+      .then(function (response) {
+        if (!response || !response.ok) {
+          throw response;
+        }
+        return response;
+      })
+      .always(function () {
+        if ($button && $button.length) {
+          $button.prop("disabled", false).removeClass("is-loading");
+        }
+      });
   }
 
   function loadAudioList() {
@@ -1728,6 +2824,11 @@
   }
 
   function closeConfirmModal(confirmed) {
+    if (state.confirmOptions && state.confirmOptions.showRenewDays) {
+      const rawValue = String($confirmModalDays.val() || "");
+      const parsedDays = Number.parseInt(rawValue, 10);
+      state.confirmOptions.selectedRenewDays = Number.isFinite(parsedDays) && parsedDays > 0 ? parsedDays : state.confirmOptions.defaultRenewDays || 7;
+    }
     $confirmModal.addClass("is-hidden").attr("aria-hidden", "true");
     const resolver = state.confirmResolver;
     state.confirmResolver = null;
@@ -1801,11 +2902,19 @@
     }
   }
 
-  function openConfirmModal(message) {
+  function openConfirmModal(message, options) {
+    const opts = options && typeof options === "object" ? options : {};
+    state.confirmOptions = opts;
     $confirmModalTitle.text(t("confirm_title"));
     $confirmModalMessage.text(String(message || ""));
     $confirmNo.text(t("confirm_no"));
     $confirmYes.text(t("confirm_yes"));
+    if (opts.showRenewDays) {
+      $confirmModalRenewDays.removeClass("is-hidden");
+      $confirmModalDays.val(Number.isFinite(opts.defaultRenewDays) && opts.defaultRenewDays > 0 ? String(opts.defaultRenewDays) : "7");
+    } else {
+      $confirmModalRenewDays.addClass("is-hidden");
+    }
     $confirmModal.removeClass("is-hidden").attr("aria-hidden", "false");
     return new Promise(function (resolve) {
       state.confirmResolver = resolve;
@@ -1969,6 +3078,12 @@
     $albumDescription.text(t("initial_description"));
     $imageGrid.empty();
     updateSlideshowButtonState();
+    if (state.pageMode === "admin") {
+      if (state.adminPanel !== "requests") {
+        state.adminPanel = "requests";
+      }
+      renderAdminRequestsPanel();
+    }
   }
 
   function renderError() {
@@ -3329,6 +4444,7 @@
             $("body").removeClass("is-page-editing");
             updateAuthUi();
             $settingsPanel.addClass("is-hidden");
+            window.location.reload();
           }
         })
         .always(function () {
@@ -4993,17 +6109,29 @@
         state.authUser = username;
         state.authRole = role;
         updateAuthUi();
-        return null;
+        setViewMode(auth ? (state.pageMode === "admin" ? "admin" : "app") : "guest");
+        if (auth && state.pageMode === "admin" && String(role || "").toLowerCase() === "admin") {
+          state.adminPanel = "requests";
+          loadInviteRequests(true);
+        }
+        return auth;
       })
       .catch(function () {
         state.authUser = "";
         state.authRole = "";
         updateAuthUi();
-        return null;
+        setViewMode("guest");
+        return false;
       });
   }
 
   bindSettingsEvents();
+  bindGuestInviteForm();
+  loadGuestTokenStatus();
+  bindAdminNavButton();
+  bindInviteRequestsButton();
+  bindAdminRequestTooltipEvents();
+  bindAdminRequestActionEvents();
   bindImageViewerEvents();
   bindProgressiveLoadEvents();
   ensureImageObserver();
@@ -5045,11 +6173,14 @@
     .then(function () {
       return loadAuthStatus();
     })
-    .then(function () {
+    .then(function (isAuth) {
       updateStaticTexts();
       renderInitialState();
       updateScrollTopVisibility();
-      return loadAlbums();
+      if (isAuth) {
+        return loadAlbums();
+      }
+      return null;
     })
     .catch(function () {
       state.dict = fallbackDict;
@@ -5060,10 +6191,13 @@
       ensureValidColorPack();
       applyColorPack();
       updateStaticTexts();
+      setViewMode("guest");
       updateAuthUi();
       updateScrollTopVisibility();
-      loadAlbums().catch(function () {
-        renderError();
-      });
+      if (state.authUser) {
+        loadAlbums().catch(function () {
+          renderError();
+        });
+      }
     });
 })();

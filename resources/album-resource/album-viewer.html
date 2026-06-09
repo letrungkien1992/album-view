@@ -8,7 +8,30 @@
     <link rel="shortcut icon" href="resources/album-resource/favicon.svg" />
     <link rel="stylesheet" href="resources/album-resource/album-viewer.css" />
   </head>
-  <body>
+  <body class="is-auth-pending">
+    <section id="guest-gate" class="guest-gate is-hidden" aria-label="Guest invite">
+      <div class="guest-gate-card">
+        <p class="guest-gate-kicker" data-i18n="guest_kicker">Guest access</p>
+        <h1 class="guest-gate-title" data-i18n="guest_title">Mời truy cập</h1>
+        <p class="guest-gate-subtitle" data-i18n="guest_subtitle">Nhập email của bạn để gửi lời mời tới quản trị viên.</p>
+        <form id="guest-invite-form" class="guest-gate-form" autocomplete="off">
+          <div style="position:absolute;top:-9999px;left:-9999px;visibility:hidden;">
+            <input type="text" autocomplete="username" tabindex="-1" />
+            <input type="email" name="email" autocomplete="email" tabindex="-1" />
+          </div>
+          <label for="guest-email" data-i18n="guest_email_label">Email</label>
+          <div class="guest-gate-input-row">
+            <span class="guest-gate-symbol" aria-hidden="true">@</span>
+            <input id="guest-email" name="guest_email" type="email" autocomplete="off" required placeholder="Nhập email của bạn" data-i18n-placeholder="guest_email_placeholder" />
+          </div>
+          <div class="guest-gate-actions">
+            <button id="guest-invite-submit" class="guest-gate-button" type="submit" data-i18n="guest_submit">Gửi yêu cầu</button>
+          </div>
+          <p id="guest-invite-message" class="guest-gate-message" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
     <div class="album-app">
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-label="Open menu" title="Open menu">
         <span id="mobile-menu-toggle-icon" aria-hidden="true">
@@ -68,6 +91,22 @@
           </div>
         </div>
         <div class="sidebar-upload">
+          <button id="admin-nav-button" type="button" class="sidebar-upload-button is-hidden" aria-label="Admin" title="Admin">
+            <svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3l8 4v5c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4z"></path>
+              <path d="M9.5 12l2 2 3.5-4"></path>
+            </svg>
+            <span class="text">Quản Trị</span>
+          </button>
+          <button id="invite-requests-button" type="button" class="sidebar-upload-button is-hidden" aria-label="Manage requests" title="Manage requests">
+            <svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16"></path>
+              <path d="M4 12h16"></path>
+              <path d="M4 18h10"></path>
+              <circle cx="18" cy="18" r="1.5"></circle>
+            </svg>
+            <span class="text">Quản lý yêu cầu</span>
+          </button>
           <button id="album-upload-button" type="button" class="sidebar-upload-button is-hidden" aria-label="Upload album" title="Upload album">
             <svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 15V4"></path>
@@ -130,6 +169,10 @@
           </div>
           <p id="album-description">Chọn album bên trái để xem ảnh.</p>
         </header>
+
+        <section id="admin-placeholder" class="admin-placeholder is-hidden" aria-label="Admin placeholder">
+          <form id="admin-placeholder-form" class="admin-placeholder-form" autocomplete="off"></form>
+        </section>
 
         <div id="image-grid-wrap" class="image-grid-wrap">
           <div id="grid-loading-overlay" class="grid-loading-overlay is-hidden" aria-hidden="true">
@@ -309,6 +352,10 @@
         </header>
         <section class="confirm-dialog-body">
           <p id="confirm-modal-message"></p>
+          <div id="confirm-modal-renew-days" class="confirm-modal-renew-days is-hidden">
+            <label for="confirm-modal-days" class="confirm-modal-renew-days-label">Days to renew</label>
+            <input id="confirm-modal-days" class="confirm-modal-renew-days-input" type="number" min="1" value="7">
+          </div>
         </section>
         <footer class="confirm-dialog-footer">
           <button id="confirm-no" class="upload-btn ghost" type="button" data-role="close-confirm-modal">No</button>

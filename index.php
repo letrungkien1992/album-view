@@ -9,7 +9,9 @@ $rowDir = $rootDir . '/src/row';
 $thumbsDir = $rootDir . '/src/thumbs';
 $viewerFile = $rootDir . '/resources/album-resource/album-viewer.html';
 $loginFile = $rootDir . '/resources/album-resource/login.html';
-$userStoreFile = $rootDir . '/storage/user.json';
+$userStoreFile = $rootDir . '/resources/user.json';
+$inviteEmailFile = $rootDir . '/resources/invite_email.json';
+$inviteRequestLogFile = $rootDir . '/storage/invite-requests.log';
 $albumTitlesFile = $rootDir . '/storage/album-titles.json';
 $albumHiddenFile = $rootDir . '/storage/album-hidden.json';
 $albumHiddenImagesFile = $rootDir . '/storage/album-hidden-images.json';
@@ -18,7 +20,7 @@ $buildLockFile = $rootDir . '/storage/build-images.lock';
 $buildLogFile = $rootDir . '/storage/build-images.log';
 $clientLogFile = $rootDir . '/.server.log';
 $clientLogFallbackFile = $rootDir . '/storage/client-errors.log';
-$authCookieName = 'album_view_tokken';
+$authCookieName = 'album_view_token';
 $authTtlSeconds = 3 * 24 * 60 * 60;
 $authRefreshIntervalSeconds = 300;
 $scriptName = isset($_SERVER['SCRIPT_NAME']) ? (string) $_SERVER['SCRIPT_NAME'] : '/index.php';
@@ -29,8 +31,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_name('album_view_session');
     session_start();
 }
-try_restore_auth_from_tokken($userStoreFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
-refresh_auth_from_session($userStoreFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
+try_restore_auth_from_token($userStoreFile, $inviteEmailFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
+refresh_auth_from_session($userStoreFile, $inviteEmailFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
 
 function send_status(int $status): void
 {
@@ -57,6 +59,400 @@ function with_base(string $basePath, string $path): string
     $base = rtrim($basePath, '/');
     $tail = '/' . ltrim($path, '/');
     return ($base === '' ? '' : $base) . $tail;
+}
+
+function client_ip_address(): string
+{
+    $clientIp = '';
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $clientIp = trim(explode(',', (string) $_SERVER['HTTP_X_FORWARDED_FOR'])[0]);
+    }
+    if ($clientIp === '' && !empty($_SERVER['REMOTE_ADDR'])) {
+        $clientIp = trim((string) $_SERVER['REMOTE_ADDR']);
+    }
+    return $clientIp !== '' ? $clientIp : 'unknown';
+}
+
+function append_invite_request(string $logFile, array $payload): void
+{
+    $line = '[' . date('Y-m-d H:i:s') . '] ' . json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($line)) {
+        return;
+    }
+    $dir = dirname($logFile);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0775, true);
+    }
+    if (!is_file($logFile)) {
+        @touch($logFile);
+        @chmod($logFile, 0664);
+    }
+    @file_put_contents($logFile, $line . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
+function sanitize_mail_header_value(string $value): string
+{
+    return trim(str_replace(["\r", "\n"], ' ', $value));
+}
+
+function normalize_guest_request(array $entry): array
+{
+    $guestEmail = isset($entry['guest_email']) && is_string($entry['guest_email']) ? trim($entry['guest_email']) : '';
+    $guestToken = array_key_exists('guest_token', $entry) ? $entry['guest_token'] : null;
+    if (is_string($guestToken)) {
+        $guestToken = trim($guestToken);
+        if ($guestToken === '') {
+            $guestToken = null;
+        }
+    } elseif ($guestToken !== null && !is_scalar($guestToken)) {
+        $guestToken = null;
+    }
+    $expiresAt = array_key_exists('expires_at', $entry) ? $entry['expires_at'] : null;
+    if (is_string($expiresAt)) {
+        $expiresAt = trim($expiresAt);
+        if ($expiresAt === '') {
+            $expiresAt = null;
+        }
+    } elseif ($expiresAt !== null && !is_scalar($expiresAt)) {
+        $expiresAt = null;
+    }
+    $guestTokenLocked = array_key_exists('guest_token_locked', $entry) ? (bool) $entry['guest_token_locked'] : false;
+    $requestCount = isset($entry['request_count']) ? (int) $entry['request_count'] : 1;
+    if ($requestCount < 1) {
+        $requestCount = 1;
+    }
+
+    return [
+        'guest_email' => $guestEmail,
+        'created_at' => isset($entry['created_at']) && is_string($entry['created_at']) ? trim($entry['created_at']) : '',
+        'ip' => isset($entry['ip']) && is_string($entry['ip']) ? trim($entry['ip']) : '',
+        'user_agent' => isset($entry['user_agent']) && is_string($entry['user_agent']) ? trim($entry['user_agent']) : '',
+        'request_path' => isset($entry['request_path']) && is_string($entry['request_path']) ? trim($entry['request_path']) : '',
+        'request_count' => $requestCount,
+        'guest_token' => $guestToken,
+        'expires_at' => $expiresAt,
+        'guest_token_locked' => $guestTokenLocked,
+    ];
+}
+
+function load_invite_email_store(string $inviteEmailFile): array
+{
+    $fallback = ['requests' => []];
+    if (!is_file($inviteEmailFile)) {
+        return $fallback;
+    }
+
+    $raw = file_get_contents($inviteEmailFile);
+    if (!is_string($raw) || trim($raw) === '') {
+        return $fallback;
+    }
+
+    $data = json_decode($raw, true);
+    if (!is_array($data)) {
+        return $fallback;
+    }
+
+    $requests = [];
+    if (isset($data['requests']) && is_array($data['requests'])) {
+        $requests = $data['requests'];
+    } elseif (array_is_list($data)) {
+        $requests = $data;
+    }
+
+    $normalized = [];
+    foreach ($requests as $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $normalized[] = normalize_guest_request($entry);
+    }
+
+    return ['requests' => $normalized];
+}
+
+function save_invite_email_store(string $inviteEmailFile, array $store): bool
+{
+    $payload = json_encode($store, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    if (!is_string($payload)) {
+        return false;
+    }
+    $dir = dirname($inviteEmailFile);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true)) {
+        return false;
+    }
+    return @file_put_contents($inviteEmailFile, $payload . PHP_EOL, LOCK_EX) !== false;
+}
+
+function invite_token_ttl_seconds(): int
+{
+    return 7 * 24 * 60 * 60;
+}
+
+function generate_invite_token(): string
+{
+    return bin2hex(random_bytes(24));
+}
+
+function find_invite_request_index_by_email(array $requests, string $guestEmail): int
+{
+    $guestKey = strtolower(trim($guestEmail));
+    if ($guestKey === '') {
+        return -1;
+    }
+    foreach ($requests as $index => $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $existingEmail = isset($entry['guest_email']) && is_string($entry['guest_email']) ? strtolower(trim($entry['guest_email'])) : '';
+        if ($existingEmail === $guestKey) {
+            return (int) $index;
+        }
+    }
+    return -1;
+}
+
+function find_invite_request_index_by_token(array $requests, string $guestToken): int
+{
+    $tokenKey = trim($guestToken);
+    if ($tokenKey === '') {
+        return -1;
+    }
+    foreach ($requests as $index => $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $existingToken = isset($entry['guest_token']) && is_string($entry['guest_token']) ? trim($entry['guest_token']) : '';
+        if ($existingToken !== '' && hash_equals($existingToken, $tokenKey)) {
+            return (int) $index;
+        }
+    }
+    return -1;
+}
+
+function invite_request_token_valid(array $entry): bool
+{
+    $guestToken = isset($entry['guest_token']) && is_string($entry['guest_token']) ? trim($entry['guest_token']) : '';
+    if ($guestToken === '') {
+        return false;
+    }
+    if (!empty($entry['guest_token_locked'])) {
+        return false;
+    }
+    $expiresAt = isset($entry['expires_at']) && is_string($entry['expires_at']) ? trim($entry['expires_at']) : '';
+    if ($expiresAt === '') {
+        return false;
+    }
+    $expiresTs = strtotime($expiresAt);
+    if ($expiresTs === false || $expiresTs <= time()) {
+        return false;
+    }
+    return true;
+}
+
+function find_user_index_by_username(array $users, string $username): int
+{
+    $username = trim($username);
+    if ($username === '') {
+        return -1;
+    }
+    foreach ($users as $index => $user) {
+        if (!is_array($user)) {
+            continue;
+        }
+        $candidate = isset($user['username']) && is_string($user['username']) ? trim($user['username']) : '';
+        if ($candidate === $username) {
+            return (int) $index;
+        }
+    }
+    return -1;
+}
+
+function apply_invite_request_action(string $inviteEmailFile, string $guestEmail, string $action, int $days = 0): array
+{
+    $guestEmail = trim($guestEmail);
+    $action = strtolower(trim($action));
+    if (!filter_var($guestEmail, FILTER_VALIDATE_EMAIL)) {
+        return ['ok' => false, 'message' => 'Email khong hop le.'];
+    }
+    if (!in_array($action, ['delete', 'access', 'renew', 'lock', 'unlock'], true)) {
+        return ['ok' => false, 'message' => 'Action khong hop le.'];
+    }
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    $index = find_invite_request_index_by_email($requests, $guestEmail);
+    if ($index < 0) {
+        return ['ok' => false, 'message' => 'Khong tim thay yeu cau.'];
+    }
+
+    $entry = normalize_guest_request($requests[$index]);
+    $now = date('c');
+    $ttlSeconds = invite_token_ttl_seconds();
+    $statusBefore = invite_request_status($entry);
+
+    if ($action === 'delete') {
+        array_splice($requests, $index, 1);
+        $store['requests'] = array_values($requests);
+        if (!save_invite_email_store($inviteEmailFile, $store)) {
+            return ['ok' => false, 'message' => 'Khong luu duoc yeu cau.'];
+        }
+        return ['ok' => true, 'message' => 'Đã xóa yêu cầu.'];
+    }
+
+    if ($action === 'access') {
+        if ($entry['guest_token'] !== null && !$entry['guest_token_locked'] && invite_request_token_valid($entry)) {
+            return ['ok' => false, 'message' => 'Yeu cau da co token.'];
+        }
+        $entry['guest_token'] = generate_invite_token();
+        $entry['expires_at'] = date('c', time() + $ttlSeconds);
+        $entry['guest_token_locked'] = false;
+    } elseif ($action === 'renew') {
+        if ($entry['guest_token'] === null) {
+            return ['ok' => false, 'message' => 'Yeu cau chua co token.'];
+        }
+        if ($days <= 0) {
+            $days = 7;
+        }
+        $entry['expires_at'] = date('c', time() + ($days * 86400));
+        $entry['guest_token_locked'] = false;
+    } elseif ($action === 'lock') {
+        if ($entry['guest_token'] === null) {
+            return ['ok' => false, 'message' => 'Yeu cau chua co token.'];
+        }
+        $entry['guest_token_locked'] = true;
+    } elseif ($action === 'unlock') {
+        if ($entry['guest_token'] === null) {
+            return ['ok' => false, 'message' => 'Yeu cau chua co token.'];
+        }
+        $entry['guest_token_locked'] = false;
+    }
+
+    $requests[$index] = normalize_guest_request($entry);
+    $store['requests'] = array_values($requests);
+    if (!save_invite_email_store($inviteEmailFile, $store)) {
+        return ['ok' => false, 'message' => 'Khong luu duoc yeu cau.'];
+    }
+
+    return [
+        'ok' => true,
+        'message' => 'Đã cập nhật yêu cầu.',
+        'status_before' => $statusBefore,
+        'status_after' => invite_request_status($entry),
+    ];
+}
+
+function invite_request_status(array $entry): array
+{
+    $guestToken = array_key_exists('guest_token', $entry) ? $entry['guest_token'] : null;
+    $locked = !empty($entry['guest_token_locked']);
+    $hasToken = !(is_null($guestToken) || (is_string($guestToken) && trim($guestToken) === ''));
+    if (!$hasToken) {
+        return ['key' => 'pending', 'label' => 'Chờ xử lý', 'class' => 'is-pending', 'action' => 'access'];
+    }
+    if ($locked) {
+        return ['key' => 'locked', 'label' => 'Đang khóa', 'class' => 'is-locked', 'action' => 'unlock'];
+    }
+
+    $expiresAt = null;
+    if (isset($entry['expires_at']) && is_string($entry['expires_at'])) {
+        $expiresAt = strtotime($entry['expires_at']);
+    }
+    if ($expiresAt !== false && $expiresAt !== null && $expiresAt <= time()) {
+        return ['key' => 'expired', 'label' => 'Hết hạn', 'class' => 'is-expired', 'action' => 'renew'];
+    }
+
+    return ['key' => 'active', 'label' => 'Đang dùng', 'class' => 'is-active', 'action' => 'lock'];
+}
+
+function send_guest_invite_email(string $guestEmail): array
+{
+    global $inviteEmailFile, $inviteRequestLogFile;
+
+    $guestEmail = trim($guestEmail);
+    if (!filter_var($guestEmail, FILTER_VALIDATE_EMAIL)) {
+        return ['ok' => false, 'message' => 'Email khong hop le.'];
+    }
+
+    $request = [
+        'guest_email' => $guestEmail,
+        'created_at' => date('c'),
+        'ip' => client_ip_address(),
+        'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '',
+        'request_path' => isset($_SERVER['REQUEST_URI']) && is_string($_SERVER['REQUEST_URI']) ? sanitize_mail_header_value($_SERVER['REQUEST_URI']) : '/',
+    ];
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    $guestKey = strtolower($guestEmail);
+    $requestFound = false;
+    foreach ($requests as $index => $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $existingEmail = isset($entry['guest_email']) && is_string($entry['guest_email']) ? strtolower(trim($entry['guest_email'])) : '';
+        if ($existingEmail !== $guestKey) {
+            continue;
+        }
+        $normalized = normalize_guest_request($entry);
+        $normalized['created_at'] = $request['created_at'];
+        $normalized['ip'] = $request['ip'];
+        $normalized['user_agent'] = $request['user_agent'];
+        $normalized['request_path'] = $request['request_path'];
+        $normalized['request_count'] = (int) ($normalized['request_count'] ?? 1) + 1;
+        $normalized['guest_token'] = null;
+        $normalized['expires_at'] = null;
+        $normalized['guest_token_locked'] = false;
+        $requests[$index] = $normalized;
+        $requestFound = true;
+        break;
+    }
+    if (!$requestFound) {
+        $request['request_count'] = 1;
+        $request['guest_token'] = null;
+        $request['expires_at'] = null;
+        $request['guest_token_locked'] = false;
+        $requests[] = normalize_guest_request($request);
+    }
+    $store['requests'] = $requests;
+    if (!save_invite_email_store($inviteEmailFile, $store)) {
+        append_invite_request($inviteRequestLogFile, [
+            'guest_email' => $guestEmail,
+            'saved' => false,
+            'ip' => client_ip_address(),
+            'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '',
+            'created_at' => date('c'),
+        ]);
+        return [
+            'ok' => false,
+            'message' => 'Khong luu duoc yeu cau.',
+        ];
+    }
+
+    append_invite_request($inviteRequestLogFile, [
+        'guest_email' => $guestEmail,
+        'saved' => true,
+        'ip' => client_ip_address(),
+        'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT']) ? trim($_SERVER['HTTP_USER_AGENT']) : '',
+        'created_at' => date('c'),
+    ]);
+
+    return [
+        'ok' => true,
+        'saved' => true,
+        'message' => 'Đã gửi yêu cầu tới quản trị viên',
+    ];
+}
+
+function is_reserved_system_username(string $username): bool
+{
+    $username = strtolower(trim($username));
+    return $username === 'admin' || $username === 'guest';
+}
+
+function is_forbidden_regular_login_username(string $username): bool
+{
+    $username = strtolower(trim($username));
+    return $username === 'admin' || $username === 'guest';
 }
 
 function send_error_text(int $status, string $message): void
@@ -223,10 +619,65 @@ function is_authenticated(): bool
     return session_username() !== '';
 }
 
+function guest_session_email(): string
+{
+    $email = $_SESSION['guest_email'] ?? '';
+    return is_string($email) ? trim($email) : '';
+}
+
+function guest_session_token(): string
+{
+    $token = $_SESSION['guest_token'] ?? '';
+    return is_string($token) ? trim($token) : '';
+}
+
+function guest_invite_request_valid_for_login(string $inviteEmailFile, string $guestEmail, ?string $guestToken = null): bool
+{
+    $guestEmail = trim($guestEmail);
+    if ($guestEmail === '') {
+        return false;
+    }
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    $index = find_invite_request_index_by_email($requests, $guestEmail);
+    if ($index < 0) {
+        return false;
+    }
+
+    $entry = $requests[$index];
+    if (!invite_request_token_valid($entry)) {
+        return false;
+    }
+
+    if ($guestToken !== null && $guestToken !== '') {
+        $expectedToken = isset($entry['guest_token']) && is_string($entry['guest_token']) ? trim($entry['guest_token']) : '';
+        if ($expectedToken === '' || !hash_equals($expectedToken, $guestToken)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function guest_current_session_valid(string $inviteEmailFile, array $userEntry): bool
+{
+    $guestEmail = guest_session_email();
+    if ($guestEmail === '' && isset($userEntry['mail']) && is_string($userEntry['mail'])) {
+        $guestEmail = trim($userEntry['mail']);
+    }
+    if ($guestEmail === '') {
+        return false;
+    }
+
+    $guestToken = guest_session_token();
+    return guest_invite_request_valid_for_login($inviteEmailFile, $guestEmail, $guestToken !== '' ? $guestToken : null);
+}
+
 function require_auth(string $basePath): void
 {
     if (!is_authenticated()) {
-        redirect_to(with_base($basePath, '/login'));
+        redirect_to(with_base($basePath, '/'));
     }
 }
 
@@ -303,7 +754,7 @@ function load_user_store(string $userStoreFile): array
         }
         $username = isset($entry['username']) && is_string($entry['username']) ? trim($entry['username']) : '';
         $password = isset($entry['password']) && is_string($entry['password']) ? $entry['password'] : '';
-        if ($username === '' || $password === '') {
+        if ($username === '' || ($password === '' && !is_reserved_system_username($username))) {
             continue;
         }
         $users[] = [
@@ -311,8 +762,13 @@ function load_user_store(string $userStoreFile): array
             'password' => $password,
             'role' => normalize_role(isset($entry['role']) && is_string($entry['role']) ? $entry['role'] : 'user'),
             'login_at' => isset($entry['login_at']) && is_string($entry['login_at']) ? trim($entry['login_at']) : '',
-            'tokken' => isset($entry['tokken']) && is_string($entry['tokken']) ? trim($entry['tokken']) : '',
+            'token' => isset($entry['token']) && is_string($entry['token']) ? trim($entry['token']) : '',
+            'mail' => isset($entry['mail']) && is_string($entry['mail']) ? trim($entry['mail']) : '',
         ];
+        if (is_reserved_system_username($username)) {
+            $users[count($users) - 1]['login_at'] = '';
+            $users[count($users) - 1]['token'] = '';
+        }
     }
 
     return ['users' => $users];
@@ -329,11 +785,17 @@ function save_user_store(string $userStoreFile, array $store): bool
 
 function find_user_index_by_credentials(array $users, string $username, string $password): int
 {
+    if (is_forbidden_regular_login_username($username)) {
+        return -1;
+    }
     foreach ($users as $index => $user) {
         if (!is_array($user)) {
             continue;
         }
         $candidateUsername = isset($user['username']) && is_string($user['username']) ? $user['username'] : '';
+        if (is_forbidden_regular_login_username($candidateUsername)) {
+            continue;
+        }
         $candidatePassword = isset($user['password']) && is_string($user['password']) ? $user['password'] : '';
         if ($candidateUsername === $username && hash_equals($candidatePassword, $password)) {
             return (int) $index;
@@ -342,17 +804,17 @@ function find_user_index_by_credentials(array $users, string $username, string $
     return -1;
 }
 
-function find_user_index_by_tokken(array $users, string $tokken): int
+function find_user_index_by_token(array $users, string $token): int
 {
-    if ($tokken === '') {
+    if ($token === '') {
         return -1;
     }
     foreach ($users as $index => $user) {
         if (!is_array($user)) {
             continue;
         }
-        $candidate = isset($user['tokken']) && is_string($user['tokken']) ? trim($user['tokken']) : '';
-        if ($candidate !== '' && hash_equals($candidate, $tokken)) {
+        $candidate = isset($user['token']) && is_string($user['token']) ? trim($user['token']) : '';
+        if ($candidate !== '' && hash_equals($candidate, $token)) {
             return (int) $index;
         }
     }
@@ -386,19 +848,20 @@ function touch_user_auth_window(string $userStoreFile, int $index, array $store,
     if (!isset($users[$index]) || !is_array($users[$index])) {
         return;
     }
-    $tokken = isset($users[$index]['tokken']) && is_string($users[$index]['tokken']) ? trim($users[$index]['tokken']) : '';
-    if ($tokken === '') {
+    $token = isset($users[$index]['token']) && is_string($users[$index]['token']) ? trim($users[$index]['token']) : '';
+    if ($token === '') {
         return;
     }
     $users[$index]['login_at'] = date('c');
     $store['users'] = $users;
     if (save_user_store($userStoreFile, $store)) {
-        set_auth_cookie($cookieName, $tokken, time() + $ttlSeconds, $basePath);
+        set_auth_cookie($cookieName, $token, time() + $ttlSeconds, $basePath);
     }
 }
 
-function try_restore_auth_from_tokken(
+function try_restore_auth_from_token(
     string $userStoreFile,
+    string $inviteEmailFile,
     string $cookieName,
     int $ttlSeconds,
     int $refreshIntervalSeconds,
@@ -408,14 +871,14 @@ function try_restore_auth_from_tokken(
         return;
     }
 
-    $tokken = isset($_COOKIE[$cookieName]) && is_string($_COOKIE[$cookieName]) ? trim($_COOKIE[$cookieName]) : '';
-    if ($tokken === '') {
+    $token = isset($_COOKIE[$cookieName]) && is_string($_COOKIE[$cookieName]) ? trim($_COOKIE[$cookieName]) : '';
+    if ($token === '') {
         return;
     }
 
     $store = load_user_store($userStoreFile);
     $users = isset($store['users']) && is_array($store['users']) ? $store['users'] : [];
-    $index = find_user_index_by_tokken($users, $tokken);
+    $index = find_user_index_by_token($users, $token);
     if ($index < 0) {
         clear_auth_cookie($cookieName, $basePath);
         return;
@@ -426,8 +889,13 @@ function try_restore_auth_from_tokken(
     $role = normalize_role(isset($entry['role']) && is_string($entry['role']) ? $entry['role'] : 'user');
     $loginAt = isset($entry['login_at']) && is_string($entry['login_at']) ? trim($entry['login_at']) : '';
 
-    if ($username === '' || !login_timestamp_valid($loginAt, $ttlSeconds)) {
-        $users[$index]['tokken'] = '';
+    if ($username === 'guest') {
+        clear_auth_cookie($cookieName, $basePath);
+        return;
+    }
+
+    if ($username === '' || is_reserved_system_username($username) || !login_timestamp_valid($loginAt, $ttlSeconds)) {
+        $users[$index]['token'] = '';
         $users[$index]['login_at'] = '';
         $store['users'] = $users;
         save_user_store($userStoreFile, $store);
@@ -442,13 +910,14 @@ function try_restore_auth_from_tokken(
     } else {
         $expiresAt = strtotime($loginAt);
         if ($expiresAt !== false) {
-            set_auth_cookie($cookieName, $tokken, ((int) $expiresAt) + $ttlSeconds, $basePath);
+            set_auth_cookie($cookieName, $token, ((int) $expiresAt) + $ttlSeconds, $basePath);
         }
     }
 }
 
 function refresh_auth_from_session(
     string $userStoreFile,
+    string $inviteEmailFile,
     string $cookieName,
     int $ttlSeconds,
     int $refreshIntervalSeconds,
@@ -469,16 +938,36 @@ function refresh_auth_from_session(
         if ($candidate !== $username) {
             continue;
         }
+        if ($candidate === 'guest') {
+            if (!guest_current_session_valid($inviteEmailFile, $entry)) {
+                $_SESSION = [];
+                if (session_status() === PHP_SESSION_ACTIVE) {
+                    session_destroy();
+                }
+                clear_auth_cookie($cookieName, $basePath);
+                return;
+            }
+            $_SESSION['auth_role'] = normalize_role(isset($entry['role']) && is_string($entry['role']) ? $entry['role'] : 'viewer');
+            return;
+        }
+        if (is_reserved_system_username($candidate)) {
+            $_SESSION = [];
+            if (session_status() === PHP_SESSION_ACTIVE) {
+                session_destroy();
+            }
+            clear_auth_cookie($cookieName, $basePath);
+            return;
+        }
         $_SESSION['auth_role'] = normalize_role(isset($entry['role']) && is_string($entry['role']) ? $entry['role'] : 'user');
 
-        $tokken = isset($entry['tokken']) && is_string($entry['tokken']) ? trim($entry['tokken']) : '';
-        if ($tokken === '') {
-            $tokken = bin2hex(random_bytes(24));
-            $users[$index]['tokken'] = $tokken;
+        $token = isset($entry['token']) && is_string($entry['token']) ? trim($entry['token']) : '';
+        if ($token === '') {
+            $token = bin2hex(random_bytes(24));
+            $users[$index]['token'] = $token;
             $users[$index]['login_at'] = date('c');
             $store['users'] = $users;
             if (save_user_store($userStoreFile, $store)) {
-                set_auth_cookie($cookieName, $tokken, time() + $ttlSeconds, $basePath);
+                set_auth_cookie($cookieName, $token, time() + $ttlSeconds, $basePath);
             }
             return;
         }
@@ -489,14 +978,14 @@ function refresh_auth_from_session(
         } else {
             $expiresAt = strtotime($loginAt);
             if ($expiresAt !== false) {
-                set_auth_cookie($cookieName, $tokken, ((int) $expiresAt) + $ttlSeconds, $basePath);
+                set_auth_cookie($cookieName, $token, ((int) $expiresAt) + $ttlSeconds, $basePath);
             }
         }
         return;
     }
 }
 
-function clear_user_tokken_by_username(string $userStoreFile, string $username): void
+function clear_user_token_by_username(string $userStoreFile, string $username): void
 {
     if ($username === '') {
         return;
@@ -509,8 +998,11 @@ function clear_user_tokken_by_username(string $userStoreFile, string $username):
             continue;
         }
         $candidate = isset($entry['username']) && is_string($entry['username']) ? trim($entry['username']) : '';
+        if (is_reserved_system_username($candidate)) {
+            continue;
+        }
         if ($candidate === $username) {
-            $users[$index]['tokken'] = '';
+            $users[$index]['token'] = '';
             $users[$index]['login_at'] = '';
             $store['users'] = $users;
             save_user_store($userStoreFile, $store);
@@ -519,19 +1011,19 @@ function clear_user_tokken_by_username(string $userStoreFile, string $username):
     }
 }
 
-function clear_user_tokken_by_value(string $userStoreFile, string $tokken): void
+function clear_user_token_by_value(string $userStoreFile, string $token): void
 {
-    if ($tokken === '') {
+    if ($token === '') {
         return;
     }
 
     $store = load_user_store($userStoreFile);
     $users = isset($store['users']) && is_array($store['users']) ? $store['users'] : [];
-    $index = find_user_index_by_tokken($users, $tokken);
+    $index = find_user_index_by_token($users, $token);
     if ($index < 0) {
         return;
     }
-    $users[$index]['tokken'] = '';
+    $users[$index]['token'] = '';
     $users[$index]['login_at'] = '';
     $store['users'] = $users;
     save_user_store($userStoreFile, $store);
@@ -1837,6 +2329,14 @@ if ($requestPath === '/login.html') {
     redirect_to(with_base($basePath, '/login'));
 }
 
+if ($requestPath === '/invite.html') {
+    redirect_to(with_base($basePath, '/'));
+}
+
+if ($requestPath === '/admin.html') {
+    redirect_to(with_base($basePath, '/admin'));
+}
+
 if ($requestPath === '/login') {
     if (is_authenticated()) {
         redirect_to(with_base($basePath, '/'));
@@ -1845,6 +2345,20 @@ if ($requestPath === '/login') {
         send_error_text(404, 'Login file not found.');
     }
     send_html_page($loginFile, $rootDir);
+}
+
+if ($requestPath === '/invite') {
+    redirect_to(with_base($basePath, '/'));
+}
+
+if ($requestPath === '/admin') {
+    if (!is_admin()) {
+        redirect_to(with_base($basePath, '/'));
+    }
+    if (!is_file($viewerFile)) {
+        send_error_text(404, 'Viewer file not found.');
+    }
+    send_html_page($viewerFile, $rootDir);
 }
 
 if (path_starts_with($requestPath, '/__audio__/')) {
@@ -1879,6 +2393,118 @@ if ($requestPath === '/__auth_status__') {
     ]);
 }
 
+if ($requestPath === '/__invite_requests__') {
+    if (!is_authenticated()) {
+        send_json(['ok' => false, 'message' => 'Unauthorized.'], 401);
+    }
+    if (!is_admin()) {
+        send_json(['ok' => false, 'message' => 'Forbidden. Admin role required.'], 403);
+    }
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    send_json([
+        'ok' => true,
+        'requests' => $requests,
+    ]);
+}
+
+if ($requestPath === '/__guest_token_status__') {
+    $guestToken = isset($_GET['token']) && is_string($_GET['token']) ? trim($_GET['token']) : '';
+    if ($guestToken === '') {
+        send_json(['ok' => false, 'message' => 'Missing token.'], 400);
+    }
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    $index = find_invite_request_index_by_token($requests, $guestToken);
+    if ($index < 0 || !invite_request_token_valid($requests[$index])) {
+        send_json(['ok' => false, 'message' => 'Token không hợp lệ hoặc đã hết hạn.'], 400);
+    }
+
+    $entry = $requests[$index];
+    send_json([
+        'ok' => true,
+    ]);
+}
+
+if ($requestPath === '/__guest_token_login__') {
+    if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+
+    $payload = read_json_body();
+    $guestToken = isset($_POST['token']) ? trim((string) $_POST['token']) : '';
+    $guestEmail = isset($_POST['email']) ? trim((string) $_POST['email']) : '';
+    if ($guestToken === '' && isset($_GET['token']) && is_string($_GET['token'])) {
+        $guestToken = trim($_GET['token']);
+    }
+    if ($guestToken === '' && isset($payload['token']) && is_string($payload['token'])) {
+        $guestToken = trim($payload['token']);
+    }
+    if ($guestEmail === '' && isset($payload['email']) && is_string($payload['email'])) {
+        $guestEmail = trim($payload['email']);
+    }
+    if ($guestToken === '' || $guestEmail === '') {
+        send_json(['ok' => false, 'message' => 'Missing token or email.'], 400);
+    }
+
+    $store = load_invite_email_store($inviteEmailFile);
+    $requests = isset($store['requests']) && is_array($store['requests']) ? $store['requests'] : [];
+    $index = find_invite_request_index_by_token($requests, $guestToken);
+    if ($index < 0 || !invite_request_token_valid($requests[$index])) {
+        send_json(['ok' => false, 'message' => 'Token không hợp lệ hoặc đã hết hạn.'], 400);
+    }
+
+    $entry = $requests[$index];
+    $expectedEmail = isset($entry['guest_email']) && is_string($entry['guest_email']) ? $entry['guest_email'] : '';
+    if (strtolower($expectedEmail) !== strtolower($guestEmail)) {
+        send_json(['ok' => false, 'message' => 'Email không khớp với yêu cầu invite.'], 400);
+    }
+
+    clear_auth_cookie($authCookieName, $basePath);
+    session_regenerate_id(true);
+    $_SESSION = [];
+    $_SESSION['auth_user'] = 'guest';
+    $_SESSION['auth_role'] = normalize_role('viewer');
+    $_SESSION['guest_email'] = $guestEmail;
+    $_SESSION['guest_token'] = $guestToken;
+    send_json(['ok' => true, 'redirect' => with_base($basePath, '/')]);
+}
+
+if ($requestPath === '/__invite_request_action__') {
+    if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+    if (!is_authenticated()) {
+        send_json(['ok' => false, 'message' => 'Unauthorized.'], 401);
+    }
+    if (!is_admin()) {
+        send_json(['ok' => false, 'message' => 'Forbidden. Admin role required.'], 403);
+    }
+
+    $payload = read_json_body();
+    $guestEmail = isset($_POST['guest_email']) ? trim((string) $_POST['guest_email']) : '';
+    $action = isset($_POST['action']) ? trim((string) $_POST['action']) : '';
+    $days = isset($_POST['days']) ? (int) $_POST['days'] : 0;
+    if ($guestEmail === '' && isset($payload['guest_email']) && is_string($payload['guest_email'])) {
+        $guestEmail = trim($payload['guest_email']);
+    }
+    if ($action === '' && isset($payload['action']) && is_string($payload['action'])) {
+        $action = trim($payload['action']);
+    }
+    if ($days <= 0 && isset($payload['days']) && (is_int($payload['days']) || is_string($payload['days']))) {
+        $days = (int) $payload['days'];
+    }
+
+    $result = apply_invite_request_action($inviteEmailFile, $guestEmail, $action, $days);
+    if (!$result['ok']) {
+        send_json(['ok' => false, 'message' => $result['message']], 400);
+    }
+
+    send_json($result);
+}
+
 if ($requestPath === '/__auth_login__') {
     if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
@@ -1900,15 +2526,18 @@ if ($requestPath === '/__auth_login__') {
 
     $store = load_user_store($userStoreFile);
     $users = isset($store['users']) && is_array($store['users']) ? $store['users'] : [];
+    if (is_forbidden_regular_login_username($username)) {
+        send_json(['ok' => false, 'message' => 'Users admin và guest là user hệ thống, không thể đăng nhập bằng mật khẩu.'], 403);
+    }
     $userIndex = find_user_index_by_credentials($users, $username, $password);
     if ($userIndex < 0) {
         send_json(['ok' => false, 'message' => 'Invalid username or password.'], 401);
     }
 
     $loginAt = date('c');
-    $tokken = bin2hex(random_bytes(24));
+    $token = bin2hex(random_bytes(24));
     $users[$userIndex]['login_at'] = $loginAt;
-    $users[$userIndex]['tokken'] = $tokken;
+    $users[$userIndex]['token'] = $token;
     $store['users'] = $users;
     if (!save_user_store($userStoreFile, $store)) {
         send_json(['ok' => false, 'message' => 'Cannot persist login state.'], 500);
@@ -1917,7 +2546,7 @@ if ($requestPath === '/__auth_login__') {
     session_regenerate_id(true);
     $_SESSION['auth_user'] = $username;
     $_SESSION['auth_role'] = normalize_role(isset($users[$userIndex]['role']) && is_string($users[$userIndex]['role']) ? $users[$userIndex]['role'] : 'user');
-    set_auth_cookie($authCookieName, $tokken, time() + $authTtlSeconds, $basePath);
+    set_auth_cookie($authCookieName, $token, time() + $authTtlSeconds, $basePath);
     send_json(['ok' => true, 'redirect' => with_base($basePath, '/')]);
 }
 
@@ -1925,10 +2554,12 @@ if ($requestPath === '/__auth_logout__') {
     if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
     }
-    $tokken = isset($_COOKIE[$authCookieName]) && is_string($_COOKIE[$authCookieName]) ? trim($_COOKIE[$authCookieName]) : '';
+    $token = isset($_COOKIE[$authCookieName]) && is_string($_COOKIE[$authCookieName]) ? trim($_COOKIE[$authCookieName]) : '';
     $username = session_username();
-    clear_user_tokken_by_username($userStoreFile, $username);
-    clear_user_tokken_by_value($userStoreFile, $tokken);
+    if ($username !== 'guest') {
+        clear_user_token_by_username($userStoreFile, $username);
+        clear_user_token_by_value($userStoreFile, $token);
+    }
     clear_auth_cookie($authCookieName, $basePath);
     $_SESSION = [];
     if (session_status() === PHP_SESSION_ACTIVE) {
@@ -1936,8 +2567,27 @@ if ($requestPath === '/__auth_logout__') {
     }
     send_json([
         'ok' => true,
-        'redirect' => with_base($basePath, '/login'),
+        'redirect' => with_base($basePath, '/'),
     ]);
+}
+
+if ($requestPath === '/__invite_request__') {
+    if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+
+    $payload = read_json_body();
+    $guestEmail = isset($_POST['email']) ? trim((string) $_POST['email']) : '';
+    if ($guestEmail === '' && isset($payload['email']) && is_string($payload['email'])) {
+        $guestEmail = trim($payload['email']);
+    }
+
+    $result = send_guest_invite_email($guestEmail);
+    if (!$result['ok']) {
+        send_json(['ok' => false, 'message' => $result['message']], 400);
+    }
+
+    send_json(['ok' => true, 'message' => $result['message']]);
 }
 
 if ($requestPath === '/__upload_album__') {
