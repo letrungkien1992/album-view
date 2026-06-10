@@ -2,8 +2,9 @@
   const dict = {
     vi: {
       login_title: "Đăng nhập",
+      login_kicker: "Đăng nhập admin",
       login_page_title: "Đăng nhập - Album Viewer",
-      login_subtitle: "Đăng nhập để đồng bộ album và quản lý dữ liệu.",
+      login_subtitle: "Đăng nhập quản lý hình ảnh.",
       login_username_label: "Tên đăng nhập",
       login_username_placeholder: "Nhập username",
       login_password_label: "Mật khẩu",
@@ -16,8 +17,9 @@
     },
     en: {
       login_title: "Login",
+      login_kicker: "Admin login",
       login_page_title: "Login - Album Viewer",
-      login_subtitle: "Login to sync albums and manage data.",
+      login_subtitle: "Log in to manage images.",
       login_username_label: "Username",
       login_username_placeholder: "Enter username",
       login_password_label: "Password",

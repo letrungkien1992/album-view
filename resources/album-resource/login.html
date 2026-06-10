@@ -9,39 +9,78 @@
   </head>
   <body>
     <main class="login-page">
-      <div class="pixel-bg-stars" aria-hidden="true">
+      <div class="login-backdrop" aria-hidden="true"></div>
+      <div class="login-sparkles" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
 
       <section class="login-stage" aria-label="Màn hình đăng nhập">
-        <header class="pixel-header">
-          <h1 id="login-title" data-i18n="login_title">MEDIA LOGIN</h1>
-        </header>
-
         <form id="login-form" class="login-card" autocomplete="off">
-          <p class="login-subtitle" data-i18n="login_subtitle">Đăng nhập để đồng bộ album và quản lý dữ liệu.</p>
-
-          <label for="username" data-i18n="login_username_label">USERNAME</label>
-          <div class="input-row">
-            <span class="pixel-symbol" aria-hidden="true">U</span>
-            <input id="username" name="username" type="text" required placeholder="Nhập username" data-i18n-placeholder="login_username_placeholder" />
+          <h1 id="login-title" class="login-title" data-i18n="login_title">Đăng nhập</h1>
+          <p class="login-subtitle" data-i18n="login_subtitle">Đăng nhập quản lý hình ảnh.</p>
+          <div class="field-group">
+            <label class="sr-only" for="username" data-i18n="login_username_label"
+              >Tên đăng nhập</label
+            >
+            <div class="input-row">
+              <span class="field-icon" aria-hidden="true">
+                <svg class="icon-stroke" viewBox="0 0 24 24">
+                  <path d="M20 21a8 8 0 0 0-16 0"></path>
+                  <circle cx="12" cy="8" r="4"></circle>
+                </svg>
+              </span>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder="Nhập username"
+                data-i18n-placeholder="login_username_placeholder"
+              />
+            </div>
           </div>
 
-          <label for="password" data-i18n="login_password_label">PASSWORD</label>
-          <div class="input-row">
-            <span class="pixel-symbol" aria-hidden="true">*</span>
-            <input id="password" name="password" type="password" required placeholder="Nhập password" data-i18n-placeholder="login_password_placeholder" />
-            <button id="password-toggle" class="password-toggle" type="button" aria-label="Toggle password visibility" aria-pressed="false">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></circle>
-              </svg>
-            </button>
+          <div class="field-group">
+            <label class="sr-only" for="password" data-i18n="login_password_label"
+              >Mật khẩu</label
+            >
+            <div class="input-row">
+              <span class="field-icon" aria-hidden="true">
+                <svg class="icon-stroke" viewBox="0 0 24 24">
+                  <path d="M4 7h16v10H4z"></path>
+                  <path d="m4 7 8 6 8-6"></path>
+                </svg>
+              </span>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Nhập password"
+                data-i18n-placeholder="login_password_placeholder"
+              />
+              <button
+                id="password-toggle"
+                class="password-toggle"
+                type="button"
+                aria-label="Toggle password visibility"
+                aria-pressed="false"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true"></svg>
+              </button>
+            </div>
           </div>
 
           <div class="actions">
-            <a class="pixel-btn ghost" href="./" data-i18n="login_back">BACK</a>
-            <button id="login-submit" class="pixel-btn" type="submit" data-i18n="login_submit">LOGIN</button>
+            <a class="login-btn ghost" href="./" data-i18n="login_back">BACK</a>
+            <button
+              id="login-submit"
+              class="login-btn"
+              type="submit"
+              data-i18n="login_submit"
+            >
+              LOGIN
+            </button>
           </div>
 
           <p id="login-error" class="login-error" aria-live="polite"></p>

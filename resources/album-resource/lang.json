@@ -11,7 +11,7 @@
     "guest_kicker": "Guest access",
     "guest_title": "Mời truy cập",
     "guest_page_title": "Yêu cầu mời - Album Viewer",
-    "guest_subtitle": "Nhập email của bạn để gửi lời mời tới quản trị viên.",
+    "guest_subtitle": "Nhập email của bạn để gửi yêu cầu tới quản trị viên.",
     "guest_email_label": "Email",
     "guest_email_placeholder": "Nhập email của bạn",
     "guest_token_prompt": "Nhập email đã được yêu cầu để đăng nhập.",

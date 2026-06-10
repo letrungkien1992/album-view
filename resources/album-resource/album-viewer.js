@@ -77,7 +77,7 @@
       guest_kicker: "Guest access",
       guest_title: "Mời truy cập",
       guest_page_title: "Yêu cầu mời - Album Viewer",
-      guest_subtitle: "Nhập email của bạn để gửi lời mời tới quản trị viên.",
+      guest_subtitle: "Nhập email của bạn để gửi yêu cầu tới quản trị viên.",
       guest_email_label: "Email",
       guest_email_placeholder: "Nhập email của bạn",
       guest_token_prompt: "Nhập email đã được yêu cầu để đăng nhập.",
@@ -1197,40 +1197,67 @@
   function describeUserAgent(value) {
     const userAgent = String(value || "").trim();
     const lines = [];
+    const platformParts = [];
+    const appParts = [];
     const isMac = /Macintosh/i.test(userAgent);
     const isIntel = /\bIntel\b/i.test(userAgent);
+    const isIPhone = /\biPhone\b/i.test(userAgent);
+    const isIPad = /\biPad\b/i.test(userAgent);
+    const isIOS = /\b(iPhone|iPad|iPod)\b/i.test(userAgent);
+    const isZalo = /\bZalo\b/i.test(userAgent);
     const osMatch = userAgent.match(/Mac OS X ([0-9_]+)/i);
+    const iosMatch = userAgent.match(/OS ([0-9_]+) like Mac OS X/i);
     const chromeMatch = userAgent.match(/Chrome\/([0-9.]+)/i);
+    const safariMatch = userAgent.match(/Version\/([0-9.]+).*Safari\//i);
     const webkitMatch = userAgent.match(/AppleWebKit\/([0-9.]+)/i);
+    const mobileMatch = userAgent.match(/\bMobile\/([0-9A-Za-z.]+)/i);
 
     if (isMac) {
-      lines.push("Máy đang chạy trên Mac.");
+      platformParts.push("Mac");
     }
     if (isIntel) {
-      lines.push("Intel cho biết máy Mac dùng chip Intel.");
+      platformParts.push("Intel");
+    }
+    if (isIPhone) {
+      platformParts.push("iPhone");
+    }
+    if (isIPad) {
+      platformParts.push("iPad");
+    }
+    if (isIOS) {
+      platformParts.push("iOS");
     }
     if (osMatch) {
-      lines.push(
-        "Mac OS X " +
-          osMatch[1] +
-          " là phiên bản hệ điều hành macOS " +
-          osMatch[1].replaceAll("_", ".") +
-          ".",
-      );
+      lines.push("macOS " + osMatch[1].replaceAll("_", "."));
+    }
+    if (iosMatch) {
+      lines.push("iOS " + iosMatch[1].replaceAll("_", "."));
     }
     if (chromeMatch) {
-      lines.push("Trình duyệt là Chrome phiên bản " + chromeMatch[1] + ".");
+      appParts.push("Chrome " + chromeMatch[1].split(".")[0]);
+    }
+    if (safariMatch) {
+      appParts.push("Safari " + safariMatch[1]);
+    }
+    if (isZalo) {
+      appParts.push("Zalo");
     }
     if (webkitMatch) {
-      lines.push(
-        "AppleWebKit/" +
-          webkitMatch[1] +
-          " cho biết engine trình duyệt đang dựa trên WebKit/Blink.",
-      );
+      appParts.push("WebKit " + webkitMatch[1]);
+    }
+    if (mobileMatch) {
+      appParts.push("Mobile " + mobileMatch[1]);
+    }
+
+    if (platformParts.length) {
+      lines.push(platformParts.join(" • "));
+    }
+    if (appParts.length) {
+      lines.push(appParts.join(" • "));
     }
 
     if (!lines.length) {
-      lines.push("Không thể phân tích user-agent này.");
+      lines.push(userAgent || "Không thể phân tích user-agent này.");
     }
 
     return {
@@ -1243,14 +1270,24 @@
     const userAgent = String(value || "").trim();
     const parts = [];
     const osMatch = userAgent.match(/Mac OS X ([0-9_]+)/i);
+    const iosMatch = userAgent.match(/OS ([0-9_]+) like Mac OS X/i);
     const windowsMatch = userAgent.match(/Windows NT ([0-9.]+)/i);
     const linuxMatch = userAgent.match(/Linux/i);
     const chromeMatch = userAgent.match(/Chrome\/([0-9.]+)/i);
+    const safariMatch = userAgent.match(/Version\/([0-9.]+).*Safari\//i);
     const isMac = /Macintosh/i.test(userAgent);
     const isIntel = /\bIntel\b/i.test(userAgent);
+    const isIPhone = /\biPhone\b/i.test(userAgent);
+    const isIPad = /\biPad\b/i.test(userAgent);
+    const isZalo = /\bZalo\b/i.test(userAgent);
 
     if (isMac && osMatch) {
       parts.push("macOS " + osMatch[1].replaceAll("_", "."));
+    } else if (isIPhone || isIPad || iosMatch) {
+      parts.push(isIPhone ? "iPhone" : "iPad");
+      if (iosMatch) {
+        parts.push("iOS " + iosMatch[1].replaceAll("_", "."));
+      }
     } else if (windowsMatch) {
       parts.push("Windows NT " + windowsMatch[1]);
     } else if (linuxMatch) {
@@ -1263,9 +1300,15 @@
     if (chromeMatch) {
       parts.push("Chrome " + chromeMatch[1].split(".")[0]);
     }
+    if (safariMatch) {
+      parts.push("Safari " + safariMatch[1]);
+    }
+    if (isZalo) {
+      parts.push("Zalo");
+    }
 
     if (!parts.length) {
-      return "—";
+      return userAgent || "—";
     }
 
     return parts.join(" • ");
@@ -2860,9 +2903,10 @@
     const opts = options && typeof options === "object" ? options : {};
     guestTokenLoginMode = !!enabled;
     guestTokenValue = guestTokenLoginMode ? getGuestTokenFromQuery() : "";
+    $("body").toggleClass("is-guest-token-login", guestTokenLoginMode);
     if (guestTokenLoginMode) {
-      $guestGateSubtitle.text(t("guest_token_prompt"));
-      setGuestInviteMessage(t("guest_token_prompt"));
+      $guestGateSubtitle.text("");
+      setGuestInviteMessage("");
     } else {
       $guestGateSubtitle.text(t("guest_subtitle"));
       if (opts.clearEmail) {
@@ -2891,11 +2935,11 @@
           return;
         }
         setGuestTokenMode(false, null, { clearEmail: true });
-        setGuestInviteMessage(t("guest_token_invalid"));
+        showResultModal(t("guest_token_invalid"), "error");
       })
       .catch(function () {
         setGuestTokenMode(false, null, { clearEmail: true });
-        setGuestInviteMessage(t("guest_token_invalid"));
+        showResultModal(t("guest_token_invalid"), "error");
       })
       .always(function () {
         guestTokenPending = false;
@@ -2916,7 +2960,10 @@
       event.preventDefault();
       const email = String($guestEmail.val() || "").trim();
       if (!email) {
-        setGuestInviteMessage(t("guest_missing"));
+        if (!guestTokenLoginMode) {
+          setGuestInviteMessage(t("guest_missing"));
+        }
+        showResultModal(t("guest_missing"), "error");
         return;
       }
 
@@ -2957,13 +3004,17 @@
           }
           const failMessage =
             (response && response.message) || t("guest_failed");
-          setGuestInviteMessage(failMessage);
+          if (!guestTokenLoginMode) {
+            setGuestInviteMessage(failMessage);
+          }
           showResultModal(failMessage, "error");
         })
         .fail(function (xhr) {
           const payload = xhr && xhr.responseJSON;
           const failMessage = (payload && payload.message) || t("guest_failed");
-          setGuestInviteMessage(failMessage);
+          if (!guestTokenLoginMode) {
+            setGuestInviteMessage(failMessage);
+          }
           showResultModal(failMessage, "error");
         })
         .always(function () {

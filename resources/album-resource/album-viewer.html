@@ -18,11 +18,19 @@
       class="guest-gate is-hidden"
       aria-label="Guest invite"
     >
+      <div class="guest-gate-backdrop" aria-hidden="true"></div>
       <div class="guest-gate-card">
+        <div class="guest-gate-icon" aria-hidden="true">
+          <svg class="icon-stroke guest-gate-lock-icon" viewBox="0 0 64 64">
+            <path d="M22 28V21a10 10 0 0 1 20 0v7"></path>
+            <rect x="15" y="28" width="34" height="24" rx="5"></rect>
+            <circle cx="32" cy="40" r="4.5" class="icon-fill"></circle>
+          </svg>
+        </div>
         <p class="guest-gate-kicker" data-i18n="guest_kicker">Guest access</p>
         <h1 class="guest-gate-title" data-i18n="guest_title">Mời truy cập</h1>
         <p class="guest-gate-subtitle" data-i18n="guest_subtitle">
-          Nhập email của bạn để gửi lời mời tới quản trị viên.
+          Nhập email của bạn để gửi yêu cầu tới quản trị viên.
         </p>
         <form id="guest-invite-form" class="guest-gate-form" autocomplete="off">
           <div
@@ -41,9 +49,16 @@
               tabindex="-1"
             />
           </div>
-          <label for="guest-email" data-i18n="guest_email_label">Email</label>
+          <label class="sr-only" for="guest-email" data-i18n="guest_email_label"
+            >Email</label
+          >
           <div class="guest-gate-input-row">
-            <span class="guest-gate-symbol" aria-hidden="true">@</span>
+            <span class="guest-gate-symbol" aria-hidden="true">
+              <svg class="icon-stroke" viewBox="0 0 24 24">
+                <rect x="3" y="5" width="18" height="14" rx="3"></rect>
+                <path d="m4 7 8 6 8-6"></path>
+              </svg>
+            </span>
             <input
               id="guest-email"
               name="guest_email"
@@ -62,7 +77,33 @@
               data-i18n="guest_submit"
             >
               Gửi yêu cầu
+              <span class="guest-gate-button-icon" aria-hidden="true">
+                <svg class="icon-stroke" viewBox="0 0 24 24">
+                  <path d="M5 12h13"></path>
+                  <path d="m13 6 6 6-6 6"></path>
+                </svg>
+              </span>
             </button>
+          </div>
+          <div class="guest-gate-footer" aria-hidden="true">
+            <div class="guest-gate-footer-row">
+              <span class="guest-gate-divider"></span>
+              <span class="guest-gate-heart">
+                <svg class="icon-stroke" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21s-7.5-4.6-9.5-9.2A5.8 5.8 0 0 1 12 5.4a5.8 5.8 0 0 1 9.5 6.4C19.5 16.4 12 21 12 21z"
+                  ></path>
+                </svg>
+              </span>
+              <span class="guest-gate-divider"></span>
+            </div>
+            <p class="guest-gate-footer-text">
+              Cảm ơn bạn đã quan tâm đến những khoảnh khắc
+              <br />
+              được chia sẻ tại đây.
+              <br />
+              Tôi sẽ phản hồi yêu cầu truy cập trong thời gian sớm nhất.
+            </p>
           </div>
           <p
             id="guest-invite-message"
