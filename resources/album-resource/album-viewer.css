@@ -157,8 +157,6 @@ body.is-viewer-open {
     overflow: hidden;
 }
 
-body.is-admin-view .mobile-menu-toggle,
-body.is-admin-view .mobile-sidebar-overlay,
 body.is-admin-view .album-header,
 body.is-admin-view .sidebar-search,
 body.is-admin-view #album-list,
@@ -1397,11 +1395,15 @@ body.is-guest-token-login .guest-gate-subtitle {
 .upload-dialog {
     position: relative;
     z-index: 1;
-    width: min(640px, calc(100vw - 26px));
+    width: min(700px, calc(100vw - 26px));
+    max-height: min(86vh, calc(100vh - 26px));
     background: color-mix(in srgb, var(--panel) 92%, var(--bg-top) 8%);
     border: 0.5px solid color-mix(in srgb, var(--line) 88%, transparent);
     border-radius: min(calc(14px * var(--radius-factor)), 20px);
     box-shadow: 0 20px 50px color-mix(in srgb, var(--settings-shadow) 82%, transparent);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .confirm-dialog {
@@ -1434,7 +1436,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .upload-dialog-header,
 .upload-dialog-footer {
-    padding: 18px;
+    padding: 14px 16px;
     border-bottom: 0.5px solid color-mix(in srgb, var(--line) 60%, transparent);
 }
 
@@ -1479,7 +1481,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .upload-dialog-header h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     color: var(--ink);
 }
 
@@ -1496,12 +1498,17 @@ body.is-guest-token-login .guest-gate-subtitle {
 }
 
 .upload-dialog-body {
-    padding: 18px;
+    padding: 14px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: hidden;
 }
 
 .audio-upload-section {
     display: grid;
-    gap: 10px;
+    gap: 8px;
 }
 
 .audio-upload-section .upload-label {
@@ -1547,8 +1554,13 @@ body.is-guest-token-login .guest-gate-subtitle {
 }
 
 .audio-list-section {
-  margin-bottom: 16px;
-    min-height: 210px;
+    margin: 0;
+    min-height: 0;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
 }
 .audio-preview-panel {
   margin-top: 12px;
@@ -1556,7 +1568,7 @@ body.is-guest-token-login .guest-gate-subtitle {
   border-radius: min(calc(10px * var(--radius-factor)), 12px);
   border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
   background: color-mix(in srgb, var(--panel) 86%, var(--bg-top) 14%);
-  display: grid;
+  display: none;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
@@ -1564,6 +1576,10 @@ body.is-guest-token-login .guest-gate-subtitle {
   transform: translateX(120px);
   pointer-events: none;
   transition: transform 0.28s ease, opacity 0.2s ease;
+}
+.audio-preview-panel.is-open,
+.audio-preview-panel.inline {
+  display: grid;
 }
 .audio-preview-panel.is-open {
   opacity: 1;
@@ -1922,14 +1938,18 @@ body.is-guest-token-login .guest-gate-subtitle {
 }
 
 .audio-table-wrap {
-    max-height: 200px;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
     overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid var(--line);
     border-radius: min(calc(8px * var(--radius-factor)), 10px);
     position: relative;
     box-sizing: border-box;
-    padding-bottom: 0;
+    padding: 0 6px 0 0;
+    scrollbar-gutter: stable;
+    background-clip: padding-box;
 }
 
 .audio-table {
@@ -2098,7 +2118,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .audio-list-empty {
     margin: 0;
-    padding: 16px 12px;
+    padding: 12px;
     font-size: 0.9rem;
     color: var(--muted);
     border: 1px dashed var(--line);
@@ -2106,7 +2126,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 }
 
 .audio-upload-divider {
-    margin: 16px 0;
+    margin: 8px 0 6px;
     border: none;
     border-top: 1px solid var(--line);
 }
