@@ -16,6 +16,8 @@ $albumTitlesFile = $rootDir . '/storage/album-titles.json';
 $albumHiddenFile = $rootDir . '/storage/album-hidden.json';
 $albumHiddenImagesFile = $rootDir . '/storage/album-hidden-images.json';
 $audioOrderFile = $rootDir . '/storage/audio-order.json';
+$invitationCardFile = $rootDir . '/storage/invitation_card.json';
+$invitationGuestbookFile = $rootDir . '/storage/invitation_guestbook.json';
 $buildLockFile = $rootDir . '/storage/build-images.lock';
 $buildLogFile = $rootDir . '/storage/build-images.log';
 $clientLogFile = $rootDir . '/.server.log';
@@ -689,6 +691,68 @@ function read_json_body(): array
     }
     $decoded = json_decode($raw, true);
     return is_array($decoded) ? $decoded : [];
+}
+
+function normalize_guestbook_text(string $value): string
+{
+    return preg_replace('/\s+/u', ' ', trim($value)) ?? trim($value);
+}
+
+function guestbook_text_length(string $value): int
+{
+    return function_exists('mb_strlen')
+        ? mb_strlen($value, 'UTF-8')
+        : strlen($value);
+}
+
+function load_invitation_guestbook(string $guestbookFile): array
+{
+    if (!is_file($guestbookFile)) {
+        return [];
+    }
+    $raw = @file_get_contents($guestbookFile);
+    $decoded = is_string($raw) ? json_decode($raw, true) : null;
+    if (!is_array($decoded)) {
+        return [];
+    }
+    return array_values(array_filter($decoded, static function ($entry): bool {
+        return is_array($entry)
+            && isset($entry['name'], $entry['message'])
+            && is_string($entry['name'])
+            && is_string($entry['message']);
+    }));
+}
+
+function save_invitation_guestbook(string $guestbookFile, array $entries): bool
+{
+    $dir = dirname($guestbookFile);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        return false;
+    }
+    $payload = json_encode(array_values($entries), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($payload)) {
+        return false;
+    }
+    return @file_put_contents($guestbookFile, $payload . PHP_EOL, LOCK_EX) !== false;
+}
+
+function guestbook_entry_duplicate(array $entries, string $name, string $message): bool
+{
+    $toLower = static function (string $value): string {
+        return function_exists('mb_strtolower')
+            ? mb_strtolower($value, 'UTF-8')
+            : strtolower($value);
+    };
+    $normalizedName = $toLower(normalize_guestbook_text($name));
+    $normalizedMessage = $toLower(normalize_guestbook_text($message));
+    foreach ($entries as $entry) {
+        $entryName = isset($entry['name']) && is_string($entry['name']) ? $toLower(normalize_guestbook_text($entry['name'])) : '';
+        $entryMessage = isset($entry['message']) && is_string($entry['message']) ? $toLower(normalize_guestbook_text($entry['message'])) : '';
+        if ($entryName === $normalizedName && $entryMessage === $normalizedMessage) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function cookie_path_for_base(string $basePath): string
@@ -2316,6 +2380,38 @@ if (
     $routePath = '/' . ltrim($routeParam, '/');
     $requestPath = $routePath;
 }
+$dearParam = isset($_GET['dear']) ? trim((string) $_GET['dear']) : '';
+$recipientNameParam = isset($_GET['name']) ? trim((string) $_GET['name']) : '';
+$recipientNameParam = $recipientNameParam !== ''
+    ? $recipientNameParam
+    : (isset($_GET['ten']) ? trim((string) $_GET['ten']) : '');
+$recipientTitleParam = isset($_GET['title']) ? trim((string) $_GET['title']) : '';
+$recipientTitleParam = $recipientTitleParam !== ''
+    ? $recipientTitleParam
+    : (isset($_GET['xung_ho']) ? trim((string) $_GET['xung_ho']) : '');
+$recipientTitleParam = $recipientTitleParam !== ''
+    ? $recipientTitleParam
+    : (isset($_GET['xungho']) ? trim((string) $_GET['xungho']) : '');
+$recipientTitleParam = $recipientTitleParam !== ''
+    ? $recipientTitleParam
+    : (isset($_GET['salutation']) ? trim((string) $_GET['salutation']) : '');
+$hasInvitationRecipient = $dearParam !== '' || $recipientNameParam !== '' || $recipientTitleParam !== '';
+$publicScrollCardRoutes = [
+    '/',
+    '/index.php',
+    '/index.html',
+    '/invitation_card',
+    '/scroll',
+    '/scroll-card',
+    '/thiep',
+];
+
+if ($hasInvitationRecipient && in_array($requestPath, $publicScrollCardRoutes, true)) {
+    if (!is_file($viewerFile)) {
+        send_error_text(404, 'Viewer file not found.');
+    }
+    send_html_page($viewerFile, $rootDir);
+}
 
 if ($requestPath === '/index.html') {
     redirect_to(with_base($basePath, '/'));
@@ -3348,6 +3444,81 @@ if ($requestPath === '/__albums__') {
     $hiddenMap = load_album_hidden($albumHiddenFile);
     $hiddenImagesMap = load_album_hidden_images($albumHiddenImagesFile);
     send_json(['albums' => build_albums($albumsDir, $rowDir, $thumbsDir, $titleMap, $hiddenMap, $hiddenImagesMap)]);
+}
+
+if ($requestPath === '/__invitation_card__') {
+    if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'GET') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+    $payload = [
+        'greet_content' => 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]',
+    ];
+    if (is_file($invitationCardFile)) {
+        $raw = @file_get_contents($invitationCardFile);
+        $decoded = is_string($raw) ? json_decode($raw, true) : null;
+        if (is_array($decoded)) {
+            $payload = array_merge($payload, $decoded);
+        }
+    }
+    send_json($payload);
+}
+
+if ($requestPath === '/__invitation_guestbook__') {
+    $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    $entries = load_invitation_guestbook($invitationGuestbookFile);
+
+    if ($method === 'GET') {
+        send_json([
+            'ok' => true,
+            'entries' => $entries,
+        ]);
+    }
+
+    if ($method !== 'POST') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+
+    $payload = read_json_body();
+    $name = isset($payload['name']) && is_string($payload['name'])
+        ? normalize_guestbook_text($payload['name'])
+        : '';
+    $message = isset($payload['message']) && is_string($payload['message'])
+        ? normalize_guestbook_text($payload['message'])
+        : '';
+
+    if ($name === '' || $message === '') {
+        send_json(['ok' => false, 'message' => 'Vui lòng nhập tên và lời chúc.'], 400);
+    }
+
+    if (guestbook_text_length($name) > 80 || guestbook_text_length($message) > 600) {
+        send_json(['ok' => false, 'message' => 'Nội dung quá dài.'], 400);
+    }
+
+    if (guestbook_entry_duplicate($entries, $name, $message)) {
+        send_json([
+            'ok' => true,
+            'duplicate' => true,
+            'message' => 'Lời chúc này đã được lưu trước đó.',
+            'entries' => $entries,
+        ]);
+    }
+
+    $entry = [
+        'name' => $name,
+        'message' => $message,
+        'created_at' => date('Y-m-d H:i:s'),
+    ];
+    array_unshift($entries, $entry);
+
+    if (!save_invitation_guestbook($invitationGuestbookFile, $entries)) {
+        send_json(['ok' => false, 'message' => 'Không lưu được lời chúc.'], 500);
+    }
+
+    send_json([
+        'ok' => true,
+        'entry' => $entry,
+        'entries' => $entries,
+    ]);
 }
 
 if ($requestPath === '/__download__') {

@@ -63,6 +63,7 @@
   const loadMoreThreshold = 320;
   const imageObserverMargin = "350px 0px";
   const viewerMinLoadingMs = 260;
+  const inviteRequestPageSizeOptions = [10, 20, 50];
 
   const fallbackDict = {
     vi: {
@@ -126,6 +127,9 @@
       invite_requests_action_lock: "Khóa token",
       invite_requests_action_unlock: "Mở khóa token",
       invite_requests_action_confirm: "Xác nhận thao tác: {action}?",
+      invite_requests_page_size_label: "STT",
+      invite_requests_page_prev: "Trang trước",
+      invite_requests_page_next: "Trang sau",
       invite_requests_copy_success: "Đã sao chép liên kết",
       invite_requests_copy_fail: "Không thể sao chép liên kết",
       invite_requests_delete_confirm: "Xóa yêu cầu này?",
@@ -192,6 +196,10 @@
       audio_preview_pause: "Tạm dừng",
       audio_preview_close: "Đóng",
       audio_preview_volume: "Âm lượng",
+      audio_preview_prev: "Bài trước",
+      audio_preview_next: "Bài sau",
+      audio_play_all: "Phát tất cả",
+      audio_stop_all: "Dừng phát",
       upload_audio_file_required: "Vui lòng chọn ít nhất 1 file âm thanh.",
       upload_audio_success:
         "Đã upload {count} file audio vào thư mục src/audio.",
@@ -323,6 +331,9 @@
       invite_requests_action_unlock: "Unlock token",
       invite_requests_action_confirm: "Confirm action: {action}?",
       invite_requests_delete_confirm: "Delete this request?",
+      invite_requests_page_size_label: "Rows",
+      invite_requests_page_prev: "Previous page",
+      invite_requests_page_next: "Next page",
       invite_requests_updated: "Request updated.",
       invite_status_pending: "Pending",
       invite_status_locked: "Locked",
@@ -386,6 +397,10 @@
       audio_preview_pause: "Pause audio",
       audio_preview_close: "Close",
       audio_preview_volume: "Volume",
+      audio_preview_prev: "Previous track",
+      audio_preview_next: "Next track",
+      audio_play_all: "Play all",
+      audio_stop_all: "Stop",
       upload_audio_file_required: "Please select at least one audio file.",
       upload_audio_success: "Uploaded {count} audio file(s) to src/audio.",
       upload_audio_fail: "Audio upload failed.",
@@ -505,6 +520,45 @@
   const $gridLoadingOverlay = $("#grid-loading-overlay");
   const $imageGrid = $("#image-grid");
   const $template = $("#image-item-template");
+  const $scrollCardRoute = $("#scroll-card-route");
+  const $scrollCardClosed = $("#scroll-card-closed");
+  const $scrollCardTitle = $("#scroll-card-title");
+  const $scrollCardRecipient = $("#scroll-card-recipient");
+  const $scrollCardMessage = $("#scroll-card-message");
+  const $scrollCardEvent = $("#scroll-card-event");
+  const $scrollCardEventTime = $("#scroll-card-event-time");
+  const $scrollCardCeremonyLocation = $("#scroll-card-ceremony-location");
+  const $scrollCardSender = $("#scroll-card-sender");
+  const $weddingCoverNameA = $("#wedding-cover-name-a");
+  const $weddingCoverNameB = $("#wedding-cover-name-b");
+  const $weddingCoverDate = $("#wedding-cover-date");
+  const $weddingCoverGuest = $("#wedding-cover-guest");
+  const $weddingDetailNameA = $("#wedding-detail-name-a");
+  const $weddingDetailNameB = $("#wedding-detail-name-b");
+  const $weddingDetailDay = $("#wedding-detail-day");
+  const $weddingLunarDate = $("#wedding-lunar-date");
+  const $weddingGuestTime = $("#wedding-guest-time");
+  const $weddingPartyTime = $("#wedding-party-time");
+  const $weddingCalendarTitle = $("#wedding-calendar-title");
+  const $weddingCalendarDays = $("#wedding-calendar-days");
+  const $weddingPartyLocation = $("#wedding-party-location");
+  const $weddingMapFrame = $("#wedding-map-frame");
+  const $weddingBrideFather = $("#wedding-bride-father");
+  const $weddingBrideMother = $("#wedding-bride-mother");
+  const $weddingBrideAddress = $("#wedding-bride-address");
+  const $weddingGroomFather = $("#wedding-groom-father");
+  const $weddingGroomMother = $("#wedding-groom-mother");
+  const $weddingGroomAddress = $("#wedding-groom-address");
+  const $weddingGuestbookForm = $("#wedding-guestbook-form");
+  const $weddingGuestbookName = $("#wedding-guestbook-name");
+  const $weddingGuestbookMessage = $("#wedding-guestbook-message");
+  const $weddingGuestbookSubmit = $("#wedding-guestbook-submit");
+  const $weddingGuestbookStatus = $("#wedding-guestbook-status");
+  const $weddingGuestbookList = $("#wedding-guestbook-list");
+  const $scrollCardGallery = $("#scroll-card-gallery");
+  const $scrollCardMusic = $("#scroll-card-music");
+  const $scrollCardWelcome = $("#scroll-card-welcome");
+  const scrollCardAudio = $("#scroll-card-audio").get(0);
 
   const $sidebarTitle = $("#sidebar-title");
   const $sidebarHint = $("#sidebar-hint");
@@ -526,15 +580,18 @@
   const $audioList = $("#audio-list");
   const $audioListEmpty = $("#audio-list-empty");
   const $audioTableWrap = $("#audio-table-wrap");
+  const $audioUploadPlayAll = $("#audio-upload-play-all");
   const $audioPreviewPanel = $("#audio-preview-panel");
   const $audioPreviewHome = $audioPreviewPanel.parent();
   const $audioPreviewToggle = $("#audio-preview-toggle");
+  const $audioPreviewPrev = $("#audio-preview-prev");
   const $audioPreviewTitle = $("#audio-preview-title");
   const $audioPreviewProgress = $("#audio-preview-progress");
   const $audioPreviewTrack = $(".audio-preview-track");
   const $audioPreviewSeek = $("#audio-preview-seek");
   const $audioPreviewTime = $("#audio-preview-time");
   const $audioPreviewClose = $("#audio-preview-close");
+  const $audioPreviewNext = $("#audio-preview-next");
   const $audioPreviewVolumeToggle = $("#audio-preview-volume-toggle");
   const $audioPreviewVolumeWrap = $audioPreviewVolumeToggle.closest(
     ".audio-preview-volume-wrap",
@@ -691,6 +748,7 @@
     slideshowAudioIndex: 0,
     previewAudioFile: "",
     previewAudioPlaying: false,
+    previewAudioAutoAdvance: false,
     previewAudioVolume: Number(
       localStorage.getItem("album-viewer-preview-audio-volume") || "0.8",
     ),
@@ -700,6 +758,10 @@
     adminPanel: "",
     inviteRequests: [],
     inviteRequestsLoading: false,
+    inviteRequestPage: 1,
+    inviteRequestPageSize: Number(
+      localStorage.getItem("album-viewer-invite-request-page-size") || "10",
+    ),
     inviteRequestFilters: {
       email: "",
       status: "",
@@ -711,7 +773,86 @@
     },
     hiddenImageBase: {},
     hiddenImageCurrent: {},
+    scrollCard: {
+      enabled: false,
+      status: "closed",
+      title: "Chúc mừng!",
+      message:
+        "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
+      messageFromQuery: false,
+      recipientTitle: "",
+      recipientName: "",
+      recipientDisplayName: "",
+      senderName: "Yêu thương",
+      brideName: "Ngọc Ánh",
+      groomName: "Thế Bảo",
+      brideFather: "Lê Văn Khoa",
+      brideMother: "Phạm Thị Kim Oanh",
+      brideFamilyAddress: "456 Lê Lợi, Quận 3, TP. Hồ Chí Minh",
+      groomFather: "Trần Văn Tuấn",
+      groomMother: "Lê Thị Hương",
+      groomFamilyAddress: "123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
+      eventDate: "3 tháng 5, 2026",
+      eventTime: "",
+      lunarDate: "(Tức ngày 17/03 năm Bính Ngọ)",
+      guestTime: "17:30",
+      partyTime: "18:00",
+      ceremonyLocation: "Tư gia",
+      partyLocation:
+        "White Palace Convention Center, 194 Hoàng Văn Thụ, Phú Nhuận, Hồ Chí Minh",
+      mapQuery:
+        "White Palace Hoàng Văn Thụ, 194 Hoàng Văn Thụ, Phú Nhuận, Hồ Chí Minh",
+      eventTimeFromQuery: false,
+      eventLocationFromQuery: false,
+      images: [],
+      musicUrl: "",
+      musicReady: false,
+      musicPlaying: false,
+      autoplayBlocked: false,
+    },
   };
+
+  function getScrollCardConfigFromLocation() {
+    const query = new URLSearchParams(window.location.search || "");
+    const recipientTitle = String(
+      query.get("title") ||
+        query.get("xung_ho") ||
+        query.get("xungho") ||
+        query.get("salutation") ||
+        "",
+    ).trim();
+    const recipientName = String(
+      query.get("name") || query.get("ten") || "",
+    ).trim();
+    const legacyRecipient = String(query.get("dear") || "").trim();
+    const recipientDisplayName = [recipientTitle, recipientName]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+    if (!recipientDisplayName && !legacyRecipient) {
+      return { enabled: false };
+    }
+    return {
+      enabled: true,
+      title: String(query.get("card_title") || "Chúc mừng!").trim(),
+      message: String(
+        query.get("message") ||
+          "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
+      ).trim(),
+      messageFromQuery: query.has("message"),
+      recipientTitle: recipientTitle,
+      recipientName: recipientName,
+      recipientDisplayName: recipientDisplayName || legacyRecipient,
+      senderName: String(query.get("from") || "Yêu thương").trim(),
+      eventTime: String(query.get("time") || "").trim(),
+      partyLocation: String(query.get("location") || "").trim(),
+      eventTimeFromQuery: query.has("time"),
+      eventLocationFromQuery: query.has("location"),
+      musicUrl: String(query.get("music") || "").trim(),
+    };
+  }
+
+  Object.assign(state.scrollCard, getScrollCardConfigFromLocation());
 
   function getPageModeFromLocation() {
     const path = String(window.location.pathname || "").replace(/\/+$/, "");
@@ -755,6 +896,9 @@
     state.previewAudioVolume > 1
   ) {
     state.previewAudioVolume = 0.8;
+  }
+  if (!inviteRequestPageSizeOptions.includes(Number(state.inviteRequestPageSize))) {
+    state.inviteRequestPageSize = 10;
   }
   previewAudio.volume = state.previewAudioVolume;
   previewAudio.muted = state.previewAudioVolume <= 0;
@@ -1425,6 +1569,137 @@
     };
   }
 
+  function getInviteRequestPageSize() {
+    const size = Number(state.inviteRequestPageSize);
+    return inviteRequestPageSizeOptions.includes(size) ? size : 10;
+  }
+
+  function setInviteRequestPageSize(size) {
+    const nextSize = inviteRequestPageSizeOptions.includes(Number(size))
+      ? Number(size)
+      : 10;
+    state.inviteRequestPageSize = nextSize;
+    state.inviteRequestPage = 1;
+    localStorage.setItem(
+      "album-viewer-invite-request-page-size",
+      String(nextSize),
+    );
+  }
+
+  function getInviteRequestPageCount(total) {
+    const size = getInviteRequestPageSize();
+    const count = Math.ceil(Math.max(0, Number(total) || 0) / size);
+    return Math.max(1, count);
+  }
+
+  function clampInviteRequestPage(page, total) {
+    const pageCount = getInviteRequestPageCount(total);
+    return Math.min(pageCount, Math.max(1, Number(page) || 1));
+  }
+
+  function getInviteRequestPageRange(currentPage, pageCount) {
+    if (pageCount <= 7) {
+      return Array.from({ length: pageCount }, function (_value, index) {
+        return index + 1;
+      });
+    }
+    const pages = [1];
+    let start = Math.max(2, currentPage - 1);
+    let end = Math.min(pageCount - 1, currentPage + 1);
+    if (currentPage <= 3) {
+      end = 4;
+    } else if (currentPage >= pageCount - 2) {
+      start = pageCount - 3;
+    }
+    if (start > 2) {
+      pages.push("...");
+    }
+    for (let page = start; page <= end; page += 1) {
+      pages.push(page);
+    }
+    if (end < pageCount - 1) {
+      pages.push("...");
+    }
+    pages.push(pageCount);
+    return pages;
+  }
+
+  function renderInviteRequestPagination(total) {
+    const pageSize = getInviteRequestPageSize();
+    const pageCount = getInviteRequestPageCount(total);
+    state.inviteRequestPage = clampInviteRequestPage(state.inviteRequestPage, total);
+    const currentPage = state.inviteRequestPage;
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(total, currentPage * pageSize);
+    const optionsHtml = inviteRequestPageSizeOptions
+      .map(function (size) {
+        return (
+          '<option value="' +
+          String(size) +
+          '"' +
+          (size === pageSize ? " selected" : "") +
+          ">" +
+          String(size) +
+          "</option>"
+        );
+      })
+      .join("");
+    const pageButtons = getInviteRequestPageRange(currentPage, pageCount)
+      .map(function (item) {
+        if (item === "...") {
+          return '<span class="admin-request-pagination-ellipsis">…</span>';
+        }
+        const active = item === currentPage ? " is-active" : "";
+        return (
+          '<button type="button" class="admin-request-pagination-page' +
+          active +
+          '" data-page="' +
+          String(item) +
+          '">' +
+          String(item) +
+          "</button>"
+        );
+      })
+      .join("");
+    return (
+      '<div class="admin-request-pagination">' +
+      '<div class="admin-request-pagination-range">' +
+      escapeHtml(String(total === 0 ? 0 : start)) +
+      "–" +
+      escapeHtml(String(total === 0 ? 0 : end)) +
+      " / " +
+      escapeHtml(String(total)) +
+      "</div>" +
+      '<div class="admin-request-pagination-controls">' +
+      '<button type="button" class="admin-request-pagination-nav" data-page="' +
+      String(Math.max(1, currentPage - 1)) +
+      '" ' +
+      (currentPage <= 1 ? "disabled" : "") +
+      ' aria-label="' +
+      escapeHtml(t("invite_requests_page_prev")) +
+      '" title="' +
+      escapeHtml(t("invite_requests_page_prev")) +
+      '">‹</button>' +
+      pageButtons +
+      '<button type="button" class="admin-request-pagination-nav" data-page="' +
+      String(Math.min(pageCount, currentPage + 1)) +
+      '" ' +
+      (currentPage >= pageCount ? "disabled" : "") +
+      ' aria-label="' +
+      escapeHtml(t("invite_requests_page_next")) +
+      '" title="' +
+      escapeHtml(t("invite_requests_page_next")) +
+      '">›</button>' +
+      "</div>" +
+      '<label class="admin-request-pagination-size">' +
+      '<select id="invite-request-page-size" class="admin-request-pagination-select">' +
+      optionsHtml +
+      "</select>" +
+      "</label>" +
+      "</div>"
+    );
+  }
+
   function renderInviteRequestSearchForm() {
     const filters = state.inviteRequestFilters || {};
     const isCollapsed = Boolean(state.inviteSearchCollapsed);
@@ -1664,12 +1939,22 @@
       ? state.inviteRequests
       : [];
     const filteredRequests = filterInviteRequests(requests);
+    const totalRequests = filteredRequests.length;
+    const pageSize = getInviteRequestPageSize();
+    const pageCount = getInviteRequestPageCount(totalRequests);
+    state.inviteRequestPage = clampInviteRequestPage(
+      state.inviteRequestPage,
+      totalRequests,
+    );
+    const currentPage = state.inviteRequestPage;
+    const pageStart = (currentPage - 1) * pageSize;
+    const pageRequests = filteredRequests.slice(pageStart, pageStart + pageSize);
     const loadingHtml = state.inviteRequestsLoading
       ? '<p class="admin-request-empty">' +
         t("invite_requests_loading") +
         "</p>"
       : "";
-    const rows = filteredRequests
+    const rows = pageRequests
       .map(function (entry, index) {
         const email = escapeHtml(entry && entry.guest_email);
         const createdAt = escapeHtml(
@@ -1724,7 +2009,7 @@
             : "";
         return [
           "<tr>",
-          "<td>" + (index + 1) + "</td>",
+          "<td>" + (pageStart + index + 1) + "</td>",
           '<td class="admin-request-email">' + email + "</td>",
           "<td>" + requestCount + "</td>",
           '<td><span class="admin-request-status ' +
@@ -1797,7 +2082,8 @@
           t("invite_requests_col_action") +
           "</th></tr></thead><tbody>" +
           rows +
-          "</tbody></table></div>";
+          "</tbody></table></div>" +
+          renderInviteRequestPagination(totalRequests);
 
     $adminPlaceholderForm.html(
       '<section class="admin-request-panel">' +
@@ -1829,6 +2115,7 @@
       event.preventDefault();
       const $container = $("#invite-request-search-form");
       setInviteRequestFilters(getInviteRequestFiltersFromForm($container));
+      state.inviteRequestPage = 1;
       renderAdminRequestsPanel();
     });
     function resetInviteRequestFilters() {
@@ -1841,12 +2128,28 @@
         path: "",
         agent: "",
       });
+      state.inviteRequestPage = 1;
       renderAdminRequestsPanel();
     }
     $("#invite-request-search-reset").on("click", resetInviteRequestFilters);
     $("#invite-request-search-reset-header").on("click", function () {
       loadInviteRequests(true);
     });
+    $("#invite-request-page-size").on("change", function () {
+      setInviteRequestPageSize($(this).val());
+      renderAdminRequestsPanel();
+    });
+    $(".admin-request-pagination-page, .admin-request-pagination-nav").on(
+      "click",
+      function () {
+        const nextPage = Number($(this).attr("data-page"));
+        if (!Number.isFinite(nextPage)) {
+          return;
+        }
+        state.inviteRequestPage = nextPage;
+        renderAdminRequestsPanel();
+      },
+    );
 
     function toggleInviteRequestSearchDetails() {
       const $details = $(".admin-request-search-details");
@@ -1973,6 +2276,13 @@
     $audioListEmpty.text(t("upload_audio_list_empty"));
     $audioUploadFilesLabel.text(t("upload_audio_files_label"));
     $audioUploadHelpText.text(t("upload_audio_help"));
+    $audioUploadPlayAll.text(
+      state.previewAudioAutoAdvance ? t("audio_stop_all") : t("audio_play_all"),
+    );
+    $audioUploadPlayAll.toggleClass(
+      "is-active",
+      state.previewAudioAutoAdvance,
+    );
     $audioUploadCancel.text(t("upload_cancel"));
     $audioUploadSubmit
       .attr("aria-label", t("upload_audio_submit"))
@@ -1980,6 +2290,12 @@
     $audioPreviewToggle
       .attr("aria-label", t("audio_preview_play"))
       .attr("title", t("audio_preview_play"));
+    $audioPreviewPrev
+      .attr("aria-label", t("audio_preview_prev"))
+      .attr("title", t("audio_preview_prev"));
+    $audioPreviewNext
+      .attr("aria-label", t("audio_preview_next"))
+      .attr("title", t("audio_preview_next"));
     $audioPreviewVolumeToggle
       .attr("aria-label", t("audio_preview_volume"))
       .attr("title", t("audio_preview_volume"));
@@ -2252,6 +2568,9 @@
       );
     }
     setPreviewPlaying(false);
+    if (state.previewAudioAutoAdvance) {
+      playNextPreviewAudio();
+    }
   });
 
   function playSlideshowAudio() {
@@ -2291,7 +2610,7 @@
           response && response.ok && Array.isArray(response.files)
             ? response.files
             : [];
-        const orderedFiles = orderAudioFiles(files);
+        const orderedFiles = files.slice();
         state.slideshowAudioList = orderedFiles;
         if (!orderedFiles.length) {
           pauseSlideshowAudio(true);
@@ -2515,6 +2834,84 @@
           ? t("audio_preview_pause")
           : t("audio_preview_play"),
       );
+    updatePreviewTrackControls();
+  }
+
+  function updatePreviewTrackControls() {
+    const hasList = Array.isArray(state.slideshowAudioList) &&
+      state.slideshowAudioList.length > 0;
+    const currentIndex = hasList
+      ? state.slideshowAudioList.indexOf(state.previewAudioFile)
+      : -1;
+    const canPrev = hasList && currentIndex > 0;
+    const canNext = hasList && currentIndex > -1 && currentIndex < state.slideshowAudioList.length - 1;
+    $audioPreviewPrev
+      .prop("disabled", !canPrev)
+      .attr("aria-label", t("audio_preview_prev"))
+      .attr("title", t("audio_preview_prev"));
+    $audioPreviewNext
+      .prop("disabled", !canNext)
+      .attr("aria-label", t("audio_preview_next"))
+      .attr("title", t("audio_preview_next"));
+  }
+
+  function updateAudioUploadPlayAllButton() {
+    if (!$audioUploadPlayAll.length) {
+      return;
+    }
+    $audioUploadPlayAll
+      .text(state.previewAudioAutoAdvance ? t("audio_stop_all") : t("audio_play_all"))
+      .toggleClass("is-active", state.previewAudioAutoAdvance);
+  }
+
+  function stopPreviewAutoAdvance() {
+    state.previewAudioAutoAdvance = false;
+    updateAudioUploadPlayAllButton();
+  }
+
+  function startPreviewAutoAdvance() {
+    stopPreviewAudio(true);
+    state.previewAudioFile = "";
+    clearPreviewAnchor();
+    state.previewAudioAutoAdvance = true;
+    updateAudioUploadPlayAllButton();
+    if (!state.slideshowAudioList.length) {
+      loadAudioList();
+      return;
+    }
+    playPreviewAudio(state.slideshowAudioList[0]);
+  }
+
+  function playNextPreviewAudio() {
+    if (!state.previewAudioAutoAdvance || !state.slideshowAudioList.length) {
+      stopPreviewAutoAdvance();
+      return;
+    }
+    const currentIndex = state.slideshowAudioList.indexOf(state.previewAudioFile);
+    const nextIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
+    if (nextIndex < state.slideshowAudioList.length) {
+      playPreviewAudio(state.slideshowAudioList[nextIndex]);
+      return;
+    }
+    stopPreviewAutoAdvance();
+  }
+
+  function playPreviewTrackByOffset(offset) {
+    if (!Array.isArray(state.slideshowAudioList) || !state.slideshowAudioList.length) {
+      return;
+    }
+    const currentIndex = state.slideshowAudioList.indexOf(state.previewAudioFile);
+    let nextIndex = currentIndex;
+    if (currentIndex < 0) {
+      nextIndex = offset > 0 ? 0 : state.slideshowAudioList.length - 1;
+    } else {
+      nextIndex = currentIndex + offset;
+    }
+    nextIndex = Math.max(0, Math.min(state.slideshowAudioList.length - 1, nextIndex));
+    const nextFilename = state.slideshowAudioList[nextIndex];
+    if (nextFilename) {
+      playPreviewAudio(nextFilename);
+    }
   }
 
   function stopPreviewAudio(reset) {
@@ -2528,6 +2925,7 @@
     }
     setPreviewPlaying(false);
     updatePreviewProgress();
+    updatePreviewTrackControls();
   }
 
   function clearPreviewAnchor() {
@@ -2621,6 +3019,7 @@
 
   function closePreviewPanel() {
     stopPreviewAudio(true);
+    stopPreviewAutoAdvance();
     setPreviewPanelOpen(false);
     state.previewAudioFile = "";
     clearPreviewAnchor();
@@ -2651,6 +3050,7 @@
       .catch(function () {
         setPreviewPlaying(false);
       });
+    updatePreviewTrackControls();
   }
 
   previewAudio.addEventListener("timeupdate", function () {
@@ -2680,6 +3080,9 @@
   });
   previewAudio.addEventListener("ended", function () {
     setPreviewPlaying(false);
+    if (state.previewAudioAutoAdvance) {
+      playNextPreviewAudio();
+    }
   });
 
   $audioTableWrap.on("scroll", function () {
@@ -2689,46 +3092,12 @@
     updatePreviewOverlayPosition();
   });
 
-  function getAudioOrderKey() {
-    return "album-viewer-audio-order";
-  }
-
-  function loadAudioOrder() {
-    try {
-      const raw = localStorage.getItem(getAudioOrderKey());
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed)
-        ? parsed.filter(function (item) {
-            return typeof item === "string";
-          })
-        : [];
-    } catch (_err) {
-      return [];
-    }
-  }
-
-  function saveAudioOrder(order) {
-    localStorage.setItem(getAudioOrderKey(), JSON.stringify(order));
-  }
-
-  function orderAudioFiles(files) {
-    const order = loadAudioOrder();
-    if (!order.length) {
-      return files.slice();
-    }
-    const lookup = new Map();
-    files.forEach(function (name) {
-      lookup.set(name, true);
-    });
-    const ordered = order.filter(function (name) {
-      return lookup.has(name);
-    });
-    files.forEach(function (name) {
-      if (!order.includes(name)) {
-        ordered.push(name);
-      }
-    });
-    return ordered;
+  function canManageAudioOrder() {
+    return (
+      state.authUser &&
+      state.authRole &&
+      state.authRole.toLowerCase() === "admin"
+    );
   }
 
   function updateAudioRowNumbers() {
@@ -2748,13 +3117,8 @@
       }
     });
     if (order.length) {
-      saveAudioOrder(order);
       state.slideshowAudioList = order.slice();
-      if (
-        state.authUser &&
-        state.authRole &&
-        state.authRole.toLowerCase() === "admin"
-      ) {
+      if (canManageAudioOrder()) {
         $.ajax({
           url: buildApiUrl("__audio_order__"),
           method: "POST",
@@ -2762,7 +3126,7 @@
           data: JSON.stringify({ order: order }),
           dataType: "json",
         }).fail(function () {
-          // Keep local order if server fails.
+          loadAudioList();
         });
       }
     }
@@ -3276,10 +3640,11 @@
     if (!state.authUser) {
       return;
     }
+    $audioUploadPlayAll.prop("disabled", true);
     $.getJSON(buildApiUrl("__list_audio__"))
       .done(function (data) {
-        const rawFiles = Array.isArray(data && data.files) ? data.files : [];
-        const files = orderAudioFiles(rawFiles);
+        const files = Array.isArray(data && data.files) ? data.files : [];
+        $audioUploadPlayAll.prop("disabled", files.length === 0);
         $audioList.empty();
         if (files.length === 0) {
           $("#audio-table-wrap").addClass("is-hidden");
@@ -3295,7 +3660,10 @@
             const tr = document.createElement("tr");
             tr.className = "audio-table-row";
             tr.setAttribute("data-filename", name);
-            tr.setAttribute("draggable", "true");
+            tr.setAttribute(
+              "draggable",
+              canManageAudioOrder() ? "true" : "false",
+            );
             const tdNo = document.createElement("td");
             tdNo.className = "audio-col-no";
             tdNo.textContent = index + 1;
@@ -3351,11 +3719,21 @@
           }
         }
         setPreviewPlaying(state.previewAudioPlaying);
+        updatePreviewTrackControls();
+        if (
+          state.previewAudioAutoAdvance &&
+          !state.previewAudioFile &&
+          files.length
+        ) {
+          playPreviewAudio(files[0]);
+        }
       })
       .fail(function () {
         $audioList.empty();
         $("#audio-table-wrap").addClass("is-hidden");
         $audioListEmpty.removeClass("is-hidden");
+        stopPreviewAutoAdvance();
+        $audioUploadPlayAll.prop("disabled", true);
       });
   }
 
@@ -5257,6 +5635,23 @@
       openAudioUploadModal();
     });
 
+    $audioUploadPlayAll.on("click", function () {
+      if (state.previewAudioAutoAdvance) {
+        stopPreviewAudio(false);
+        stopPreviewAutoAdvance();
+        return;
+      }
+      startPreviewAutoAdvance();
+    });
+
+    $audioPreviewPrev.on("click", function () {
+      playPreviewTrackByOffset(-1);
+    });
+
+    $audioPreviewNext.on("click", function () {
+      playPreviewTrackByOffset(1);
+    });
+
     $audioUploadModal.on(
       "click",
       "[data-role='close-audio-upload-modal']",
@@ -5330,6 +5725,10 @@
     });
 
     $audioList.on("dragstart", ".audio-table-row", function (event) {
+      if (!canManageAudioOrder()) {
+        event.preventDefault();
+        return;
+      }
       const filename = $(this).attr("data-filename") || "";
       if (!filename) {
         return;
@@ -5348,6 +5747,9 @@
     });
 
     $audioList.on("dragover", ".audio-table-row", function (event) {
+      if (!canManageAudioOrder()) {
+        return;
+      }
       event.preventDefault();
       const nativeEvent = event.originalEvent;
       if (nativeEvent && nativeEvent.dataTransfer) {
@@ -5361,6 +5763,9 @@
     });
 
     $audioList.on("drop", ".audio-table-row", function (event) {
+      if (!canManageAudioOrder()) {
+        return;
+      }
       event.preventDefault();
       const nativeEvent = event.originalEvent;
       const filename =
@@ -6250,7 +6655,7 @@
     state.slideshowPlaying = true;
     updateSlideshowButtonState();
     scheduleSlideshowStep();
-    playSlideshowAudio();
+    ensureSlideshowAudioList({ autoplay: true });
   }
 
   function scheduleSlideshowStep() {
@@ -7065,6 +7470,566 @@
       });
   }
 
+  function getScrollCardStatusClass(status) {
+    return "is-" + (status || "closed");
+  }
+
+  function setScrollCardStatus(status) {
+    state.scrollCard.status = status;
+    $scrollCardRoute
+      .removeClass("is-closed is-opening is-opened")
+      .addClass(getScrollCardStatusClass(status));
+  }
+
+  function triggerScrollCardBurst() {
+    $scrollCardRoute.removeClass("is-bursting");
+    window.requestAnimationFrame(function () {
+      $scrollCardRoute.addClass("is-bursting");
+      window.setTimeout(function () {
+        $scrollCardRoute.removeClass("is-bursting");
+      }, 1500);
+    });
+  }
+
+  function setScrollCardMusicButton() {
+    const label = state.scrollCard.musicPlaying
+      ? "Tắt nhạc"
+      : state.scrollCard.autoplayBlocked
+        ? "Bật nhạc"
+        : "Bật nhạc";
+    $scrollCardMusic
+      .toggleClass("is-playing", state.scrollCard.musicPlaying)
+      .toggleClass("is-hidden", false)
+      .find(".scroll-card-music-text")
+      .text(label);
+  }
+
+  function stopScrollCardMusic() {
+    if (!scrollCardAudio) {
+      return;
+    }
+    scrollCardAudio.pause();
+    state.scrollCard.musicPlaying = false;
+    setScrollCardMusicButton();
+  }
+
+  function playScrollCardMusic() {
+    if (!scrollCardAudio || !state.scrollCard.musicReady) {
+      return;
+    }
+    scrollCardAudio.loop = true;
+    scrollCardAudio.volume = 0.72;
+    scrollCardAudio
+      .play()
+      .then(function () {
+        state.scrollCard.autoplayBlocked = false;
+        state.scrollCard.musicPlaying = true;
+        setScrollCardMusicButton();
+      })
+      .catch(function () {
+        state.scrollCard.autoplayBlocked = true;
+        state.scrollCard.musicPlaying = false;
+        setScrollCardMusicButton();
+      });
+  }
+
+  function toggleScrollCardMusic() {
+    if (!scrollCardAudio || !state.scrollCard.musicReady) {
+      return;
+    }
+    if (state.scrollCard.musicPlaying) {
+      stopScrollCardMusic();
+      return;
+    }
+    playScrollCardMusic();
+  }
+
+  function renderScrollCardGallery(images) {
+    const list = Array.isArray(images) ? images.slice(0, 4) : [];
+    if (!list.length) {
+      $scrollCardGallery.html(
+        '<div class="scroll-card-photo-placeholder">' +
+          '<span>♡</span><strong>Khoảnh khắc kỷ niệm</strong>' +
+          "<em>Ảnh sẽ hiện ở đây khi album có dữ liệu</em>" +
+          "</div>",
+      );
+      return;
+    }
+    $scrollCardGallery.html(
+      list
+        .map(function (item, index) {
+          return (
+            '<figure class="scroll-card-photo">' +
+            '<img src="' +
+            escapeHtml(item.src) +
+            '" alt="' +
+            escapeHtml(item.alt || "Ảnh kỷ niệm " + (index + 1)) +
+            '" loading="lazy" decoding="async" />' +
+            "</figure>"
+          );
+        })
+        .join(""),
+    );
+  }
+
+  function loadScrollCardImages() {
+    return $.getJSON(albumsApiPath)
+      .then(function (data) {
+        const albums = Array.isArray(data && data.albums) ? data.albums : [];
+        const images = [];
+        albums.some(function (album) {
+          if (!album || album.hidden || album.isAll) {
+            return false;
+          }
+          const folder = String(album.folder || "");
+          const entries = Array.isArray(album.images) ? album.images : [];
+          entries.some(function (entry) {
+            if (!entry || entry.hidden || images.length >= 4) {
+              return images.length >= 4;
+            }
+            const info = resolveImageInfo(folder, entry);
+            images.push({
+              src: info.detailPath || info.imagePath || info.originalPath,
+              alt: toCaptionBaseName(info.originalName || info.fileName),
+            });
+            return images.length >= 4;
+          });
+          return images.length >= 4;
+        });
+        state.scrollCard.images = images;
+        renderScrollCardGallery(images);
+      })
+      .catch(function () {
+        renderScrollCardGallery([]);
+      });
+  }
+
+  function loadScrollCardContent() {
+    return $.getJSON(buildApiUrl("__invitation_card__"))
+      .then(function (data) {
+        const greetContent =
+          data && typeof data.greet_content === "string"
+            ? data.greet_content.trim()
+            : "";
+        if (greetContent && !state.scrollCard.messageFromQuery) {
+          state.scrollCard.message = greetContent;
+        }
+        if (data && typeof data.bride_name === "string") {
+          state.scrollCard.brideName = data.bride_name.trim();
+        }
+        if (data && typeof data.groom_name === "string") {
+          state.scrollCard.groomName = data.groom_name.trim();
+        }
+        if (data && typeof data.bride_father === "string") {
+          state.scrollCard.brideFather = data.bride_father.trim();
+        }
+        if (data && typeof data.bride_mother === "string") {
+          state.scrollCard.brideMother = data.bride_mother.trim();
+        }
+        if (data && typeof data.bride_family_address === "string") {
+          state.scrollCard.brideFamilyAddress =
+            data.bride_family_address.trim();
+        }
+        if (data && typeof data.groom_father === "string") {
+          state.scrollCard.groomFather = data.groom_father.trim();
+        }
+        if (data && typeof data.groom_mother === "string") {
+          state.scrollCard.groomMother = data.groom_mother.trim();
+        }
+        if (data && typeof data.groom_family_address === "string") {
+          state.scrollCard.groomFamilyAddress =
+            data.groom_family_address.trim();
+        }
+        if (data && typeof data.event_date === "string") {
+          state.scrollCard.eventDate = data.event_date.trim();
+        }
+        if (
+          data &&
+          typeof data.event_time === "string" &&
+          !state.scrollCard.eventTimeFromQuery
+        ) {
+          state.scrollCard.eventTime = data.event_time.trim();
+        }
+        if (data && typeof data.lunar_date === "string") {
+          state.scrollCard.lunarDate = data.lunar_date.trim();
+        }
+        if (data && typeof data.guest_time === "string") {
+          state.scrollCard.guestTime = data.guest_time.trim();
+        }
+        if (data && typeof data.party_time === "string") {
+          state.scrollCard.partyTime = data.party_time.trim();
+        }
+        if (
+          data &&
+          typeof data.ceremony_location === "string" &&
+          !state.scrollCard.eventLocationFromQuery
+        ) {
+          state.scrollCard.ceremonyLocation = data.ceremony_location.trim();
+        }
+        if (
+          data &&
+          typeof data.party_location === "string" &&
+          !state.scrollCard.eventLocationFromQuery
+        ) {
+          state.scrollCard.partyLocation = data.party_location.trim();
+        }
+        if (
+          data &&
+          typeof data.event_location === "string" &&
+          !state.scrollCard.eventLocationFromQuery
+        ) {
+          state.scrollCard.partyLocation = data.event_location.trim();
+        }
+        if (data && typeof data.map_query === "string") {
+          state.scrollCard.mapQuery = data.map_query.trim();
+        }
+        renderScrollCardTexts();
+      })
+      .catch(function () {});
+  }
+
+  function loadScrollCardMusic() {
+    const configuredMusic = state.scrollCard.musicUrl;
+    if (configuredMusic) {
+      if (scrollCardAudio) {
+        scrollCardAudio.src = configuredMusic;
+        scrollCardAudio.loop = true;
+        state.scrollCard.musicReady = true;
+        playScrollCardMusic();
+      }
+      setScrollCardMusicButton();
+      return $.Deferred().resolve().promise();
+    }
+    return $.getJSON(buildApiUrl("__list_audio_public__"))
+      .then(function (response) {
+        const files =
+          response && response.ok && Array.isArray(response.files)
+            ? response.files
+            : [];
+        if (files.length && scrollCardAudio) {
+          const randomIndex = Math.floor(Math.random() * files.length);
+          scrollCardAudio.src = getSlideshowAudioSrc(files[randomIndex]);
+          scrollCardAudio.loop = true;
+          state.scrollCard.musicReady = true;
+          playScrollCardMusic();
+        }
+        setScrollCardMusicButton();
+      })
+      .catch(function () {
+        state.scrollCard.musicReady = false;
+        setScrollCardMusicButton();
+      });
+  }
+
+  function parseWeddingDateParts(eventDate) {
+    const raw = String(eventDate || "");
+    const numbers = raw.match(/\d+/g) || [];
+    return {
+      day: numbers[0] ? Number(numbers[0]) : 3,
+      month: numbers[1] ? Number(numbers[1]) : 5,
+      year: numbers[2] ? Number(numbers[2]) : 2026,
+    };
+  }
+
+  function renderWeddingCalendar(eventDate) {
+    const parts = parseWeddingDateParts(eventDate);
+    const month = Math.min(Math.max(parts.month, 1), 12);
+    const year = parts.year || 2026;
+    const weddingDay = Math.min(Math.max(parts.day, 1), 31);
+    const firstDay = new Date(year, month - 1, 1).getDay();
+    const mondayOffset = (firstDay + 6) % 7;
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const cells = [];
+    for (let index = 0; index < mondayOffset; index += 1) {
+      cells.push("<span></span>");
+    }
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      cells.push(
+        '<span class="' +
+          (day === weddingDay ? "is-wedding-day" : "") +
+          '">' +
+          day +
+          "</span>",
+      );
+    }
+    $weddingCalendarTitle.text("Tháng " + month + " / " + year);
+    $weddingCalendarDays.html(cells.join(""));
+  }
+
+  function getDisplayLastTwoWords(name) {
+    const words = String(name || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+    return words.slice(-2).join(" ") || String(name || "").trim();
+  }
+
+  function formatScrollCardGreeting(message, recipient) {
+    const title = String(state.scrollCard.recipientTitle || "").trim();
+    const name = String(state.scrollCard.recipientName || "").trim();
+    return String(message || "")
+      .replace(/\[title\]/gi, title)
+      .replace(/\[name\]/gi, name || recipient)
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function renderScrollCardTexts() {
+    const recipient =
+      state.scrollCard.recipientDisplayName ||
+      [state.scrollCard.recipientTitle, state.scrollCard.recipientName]
+        .filter(Boolean)
+        .join(" ")
+        .trim() ||
+      "bạn";
+    const brideName = state.scrollCard.brideName || "Ngọc Ánh";
+    const groomName = state.scrollCard.groomName || "Thế Bảo";
+    const brideDisplayName = getDisplayLastTwoWords(brideName);
+    const groomDisplayName = getDisplayLastTwoWords(groomName);
+    const eventDate = state.scrollCard.eventDate || "";
+    $scrollCardTitle.html(
+      escapeHtml(brideName) + "<br />&amp;<br />" + escapeHtml(groomName),
+    );
+    $scrollCardRecipient.text("Thân gửi " + recipient + ",");
+    $scrollCardMessage.text(
+      formatScrollCardGreeting(state.scrollCard.message, recipient),
+    );
+    $weddingCoverNameA.text(brideDisplayName);
+    $weddingCoverNameB.text(groomDisplayName);
+    $weddingCoverDate.text(eventDate);
+    $weddingCoverGuest.text(recipient);
+    $weddingDetailNameA.text(brideDisplayName.toUpperCase());
+    $weddingDetailNameB.text(groomDisplayName.toUpperCase());
+    $weddingBrideFather.text(state.scrollCard.brideFather || "");
+    $weddingBrideMother.text(state.scrollCard.brideMother || "");
+    $weddingBrideAddress.text(state.scrollCard.brideFamilyAddress || "");
+    $weddingGroomFather.text(state.scrollCard.groomFather || "");
+    $weddingGroomMother.text(state.scrollCard.groomMother || "");
+    $weddingGroomAddress.text(state.scrollCard.groomFamilyAddress || "");
+    $weddingPartyLocation.text(state.scrollCard.partyLocation || "");
+    const dayMatch = eventDate.match(/\b(\d{1,2})\b/);
+    $weddingDetailDay.text(dayMatch ? dayMatch[1].padStart(2, "0") : "03");
+    $weddingLunarDate.text(state.scrollCard.lunarDate || "");
+    $weddingGuestTime.text(state.scrollCard.guestTime || "17:30");
+    $weddingPartyTime.text(
+      state.scrollCard.partyTime ||
+        (state.scrollCard.eventTime || "").split(",")[0] ||
+        "18:00",
+    );
+    renderWeddingCalendar(eventDate);
+    $weddingMapFrame.attr(
+      "src",
+      "https://www.google.com/maps?q=" +
+        encodeURIComponent(
+          state.scrollCard.mapQuery ||
+            state.scrollCard.partyLocation ||
+            "White Palace Hoàng Văn Thụ",
+        ) +
+        "&output=embed",
+    );
+    $scrollCardEventTime.text(state.scrollCard.eventTime || "");
+    $scrollCardCeremonyLocation.text(
+      state.scrollCard.ceremonyLocation
+        ? "LỄ THÀNH HÔN ĐƯỢC CỬ HÀNH TẠI " +
+            state.scrollCard.ceremonyLocation.toUpperCase()
+        : "",
+    );
+    $scrollCardEventTime.toggleClass("is-hidden", !state.scrollCard.eventTime);
+    $scrollCardCeremonyLocation.toggleClass(
+      "is-hidden",
+      !state.scrollCard.ceremonyLocation,
+    );
+    $scrollCardEvent.toggleClass(
+      "is-hidden",
+      !state.scrollCard.eventTime && !state.scrollCard.ceremonyLocation,
+    );
+    $scrollCardSender.text("— " + (state.scrollCard.senderName || "Yêu thương"));
+    document.title = "Thiệp gửi " + recipient;
+  }
+
+  function formatGuestbookDate(value) {
+    const raw = String(value || "").trim();
+    const match = raw.match(
+      /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})(?::(\d{2}))?/,
+    );
+    if (!match) {
+      return raw;
+    }
+    return (
+      match[4] +
+      ":" +
+      match[5] +
+      (match[6] ? ":" + match[6] : "") +
+      " " +
+      match[3] +
+      "/" +
+      match[2] +
+      "/" +
+      match[1]
+    );
+  }
+
+  function renderWeddingGuestbook(entries) {
+    const list = Array.isArray(entries) ? entries : [];
+    if (!list.length) {
+      $weddingGuestbookList.html(
+        '<p class="wedding-guestbook-empty">Chưa có lời chúc nào.</p>',
+      );
+      return;
+    }
+    $weddingGuestbookList.html(
+      list
+        .map(function (entry) {
+          const name = escapeHtml(entry && entry.name ? entry.name : "Khách mời");
+          const message = escapeHtml(entry && entry.message ? entry.message : "");
+          const createdAt = escapeHtml(formatGuestbookDate(entry && entry.created_at));
+          return (
+            '<article class="wedding-guestbook-item">' +
+            '<header><strong>' +
+            name +
+            "</strong>" +
+            (createdAt ? "<time>" + createdAt + "</time>" : "") +
+            "</header>" +
+            "<p>" +
+            message +
+            "</p>" +
+            "</article>"
+          );
+        })
+        .join(""),
+    );
+  }
+
+  function loadWeddingGuestbook() {
+    return $.getJSON(buildApiUrl("__invitation_guestbook__"))
+      .then(function (response) {
+        renderWeddingGuestbook(
+          response && Array.isArray(response.entries) ? response.entries : [],
+        );
+      })
+      .catch(function () {
+        $weddingGuestbookStatus.text("Không tải được sổ lưu bút.");
+      });
+  }
+
+  function submitWeddingGuestbook() {
+    const name = String($weddingGuestbookName.val() || "").trim();
+    const message = String($weddingGuestbookMessage.val() || "").trim();
+    if (!name || !message) {
+      $weddingGuestbookStatus.text("Vui lòng nhập tên và lời chúc.");
+      return;
+    }
+    $weddingGuestbookSubmit.prop("disabled", true);
+    $weddingGuestbookStatus.text("Đang gửi lời chúc...");
+    $.ajax({
+      url: buildApiUrl("__invitation_guestbook__"),
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({ name: name, message: message }),
+    })
+      .done(function (response) {
+        renderWeddingGuestbook(
+          response && Array.isArray(response.entries) ? response.entries : [],
+        );
+        $weddingGuestbookStatus.text(
+          response && response.duplicate
+            ? "Lời chúc này đã được lưu trước đó."
+            : "Đã gửi lời chúc. Cảm ơn bạn!",
+        );
+        if (!(response && response.duplicate)) {
+          $weddingGuestbookMessage.val("");
+        }
+      })
+      .fail(function (xhr) {
+        const response = xhr && xhr.responseJSON;
+        $weddingGuestbookStatus.text(
+          response && response.message
+            ? response.message
+            : "Không gửi được lời chúc.",
+        );
+      })
+      .always(function () {
+        $weddingGuestbookSubmit.prop("disabled", false);
+      });
+  }
+
+  function closeScrollCard() {
+    stopScrollCardMusic();
+    setScrollCardStatus("closed");
+    $scrollCardRoute.attr("aria-hidden", "false");
+    resetScrollCardViewport("auto");
+  }
+
+  function resetScrollCardViewport(behavior) {
+    const scrollBehavior = behavior || "auto";
+    const route = $scrollCardRoute.get(0);
+    if (route && route.scrollTo) {
+      route.scrollTo({ top: 0, left: 0, behavior: scrollBehavior });
+    } else if (route) {
+      route.scrollTop = 0;
+      route.scrollLeft = 0;
+    }
+    if (window.scrollTo) {
+      window.scrollTo({ top: 0, left: 0, behavior: scrollBehavior });
+    }
+  }
+
+  function openScrollCard() {
+    if (state.scrollCard.status !== "closed") {
+      return;
+    }
+    playScrollCardMusic();
+    resetScrollCardViewport("auto");
+    triggerScrollCardBurst();
+    setScrollCardStatus("opening");
+    window.setTimeout(function () {
+      setScrollCardStatus("opened");
+      window.requestAnimationFrame(function () {
+        resetScrollCardViewport("auto");
+      });
+      if (!state.scrollCard.musicPlaying) {
+        playScrollCardMusic();
+      }
+    }, 760);
+  }
+
+  function bindScrollCardEvents() {
+    $scrollCardClosed.on("click", openScrollCard);
+    $scrollCardMusic.on("click", toggleScrollCardMusic);
+    $scrollCardWelcome.on("click", closeScrollCard);
+    $weddingGuestbookForm.on("submit", function (event) {
+      event.preventDefault();
+      submitWeddingGuestbook();
+    });
+    $(document).on("keydown.scrollCard", function (event) {
+      if (!state.scrollCard.enabled || event.key !== "Escape") {
+        return;
+      }
+      closeScrollCard();
+    });
+  }
+
+  function initScrollCardRoute() {
+    $("body")
+      .removeClass("is-auth-pending is-guest-view is-app-view is-admin-view")
+      .addClass("is-scroll-card-view");
+    $scrollCardRoute.attr("aria-hidden", "false");
+    renderScrollCardTexts();
+    renderScrollCardGallery([]);
+    setScrollCardStatus("closed");
+    resetScrollCardViewport("auto");
+    setScrollCardMusicButton();
+    bindScrollCardEvents();
+    $.when(
+      loadScrollCardContent(),
+      loadScrollCardImages(),
+      loadScrollCardMusic(),
+      loadWeddingGuestbook(),
+    ).always(function () {
+      setScrollCardMusicButton();
+    });
+  }
+
   function loadAuthStatus() {
     return $.getJSON(buildApiUrl("__auth_status__"))
       .then(function (data) {
@@ -7097,79 +8062,85 @@
       });
   }
 
-  bindSettingsEvents();
-  bindGuestInviteForm();
-  loadGuestTokenStatus();
-  bindAdminNavButton();
-  bindInviteRequestsButton();
-  bindAdminRequestTooltipEvents();
-  bindAdminRequestActionEvents();
-  bindImageViewerEvents();
-  bindProgressiveLoadEvents();
-  ensureImageObserver();
-  applyTheme();
-  applyColorPack();
-  applyRadius();
-  applySidebarState();
-  applyMobileSidebarState();
-  updateSearchClearState();
-  updateAuthUi();
-  renderInitialState();
+  if (state.scrollCard.enabled) {
+    applyTheme();
+    applyColorPack();
+    initScrollCardRoute();
+  } else {
+    bindSettingsEvents();
+    bindGuestInviteForm();
+    loadGuestTokenStatus();
+    bindAdminNavButton();
+    bindInviteRequestsButton();
+    bindAdminRequestTooltipEvents();
+    bindAdminRequestActionEvents();
+    bindImageViewerEvents();
+    bindProgressiveLoadEvents();
+    ensureImageObserver();
+    applyTheme();
+    applyColorPack();
+    applyRadius();
+    applySidebarState();
+    applyMobileSidebarState();
+    updateSearchClearState();
+    updateAuthUi();
+    renderInitialState();
 
-  if (themeMedia.addEventListener) {
-    themeMedia.addEventListener("change", function () {
-      if (state.theme === "system") {
-        applyTheme();
+    if (themeMedia.addEventListener) {
+      themeMedia.addEventListener("change", function () {
+        if (state.theme === "system") {
+          applyTheme();
+          applyColorPack();
+        }
+      });
+    }
+
+    if (mobileMedia.addEventListener) {
+      mobileMedia.addEventListener("change", function () {
+        if (!mobileMedia.matches) {
+          state.mobileSidebarOpen = false;
+        }
+        applySidebarState();
+        applyMobileSidebarState();
+        if (!$imageViewer.hasClass("is-hidden")) {
+          updateViewerCaption(state.viewerCaptionRaw);
+        }
+      });
+    }
+
+    loadLanguages()
+      .then(function () {
+        return loadColorPacks();
+      })
+      .then(function () {
+        return loadAuthStatus();
+      })
+      .then(function (isAuth) {
+        updateStaticTexts();
+        renderInitialState();
+        updateScrollTopVisibility();
+        if (isAuth) {
+          return loadAlbums();
+        }
+        return null;
+      })
+      .catch(function () {
+        state.dict = fallbackDict;
+        if (!state.dict[state.lang]) {
+          state.lang = defaultLang;
+        }
+        state.colorPacks = defaultColorPacks;
+        ensureValidColorPack();
         applyColorPack();
-      }
-    });
+        updateStaticTexts();
+        setViewMode("guest");
+        updateAuthUi();
+        updateScrollTopVisibility();
+        if (state.authUser) {
+          loadAlbums().catch(function () {
+            renderError();
+          });
+        }
+      });
   }
-
-  if (mobileMedia.addEventListener) {
-    mobileMedia.addEventListener("change", function () {
-      if (!mobileMedia.matches) {
-        state.mobileSidebarOpen = false;
-      }
-      applySidebarState();
-      applyMobileSidebarState();
-      if (!$imageViewer.hasClass("is-hidden")) {
-        updateViewerCaption(state.viewerCaptionRaw);
-      }
-    });
-  }
-
-  loadLanguages()
-    .then(function () {
-      return loadColorPacks();
-    })
-    .then(function () {
-      return loadAuthStatus();
-    })
-    .then(function (isAuth) {
-      updateStaticTexts();
-      renderInitialState();
-      updateScrollTopVisibility();
-      if (isAuth) {
-        return loadAlbums();
-      }
-      return null;
-    })
-    .catch(function () {
-      state.dict = fallbackDict;
-      if (!state.dict[state.lang]) {
-        state.lang = defaultLang;
-      }
-      state.colorPacks = defaultColorPacks;
-      ensureValidColorPack();
-      applyColorPack();
-      updateStaticTexts();
-      setViewMode("guest");
-      updateAuthUi();
-      updateScrollTopVisibility();
-      if (state.authUser) {
-        loadAlbums().catch(function () {
-          renderError();
-        });
-      }
-    });
 })();
