@@ -1,3 +1,5 @@
+@import url("./fonts.css");
+
 :root {
   --bg-top: #040919;
   --bg-bottom: #050815;
@@ -52,7 +54,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Be Vietnam Pro Local", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background:
     radial-gradient(circle at 52% 42%, rgba(58, 82, 184, 0.22), transparent 0 18%, transparent 30%),
     radial-gradient(circle at 74% 54%, rgba(166, 77, 255, 0.16), transparent 0 14%, transparent 24%),
