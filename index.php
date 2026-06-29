@@ -9,6 +9,7 @@ $rowDir = $rootDir . '/src/row';
 $thumbsDir = $rootDir . '/src/thumbs';
 $viewerFile = $rootDir . '/resources/album-resource/album-viewer.html';
 $loginFile = $rootDir . '/resources/album-resource/login.html';
+$error404File = $rootDir . '/resources/album-resource/error-404.html';
 $userStoreFile = $rootDir . '/resources/user.json';
 $inviteEmailFile = $rootDir . '/resources/invite_email.json';
 $inviteRequestLogFile = $rootDir . '/storage/invite-requests.log';
@@ -17,6 +18,7 @@ $albumHiddenFile = $rootDir . '/storage/album-hidden.json';
 $albumHiddenImagesFile = $rootDir . '/storage/album-hidden-images.json';
 $audioOrderFile = $rootDir . '/storage/audio-order.json';
 $invitationCardFile = $rootDir . '/storage/invitation_card.json';
+$invitationLinksFile = $rootDir . '/storage/invitation_links.json';
 $invitationGuestbookFile = $rootDir . '/storage/invitation_guestbook.json';
 $buildLockFile = $rootDir . '/storage/build-images.lock';
 $buildLogFile = $rootDir . '/storage/build-images.log';
@@ -465,6 +467,32 @@ function send_error_text(int $status, string $message): void
     exit;
 }
 
+function send_error_page(
+    int $status,
+    string $title,
+    string $message,
+    string $htmlFile,
+    string $rootDir
+): void {
+    $html = render_html_with_versioned_assets($htmlFile, $rootDir);
+    if ($html === '') {
+        send_error_text($status, $message);
+    }
+
+    $replacements = [
+        '{{STATUS_CODE}}' => (string) $status,
+        '{{STATUS_TITLE}}' => $title,
+        '{{STATUS_MESSAGE}}' => $message,
+    ];
+    $html = strtr($html, $replacements);
+
+    send_status($status);
+    header('Content-Type: text/html; charset=utf-8');
+    header('Content-Length: ' . strlen($html));
+    echo $html;
+    exit;
+}
+
 function versioned_asset_path(string $assetPath, string $rootDir): string
 {
     if (
@@ -705,6 +733,133 @@ function guestbook_text_length(string $value): int
         : strlen($value);
 }
 
+function base64url_encode_string(string $value): string
+{
+    return rtrim(strtr(base64_encode($value), '+/', '-_'), '=');
+}
+
+function base64url_decode_string(string $value): string
+{
+    $normalized = strtr(trim($value), '-_', '+/');
+    $padding = strlen($normalized) % 4;
+    if ($padding > 0) {
+        $normalized .= str_repeat('=', 4 - $padding);
+    }
+    $decoded = base64_decode($normalized, true);
+    return is_string($decoded) ? $decoded : '';
+}
+
+function encode_invitation_recipient_payload(
+    string $title,
+    string $name,
+    string $prefix = '',
+    string $suffix = ''
+): string
+{
+    $query = http_build_query([
+        'prefix' => trim($prefix),
+        'title' => trim($title),
+        'name' => trim($name),
+        'suffix' => trim($suffix),
+    ], '', '&', PHP_QUERY_RFC3986);
+    return base64url_encode_string($query);
+}
+
+function decode_invitation_recipient_payload(string $encoded): array
+{
+    $decoded = base64url_decode_string($encoded);
+    if ($decoded === '') {
+        return [];
+    }
+    parse_str($decoded, $payload);
+    return is_array($payload) ? $payload : [];
+}
+
+function normalize_invitation_link_entry(array $entry): ?array
+{
+    $prefix = isset($entry['prefix']) && is_string($entry['prefix'])
+        ? normalize_guestbook_text($entry['prefix'])
+        : '';
+    $title = isset($entry['title']) && is_string($entry['title'])
+        ? normalize_guestbook_text($entry['title'])
+        : '';
+    $name = isset($entry['name']) && is_string($entry['name'])
+        ? normalize_guestbook_text($entry['name'])
+        : '';
+    $suffix = isset($entry['suffix']) && is_string($entry['suffix'])
+        ? normalize_guestbook_text($entry['suffix'])
+        : '';
+    $code = isset($entry['code']) && is_string($entry['code'])
+        ? trim($entry['code'])
+        : '';
+    if ($title === '' || $name === '' || $code === '') {
+        return null;
+    }
+    $linkPath = isset($entry['link_path']) && is_string($entry['link_path'])
+        ? trim($entry['link_path'])
+        : '';
+    $recipient = trim($title . ' ' . $name);
+    return [
+        'prefix' => $prefix,
+        'title' => $title,
+        'name' => $name,
+        'suffix' => $suffix,
+        'recipient' => $recipient,
+        'code' => $code,
+        'link_path' => $linkPath,
+        'created_at' => isset($entry['created_at']) && is_string($entry['created_at'])
+            ? trim($entry['created_at'])
+            : '',
+    ];
+}
+
+function load_invitation_links(string $invitationLinksFile): array
+{
+    if (!is_file($invitationLinksFile)) {
+        return [];
+    }
+    $raw = @file_get_contents($invitationLinksFile);
+    $decoded = is_string($raw) ? json_decode($raw, true) : null;
+    if (!is_array($decoded)) {
+        return [];
+    }
+    $entries = [];
+    foreach ($decoded as $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $normalized = normalize_invitation_link_entry($entry);
+        if ($normalized !== null) {
+            $entries[] = $normalized;
+        }
+    }
+    return array_values($entries);
+}
+
+function save_invitation_links(string $invitationLinksFile, array $entries): bool
+{
+    $dir = dirname($invitationLinksFile);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        upload_log('Invitation links save failed: cannot create directory ' . $dir);
+        return false;
+    }
+    $payload = json_encode(array_values($entries), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($payload)) {
+        upload_log('Invitation links save failed: json_encode returned false');
+        return false;
+    }
+    $saved = @file_put_contents($invitationLinksFile, $payload . PHP_EOL, LOCK_EX);
+    if ($saved === false) {
+        $lastError = error_get_last();
+        upload_log(
+            'Invitation links save failed for ' . $invitationLinksFile .
+            '; error=' . (isset($lastError['message']) ? (string) $lastError['message'] : 'unknown')
+        );
+        return false;
+    }
+    return true;
+}
+
 function load_invitation_guestbook(string $guestbookFile): array
 {
     if (!is_file($guestbookFile)) {
@@ -727,13 +882,36 @@ function save_invitation_guestbook(string $guestbookFile, array $entries): bool
 {
     $dir = dirname($guestbookFile);
     if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        upload_log('Guestbook save failed: cannot create directory ' . $dir);
         return false;
+    }
+    if (!is_writable($dir)) {
+        @chmod($dir, 0775);
+    }
+    if (!is_file($guestbookFile)) {
+        @touch($guestbookFile);
+        @chmod($guestbookFile, 0664);
+    } elseif (!is_writable($guestbookFile)) {
+        @chmod($guestbookFile, 0664);
     }
     $payload = json_encode(array_values($entries), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     if (!is_string($payload)) {
+        upload_log('Guestbook save failed: json_encode returned false');
         return false;
     }
-    return @file_put_contents($guestbookFile, $payload . PHP_EOL, LOCK_EX) !== false;
+    $saved = @file_put_contents($guestbookFile, $payload . PHP_EOL, LOCK_EX);
+    if ($saved === false) {
+        $lastError = error_get_last();
+        upload_log(
+            'Guestbook save failed for ' . $guestbookFile .
+            '; dirWritable=' . (is_writable($dir) ? 'yes' : 'no') .
+            '; fileExists=' . (is_file($guestbookFile) ? 'yes' : 'no') .
+            '; fileWritable=' . (is_writable($guestbookFile) ? 'yes' : 'no') .
+            '; error=' . (isset($lastError['message']) ? (string) $lastError['message'] : 'unknown')
+        );
+        return false;
+    }
+    return true;
 }
 
 function guestbook_entry_duplicate(array $entries, string $name, string $message): bool
@@ -2380,22 +2558,18 @@ if (
     $routePath = '/' . ltrim($routeParam, '/');
     $requestPath = $routePath;
 }
-$dearParam = isset($_GET['dear']) ? trim((string) $_GET['dear']) : '';
-$recipientNameParam = isset($_GET['name']) ? trim((string) $_GET['name']) : '';
-$recipientNameParam = $recipientNameParam !== ''
-    ? $recipientNameParam
-    : (isset($_GET['ten']) ? trim((string) $_GET['ten']) : '');
-$recipientTitleParam = isset($_GET['title']) ? trim((string) $_GET['title']) : '';
-$recipientTitleParam = $recipientTitleParam !== ''
-    ? $recipientTitleParam
-    : (isset($_GET['xung_ho']) ? trim((string) $_GET['xung_ho']) : '');
-$recipientTitleParam = $recipientTitleParam !== ''
-    ? $recipientTitleParam
-    : (isset($_GET['xungho']) ? trim((string) $_GET['xungho']) : '');
-$recipientTitleParam = $recipientTitleParam !== ''
-    ? $recipientTitleParam
-    : (isset($_GET['salutation']) ? trim((string) $_GET['salutation']) : '');
-$hasInvitationRecipient = $dearParam !== '' || $recipientNameParam !== '' || $recipientTitleParam !== '';
+$invitationDataParam = isset($_GET['data']) ? trim((string) $_GET['data']) : '';
+$decodedInvitationPayload = $invitationDataParam !== ''
+    ? decode_invitation_recipient_payload($invitationDataParam)
+    : [];
+$decodedInvitationNameParam = isset($decodedInvitationPayload['name']) && is_string($decodedInvitationPayload['name'])
+    ? trim($decodedInvitationPayload['name'])
+    : '';
+$decodedInvitationTitleParam = isset($decodedInvitationPayload['title']) && is_string($decodedInvitationPayload['title'])
+    ? trim($decodedInvitationPayload['title'])
+    : '';
+$hasInvitationData = $invitationDataParam !== '';
+$hasValidInvitationData = $hasInvitationData && $decodedInvitationTitleParam !== '' && $decodedInvitationNameParam !== '';
 $publicScrollCardRoutes = [
     '/',
     '/index.php',
@@ -2406,7 +2580,23 @@ $publicScrollCardRoutes = [
     '/thiep',
 ];
 
-if ($hasInvitationRecipient && in_array($requestPath, $publicScrollCardRoutes, true)) {
+if ($requestPath === '/invitation_card' && !$hasValidInvitationData) {
+    send_error_page(
+        404,
+        'Thiệp Mời Không Tồn Tại',
+        'Link thiệp này không hợp lệ hoặc đã bị thay đổi.',
+        $error404File,
+        $rootDir
+    );
+}
+
+if (
+    (
+        $hasValidInvitationData ||
+        in_array($requestPath, ['/invitation_card', '/scroll', '/scroll-card', '/thiep'], true)
+    ) &&
+    in_array($requestPath, $publicScrollCardRoutes, true)
+) {
     if (!is_file($viewerFile)) {
         send_error_text(404, 'Viewer file not found.');
     }
@@ -3463,6 +3653,91 @@ if ($requestPath === '/__invitation_card__') {
     send_json($payload);
 }
 
+if ($requestPath === '/__invitation_links__') {
+    if (!is_admin()) {
+        send_json(['ok' => false, 'message' => 'Forbidden.'], 403);
+    }
+
+    $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    $entries = load_invitation_links($invitationLinksFile);
+
+    if ($method === 'GET') {
+        send_json([
+            'ok' => true,
+            'entries' => $entries,
+        ]);
+    }
+
+    if ($method !== 'POST') {
+        send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
+    }
+
+    $payload = read_json_body();
+    $prefix = isset($payload['prefix']) && is_string($payload['prefix'])
+        ? normalize_guestbook_text($payload['prefix'])
+        : '';
+    $title = isset($payload['title']) && is_string($payload['title'])
+        ? normalize_guestbook_text($payload['title'])
+        : '';
+    $name = isset($payload['name']) && is_string($payload['name'])
+        ? normalize_guestbook_text($payload['name'])
+        : '';
+    $suffix = isset($payload['suffix']) && is_string($payload['suffix'])
+        ? normalize_guestbook_text($payload['suffix'])
+        : '';
+
+    if ($title === '' || $name === '') {
+        send_json(['ok' => false, 'message' => 'Vui lòng nhập xưng hô và tên.'], 400);
+    }
+
+    if (
+        guestbook_text_length($prefix) > 80 ||
+        guestbook_text_length($title) > 40 ||
+        guestbook_text_length($name) > 120 ||
+        guestbook_text_length($suffix) > 80
+    ) {
+        send_json(['ok' => false, 'message' => 'Thông tin người nhận quá dài.'], 400);
+    }
+
+    $code = encode_invitation_recipient_payload($title, $name, $prefix, $suffix);
+    foreach ($entries as $existingEntry) {
+        if (
+            isset($existingEntry['code']) &&
+            is_string($existingEntry['code']) &&
+            hash_equals($existingEntry['code'], $code)
+        ) {
+            send_json([
+                'ok' => true,
+                'duplicate' => true,
+                'entry' => $existingEntry,
+                'entries' => $entries,
+            ]);
+        }
+    }
+
+    $entry = [
+        'prefix' => $prefix,
+        'title' => $title,
+        'name' => $name,
+        'suffix' => $suffix,
+        'recipient' => trim($title . ' ' . $name),
+        'code' => $code,
+        'link_path' => with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code),
+        'created_at' => date('Y-m-d H:i:s'),
+    ];
+    array_unshift($entries, $entry);
+
+    if (!save_invitation_links($invitationLinksFile, $entries)) {
+        send_json(['ok' => false, 'message' => 'Không lưu được thiệp mời.'], 500);
+    }
+
+    send_json([
+        'ok' => true,
+        'entry' => $entry,
+        'entries' => $entries,
+    ]);
+}
+
 if ($requestPath === '/__invitation_guestbook__') {
     $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
     $entries = load_invitation_guestbook($invitationGuestbookFile);
@@ -3511,7 +3786,7 @@ if ($requestPath === '/__invitation_guestbook__') {
     array_unshift($entries, $entry);
 
     if (!save_invitation_guestbook($invitationGuestbookFile, $entries)) {
-        send_json(['ok' => false, 'message' => 'Không lưu được lời chúc.'], 500);
+        send_json(['ok' => false, 'message' => 'Không lưu được lời chúc trên máy chủ.'], 500);
     }
 
     send_json([
@@ -3539,4 +3814,10 @@ if ($requestPath === '/' || $requestPath === '/index.php' || str_ends_with_compa
     send_html_page($viewerFile, $rootDir);
 }
 
-send_error_text(404, 'Not Found');
+send_error_page(
+    404,
+    'Trang Không Tồn Tại',
+    'Có vẻ bạn vừa đi lạc khỏi album. Hãy quay lại trang chính để tiếp tục nhé.',
+    $error404File,
+    $rootDir
+);

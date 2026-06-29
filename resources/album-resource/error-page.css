@@ -1,0 +1,134 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Be Vietnam Pro Local", sans-serif;
+  color: #22181a;
+  background:
+    radial-gradient(circle at top, rgba(255, 223, 212, 0.95), transparent 42%),
+    linear-gradient(160deg, #fff8f3 0%, #f8ebe7 48%, #f3d8d1 100%);
+}
+
+.error-page {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.error-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(10px);
+  opacity: 0.7;
+}
+
+.error-orb-a {
+  width: 280px;
+  height: 280px;
+  top: -90px;
+  left: -70px;
+  background: radial-gradient(circle, rgba(194, 80, 60, 0.22), transparent 70%);
+}
+
+.error-orb-b {
+  width: 320px;
+  height: 320px;
+  right: -120px;
+  bottom: -120px;
+  background: radial-gradient(circle, rgba(114, 61, 57, 0.18), transparent 72%);
+}
+
+.error-card {
+  position: relative;
+  z-index: 1;
+  width: min(560px, calc(100vw - 32px));
+  padding: 40px 32px;
+  border: 1px solid rgba(126, 79, 72, 0.14);
+  border-radius: 28px;
+  background: rgba(255, 250, 247, 0.82);
+  box-shadow:
+    0 24px 70px rgba(101, 59, 54, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.error-code {
+  margin: 0 0 10px;
+  font-family: "Playfair Display Local", serif;
+  font-size: clamp(4rem, 12vw, 6.5rem);
+  line-height: 0.9;
+  color: #a14f45;
+}
+
+.error-title {
+  margin: 0;
+  font-family: "Playfair Display Local", serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+}
+
+.error-message {
+  margin: 16px auto 0;
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #6e5651;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.error-btn {
+  min-width: 150px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.error-btn:hover {
+  transform: translateY(-1px);
+}
+
+.error-btn-primary {
+  background: linear-gradient(135deg, #b65b4f 0%, #87413a 100%);
+  color: #fffaf8;
+  box-shadow: 0 14px 28px rgba(135, 65, 58, 0.22);
+}
+
+.error-btn-secondary {
+  border: 1px solid rgba(135, 65, 58, 0.18);
+  background: rgba(255, 255, 255, 0.65);
+  color: #7d4942;
+}
+
+@media (max-width: 640px) {
+  .error-card {
+    padding: 32px 20px;
+    border-radius: 22px;
+  }
+
+  .error-btn {
+    width: 100%;
+  }
+}

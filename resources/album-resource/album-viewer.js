@@ -570,6 +570,7 @@
   const $sidebarEditCancel = $("#sidebar-edit-cancel");
   const $albumUploadButton = $("#album-upload-button");
   const $audioUploadButton = $("#audio-upload-button");
+  const $invitationLinkButton = $("#invitation-link-button");
   const $audioUploadModal = $("#audio-upload-modal");
   const $audioUploadInput = $("#audio-upload-input");
   const $audioUploadFilesLabel = $("#audio-upload-files-label");
@@ -603,6 +604,17 @@
   const $audioColNo = $("#audio-col-no");
   const $audioColTitle = $("#audio-col-title");
   const $audioColAction = $("#audio-col-action");
+  const $invitationLinkModal = $("#invitation-link-modal");
+  const $invitationLinkPrefix = $("#invitation-link-prefix");
+  const $invitationLinkTitle = $("#invitation-link-title");
+  const $invitationLinkName = $("#invitation-link-name");
+  const $invitationLinkSuffix = $("#invitation-link-suffix");
+  const $invitationLinkSubmit = $("#invitation-link-submit");
+  const $invitationLinkCancel = $("#invitation-link-cancel");
+  const $invitationLinkError = $("#invitation-link-error");
+  const $invitationLinkList = $("#invitation-link-list");
+  const $invitationLinkListEmpty = $("#invitation-link-list-empty");
+  const $invitationLinkTableWrap = $("#invitation-link-table-wrap");
   const $uploadModal = $("#upload-modal");
   const $uploadAlbumName = $("#upload-album-name");
   const $uploadAlbumError = $("#upload-album-error");
@@ -734,6 +746,7 @@
     uploadType: "files",
     uploading: false,
     uploadingAudio: false,
+    creatingInvitationLink: false,
     viewerPreloadCache: {},
     inviteSearchCollapsed: true,
     viewerPreloadPromises: {},
@@ -758,6 +771,8 @@
     adminPanel: "",
     inviteRequests: [],
     inviteRequestsLoading: false,
+    invitationLinks: [],
+    invitationLinksLoading: false,
     inviteRequestPage: 1,
     inviteRequestPageSize: Number(
       localStorage.getItem("album-viewer-invite-request-page-size") || "10",
@@ -780,9 +795,11 @@
       message:
         "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
       messageFromQuery: false,
+      recipientPrefix: "",
       recipientTitle: "",
       recipientName: "",
       recipientDisplayName: "",
+      recipientSuffix: "",
       senderName: "Yêu thương",
       brideName: "Ngọc Ánh",
       groomName: "Thế Bảo",
@@ -814,22 +831,16 @@
 
   function getScrollCardConfigFromLocation() {
     const query = new URLSearchParams(window.location.search || "");
-    const recipientTitle = String(
-      query.get("title") ||
-        query.get("xung_ho") ||
-        query.get("xungho") ||
-        query.get("salutation") ||
-        "",
-    ).trim();
-    const recipientName = String(
-      query.get("name") || query.get("ten") || "",
-    ).trim();
-    const legacyRecipient = String(query.get("dear") || "").trim();
+    const decodedRecipient = decodeInvitationRecipientParams(query) || {};
+    const recipientPrefix = String(decodedRecipient.prefix || "").trim();
+    const recipientTitle = String(decodedRecipient.title || "").trim();
+    const recipientName = String(decodedRecipient.name || "").trim();
+    const recipientSuffix = String(decodedRecipient.suffix || "").trim();
     const recipientDisplayName = [recipientTitle, recipientName]
       .filter(Boolean)
       .join(" ")
       .trim();
-    if (!recipientDisplayName && !legacyRecipient) {
+    if (!recipientDisplayName) {
       return { enabled: false };
     }
     return {
@@ -840,9 +851,11 @@
           "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
       ).trim(),
       messageFromQuery: query.has("message"),
+      recipientPrefix: recipientPrefix,
       recipientTitle: recipientTitle,
       recipientName: recipientName,
-      recipientDisplayName: recipientDisplayName || legacyRecipient,
+      recipientDisplayName: recipientDisplayName,
+      recipientSuffix: recipientSuffix,
       senderName: String(query.get("from") || "Yêu thương").trim(),
       eventTime: String(query.get("time") || "").trim(),
       partyLocation: String(query.get("location") || "").trim(),
@@ -1258,10 +1271,56 @@
       .text(t("invite_requests_button"));
   }
 
+  function updateInvitationLinkButtonUi() {
+    if (!$invitationLinkButton.length) {
+      return;
+    }
+    const isAdminUser =
+      String(state.authRole || "").toLowerCase() === "admin" &&
+      !!String(state.authUser || "").trim();
+    const isAdminPage = state.pageMode === "admin";
+    if (!isAdminUser || !isAdminPage) {
+      $invitationLinkButton.addClass("is-hidden").removeClass("is-active");
+      return;
+    }
+    $invitationLinkButton
+      .removeClass("is-hidden")
+      .toggleClass("is-active", !$invitationLinkModal.hasClass("is-hidden"));
+  }
+
   function escapeHtml(value) {
     return $("<div></div>")
       .text(value == null ? "" : String(value))
       .html();
+  }
+
+  function decodeBase64UrlString(value) {
+    const encoded = String(value || "").trim();
+    if (!encoded) {
+      return "";
+    }
+    const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/");
+    const padded =
+      normalized + "===".slice((normalized.length + 3) % 4);
+    try {
+      return window.atob(padded);
+    } catch (_err) {
+      return "";
+    }
+  }
+
+  function decodeInvitationRecipientParams(query) {
+    const payload = decodeBase64UrlString(query && query.get("data"));
+    if (!payload) {
+      return null;
+    }
+    const params = new URLSearchParams(payload);
+    return {
+      prefix: String(params.get("prefix") || "").trim(),
+      title: String(params.get("title") || "").trim(),
+      name: String(params.get("name") || "").trim(),
+      suffix: String(params.get("suffix") || "").trim(),
+    };
   }
 
   function formatInviteDate(value) {
@@ -3186,6 +3245,7 @@
       $settingsLogout.addClass("is-hidden").prop("disabled", true);
       $albumUploadButton.addClass("is-hidden").prop("disabled", true);
       $audioUploadButton.addClass("is-hidden").prop("disabled", true);
+      $invitationLinkButton.addClass("is-hidden").prop("disabled", true);
       if ($adminNavButton.length) {
         $adminNavButton.addClass("is-hidden");
       }
@@ -3196,9 +3256,12 @@
       state.adminPanel = "";
       state.inviteRequests = [];
       state.inviteRequestsLoading = false;
+      state.invitationLinks = [];
+      state.invitationLinksLoading = false;
       updateAdminUserClass();
       closeUploadModal();
       closeAudioUploadModal();
+      closeInvitationLinkModal();
       renderAlbumList();
       return;
     }
@@ -3232,15 +3295,19 @@
     if (state.pageMode === "admin" && isAdmin) {
       $albumUploadButton.removeClass("is-hidden").prop("disabled", false);
       $audioUploadButton.removeClass("is-hidden").prop("disabled", false);
+      $invitationLinkButton.removeClass("is-hidden").prop("disabled", false);
     } else {
       $albumUploadButton.addClass("is-hidden").prop("disabled", true);
       $audioUploadButton.addClass("is-hidden").prop("disabled", true);
+      $invitationLinkButton.addClass("is-hidden").prop("disabled", true);
       closeUploadModal();
       closeAudioUploadModal();
+      closeInvitationLinkModal();
     }
     $(".thumb-delete").toggleClass("is-hidden", !isAdmin);
     updateAdminNavUi();
     updateInviteRequestsButtonUi();
+    updateInvitationLinkButtonUi();
     updateAdminUserClass();
     renderAlbumList();
   }
@@ -3411,6 +3478,18 @@
       state.adminPanel = "requests";
       updateInviteRequestsButtonUi();
       loadInviteRequests(true);
+    });
+  }
+
+  function bindInvitationLinkButton() {
+    if (!$invitationLinkButton.length) {
+      return;
+    }
+    $invitationLinkButton.on("click", function () {
+      if (state.pageMode !== "admin") {
+        return;
+      }
+      openInvitationLinkModal();
     });
   }
 
@@ -3752,6 +3831,173 @@
     $audioUploadError.text("");
     $audioUploadInput.val("");
     closePreviewPanel();
+  }
+
+  function toAbsoluteUrl(pathOrUrl) {
+    const raw = String(pathOrUrl || "").trim();
+    if (!raw) {
+      return "";
+    }
+    try {
+      return new URL(raw, window.location.origin).href;
+    } catch (_err) {
+      return raw;
+    }
+  }
+
+  function renderInvitationLinkList(entries) {
+    const list = Array.isArray(entries) ? entries : [];
+    state.invitationLinks = list.slice();
+    $invitationLinkList.empty();
+    const hasEntries = list.length > 0;
+    $invitationLinkTableWrap.toggleClass("is-hidden", !hasEntries);
+    $invitationLinkListEmpty.toggleClass("is-hidden", hasEntries);
+    if (!hasEntries) {
+      return;
+    }
+    list.forEach(function (entry, index) {
+      const tr = document.createElement("tr");
+      const tdNo = document.createElement("td");
+      tdNo.className = "audio-col-no";
+      tdNo.textContent = index + 1;
+
+      const tdRecipient = document.createElement("td");
+      tdRecipient.className = "invitation-link-col-recipient";
+      const recipient = document.createElement("span");
+      recipient.className = "invitation-link-recipient";
+      recipient.textContent = String(entry && entry.recipient ? entry.recipient : "");
+      recipient.setAttribute("title", recipient.textContent);
+      tdRecipient.appendChild(recipient);
+
+      const tdAction = document.createElement("td");
+      tdAction.className = "audio-col-action admin-request-actions";
+      const copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.className = "admin-request-action-button invitation-link-copy";
+      copyBtn.setAttribute("aria-label", "Copy link mời");
+      copyBtn.setAttribute("title", "Copy link mời");
+      copyBtn.setAttribute(
+        "data-link-path",
+        String(entry && entry.link_path ? entry.link_path : ""),
+      );
+      copyBtn.innerHTML =
+        '<svg viewBox="0 0 448 512" aria-hidden="true">' +
+        '<path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>' +
+        "</svg>";
+      tdAction.appendChild(copyBtn);
+
+      tr.appendChild(tdNo);
+      tr.appendChild(tdRecipient);
+      tr.appendChild(tdAction);
+      $invitationLinkList.append(tr);
+    });
+  }
+
+  function loadInvitationLinkList() {
+    if (!state.authUser) {
+      return $.Deferred().resolve().promise();
+    }
+    state.invitationLinksLoading = true;
+    $invitationLinkError.text("Đang tải danh sách thiệp...");
+    return $.getJSON(buildApiUrl("__invitation_links__"))
+      .done(function (response) {
+        renderInvitationLinkList(
+          response && Array.isArray(response.entries) ? response.entries : [],
+        );
+        $invitationLinkError.text("");
+      })
+      .fail(function (xhr) {
+        renderInvitationLinkList([]);
+        const payload = xhr && xhr.responseJSON;
+        $invitationLinkError.text(
+          (payload && payload.message) || "Không tải được danh sách thiệp.",
+        );
+      })
+      .always(function () {
+        state.invitationLinksLoading = false;
+      });
+  }
+
+  function openInvitationLinkModal() {
+    $invitationLinkError.text("");
+    renderInvitationLinkList(state.invitationLinks);
+    loadInvitationLinkList();
+    $invitationLinkModal.removeClass("is-hidden").attr("aria-hidden", "false");
+    updateInvitationLinkButtonUi();
+    window.setTimeout(function () {
+      $invitationLinkTitle.trigger("focus");
+    }, 0);
+  }
+
+  function closeInvitationLinkModal() {
+    $invitationLinkModal.addClass("is-hidden").attr("aria-hidden", "true");
+    $invitationLinkError.text("");
+    updateInvitationLinkButtonUi();
+  }
+
+  function submitInvitationLinkCreate() {
+    if (state.creatingInvitationLink) {
+      return;
+    }
+    if (!state.authUser) {
+      showResultModal("Bạn cần đăng nhập admin để tạo thiệp.", "warning");
+      return;
+    }
+    const prefix = String($invitationLinkPrefix.val() || "").trim();
+    const title = String($invitationLinkTitle.val() || "").trim();
+    const name = String($invitationLinkName.val() || "").trim();
+    const suffix = String($invitationLinkSuffix.val() || "").trim();
+    if (!title || !name) {
+      $invitationLinkError.text("Vui lòng nhập xưng hô và tên người nhận.");
+      return;
+    }
+    state.creatingInvitationLink = true;
+    $invitationLinkError.text("Đang tạo thiệp...");
+    $invitationLinkSubmit.prop("disabled", true);
+    $invitationLinkCancel.prop("disabled", true);
+    $.ajax({
+      url: buildApiUrl("__invitation_links__"),
+      method: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify({
+        prefix: prefix,
+        title: title,
+        name: name,
+        suffix: suffix,
+      }),
+    })
+      .done(function (response) {
+        if (!response || !response.ok) {
+          $invitationLinkError.text(
+            (response && response.message) || "Không tạo được thiệp mời.",
+          );
+          return;
+        }
+        renderInvitationLinkList(
+          Array.isArray(response.entries) ? response.entries : [],
+        );
+        $invitationLinkError.text(
+          response.duplicate
+            ? "Thiệp này đã tồn tại, mình đã giữ lại link cũ."
+            : "Tạo thiệp thành công.",
+        );
+        $invitationLinkPrefix.val("");
+        $invitationLinkTitle.val("");
+        $invitationLinkName.val("");
+        $invitationLinkSuffix.val("");
+      })
+      .fail(function (xhr) {
+        const payload = xhr && xhr.responseJSON;
+        $invitationLinkError.text(
+          (payload && payload.message) || "Không tạo được thiệp mời.",
+        );
+      })
+      .always(function () {
+        state.creatingInvitationLink = false;
+        $invitationLinkSubmit.prop("disabled", false);
+        $invitationLinkCancel.prop("disabled", false);
+      });
   }
 
   function closeConfirmModal(confirmed) {
@@ -5660,6 +5906,40 @@
       },
     );
 
+    $invitationLinkModal.on(
+      "click",
+      "[data-role='close-invitation-link-modal']",
+      function () {
+        closeInvitationLinkModal();
+      },
+    );
+
+    $invitationLinkSubmit.on("click", function () {
+      submitInvitationLinkCreate();
+    });
+
+    $invitationLinkName.on("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitInvitationLinkCreate();
+      }
+    });
+
+    $invitationLinkList.on("click", ".invitation-link-copy", function () {
+      const linkPath = String($(this).attr("data-link-path") || "").trim();
+      if (!linkPath) {
+        showResultModal("Không tìm thấy link thiệp để copy.", "error");
+        return;
+      }
+      copyTextToClipboard(toAbsoluteUrl(linkPath))
+        .then(function () {
+          showResultModal("Đã copy link thiệp mời.", "success");
+        })
+        .fail(function () {
+          showResultModal("Không copy được link thiệp mời.", "error");
+        });
+    });
+
     $audioList.on("click", ".audio-table-delete", function () {
       const filename = $(this).attr("data-filename") || "";
       if (!filename || !state.authUser) {
@@ -6158,6 +6438,13 @@
       }
       if (event.key === "Escape" && !$audioUploadModal.hasClass("is-hidden")) {
         closeAudioUploadModal();
+        return;
+      }
+      if (
+        event.key === "Escape" &&
+        !$invitationLinkModal.hasClass("is-hidden")
+      ) {
+        closeInvitationLinkModal();
         return;
       }
       if (event.key === "Escape" && !$confirmModal.hasClass("is-hidden")) {
@@ -7695,7 +7982,6 @@
         scrollCardAudio.src = configuredMusic;
         scrollCardAudio.loop = true;
         state.scrollCard.musicReady = true;
-        playScrollCardMusic();
       }
       setScrollCardMusicButton();
       return $.Deferred().resolve().promise();
@@ -7711,7 +7997,6 @@
           scrollCardAudio.src = getSlideshowAudioSrc(files[randomIndex]);
           scrollCardAudio.loop = true;
           state.scrollCard.musicReady = true;
-          playScrollCardMusic();
         }
         setScrollCardMusicButton();
       })
@@ -7782,6 +8067,14 @@
         .join(" ")
         .trim() ||
       "bạn";
+    const coverRecipient = [
+      String(state.scrollCard.recipientPrefix || "").trim(),
+      recipient,
+      String(state.scrollCard.recipientSuffix || "").trim(),
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
     const brideName = state.scrollCard.brideName || "Ngọc Ánh";
     const groomName = state.scrollCard.groomName || "Thế Bảo";
     const brideDisplayName = getDisplayLastTwoWords(brideName);
@@ -7797,7 +8090,7 @@
     $weddingCoverNameA.text(brideDisplayName);
     $weddingCoverNameB.text(groomDisplayName);
     $weddingCoverDate.text(eventDate);
-    $weddingCoverGuest.text(recipient);
+    $weddingCoverGuest.text(coverRecipient || recipient);
     $weddingDetailNameA.text(brideDisplayName.toUpperCase());
     $weddingDetailNameB.text(groomDisplayName.toUpperCase());
     $weddingBrideFather.text(state.scrollCard.brideFather || "");
@@ -7844,6 +8137,10 @@
       !state.scrollCard.eventTime && !state.scrollCard.ceremonyLocation,
     );
     $scrollCardSender.text("— " + (state.scrollCard.senderName || "Yêu thương"));
+    $weddingGuestbookName
+      .val(recipient)
+      .attr("readonly", true)
+      .attr("aria-label", "Tên người gửi: " + recipient);
     document.title = "Thiệp gửi " + recipient;
   }
 
@@ -8072,6 +8369,7 @@
     loadGuestTokenStatus();
     bindAdminNavButton();
     bindInviteRequestsButton();
+    bindInvitationLinkButton();
     bindAdminRequestTooltipEvents();
     bindAdminRequestActionEvents();
     bindImageViewerEvents();

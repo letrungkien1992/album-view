@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{STATUS_CODE}} - {{STATUS_TITLE}}</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="resources/album-resource/favicon.svg"
+    />
+    <link rel="stylesheet" href="resources/album-resource/fonts.css" />
+    <link rel="stylesheet" href="resources/album-resource/error-page.css" />
+  </head>
+  <body>
+    <main class="error-page">
+      <div class="error-orb error-orb-a" aria-hidden="true"></div>
+      <div class="error-orb error-orb-b" aria-hidden="true"></div>
+      <section class="error-card" aria-labelledby="error-title">
+        <p class="error-code">{{STATUS_CODE}}</p>
+        <h1 id="error-title" class="error-title">{{STATUS_TITLE}}</h1>
+        <p class="error-message">{{STATUS_MESSAGE}}</p>
+      </section>
+    </main>
+  </body>
+</html>

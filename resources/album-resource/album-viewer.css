@@ -4651,6 +4651,78 @@ body.is-guest-token-login .guest-gate-subtitle {
     border-radius: min(calc(8px * var(--radius-factor)), 10px);
 }
 
+.invitation-link-dialog {
+    width: min(760px, calc(100vw - 24px));
+}
+
+.invitation-link-form-section {
+    display: grid;
+    gap: 12px;
+}
+
+.invitation-link-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+    align-items: center;
+}
+
+.invitation-link-create-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.invitation-link-list-section {
+    display: grid;
+    gap: 10px;
+}
+
+.invitation-link-table-wrap {
+    max-height: 320px;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: min(calc(8px * var(--radius-factor)), 10px);
+}
+
+.invitation-link-table-wrap.is-hidden {
+    display: none;
+}
+
+.invitation-link-table .invitation-link-col-recipient {
+    min-width: 0;
+}
+
+.invitation-link-recipient {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.invitation-link-copy {
+    color: var(--ink);
+}
+
+.invitation-link-copy svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+}
+
+@media (max-width: 720px) {
+    .invitation-link-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invitation-link-create-row {
+        justify-content: stretch;
+    }
+
+    .invitation-link-create-row .upload-btn {
+        width: 100%;
+    }
+}
+
 .audio-upload-divider {
     margin: 8px 0 6px;
     border: none;

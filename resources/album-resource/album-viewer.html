@@ -262,10 +262,11 @@
                 <input
                   id="wedding-guestbook-name"
                   type="text"
-                  placeholder="Tên bạn yêu"
+                  placeholder="Tên người gửi"
                   aria-label="Tên người gửi"
                   maxlength="80"
                   required
+                  readonly
                 />
                 <textarea
                   id="wedding-guestbook-message"
@@ -468,6 +469,19 @@
               <path d="M11 20V6l9-2v14"></path>
             </svg>
             <span class="text">Quản lý âm thanh</span>
+          </button>
+          <button
+            id="invitation-link-button"
+            type="button"
+            class="sidebar-upload-button is-hidden"
+            aria-label="Tạo thiệp mời"
+            title="Tạo thiệp mời"
+          >
+            <svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m4 7 8 6 8-6"></path>
+            </svg>
+            <span class="text">Tạo thiệp mời</span>
           </button>
         </div>
         <div class="sidebar-search">
@@ -1005,6 +1019,121 @@
             class="upload-btn ghost"
             type="button"
             data-role="close-audio-upload-modal"
+          >
+            Cancel
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <div
+      id="invitation-link-modal"
+      class="upload-modal is-hidden"
+      aria-hidden="true"
+    >
+      <div
+        class="upload-modal-backdrop"
+        data-role="close-invitation-link-modal"
+      ></div>
+      <div
+        class="upload-dialog invitation-link-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="invitation-link-modal-title"
+      >
+        <header class="upload-dialog-header">
+          <h3 id="invitation-link-modal-title">Tạo thiệp mời</h3>
+        </header>
+        <section class="upload-dialog-body">
+          <div class="invitation-link-form-section">
+            <div class="invitation-link-form-grid">
+              <label class="upload-label" for="invitation-link-prefix">
+                Prefix
+              </label>
+              <input
+                id="invitation-link-prefix"
+                class="upload-input"
+                type="text"
+                placeholder="Ví dụ: Gia đình"
+                maxlength="80"
+              />
+              <label class="upload-label" for="invitation-link-title">
+                Xưng hô
+              </label>
+              <input
+                id="invitation-link-title"
+                class="upload-input"
+                type="text"
+                placeholder="Ví dụ: Chị"
+                maxlength="40"
+              />
+              <label class="upload-label" for="invitation-link-name">
+                Tên người nhận
+              </label>
+              <input
+                id="invitation-link-name"
+                class="upload-input"
+                type="text"
+                placeholder="Ví dụ: Quỳnh"
+                maxlength="120"
+              />
+              <label class="upload-label" for="invitation-link-suffix">
+                Suffix
+              </label>
+              <input
+                id="invitation-link-suffix"
+                class="upload-input"
+                type="text"
+                placeholder="Ví dụ: thân mến"
+                maxlength="80"
+              />
+            </div>
+            <div class="invitation-link-create-row">
+              <button
+                id="invitation-link-submit"
+                class="upload-btn primary"
+                type="button"
+              >
+                Tạo thiệp
+              </button>
+            </div>
+            <p
+              id="invitation-link-error"
+              class="upload-error"
+              aria-live="polite"
+            ></p>
+          </div>
+          <hr class="audio-upload-divider" />
+          <div class="invitation-link-list-section">
+            <div
+              class="invitation-link-table-wrap"
+              id="invitation-link-table-wrap"
+            >
+              <table class="audio-table invitation-link-table">
+                <thead>
+                  <tr>
+                    <th class="audio-col-no">STT</th>
+                    <th class="invitation-link-col-recipient">Người nhận</th>
+                    <th class="audio-col-action">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="invitation-link-list"></tbody>
+              </table>
+            </div>
+            <p
+              id="invitation-link-list-empty"
+              class="audio-list-empty is-hidden"
+            >
+              Chưa có thiệp mời nào.
+            </p>
+          </div>
+        </section>
+        <footer class="upload-dialog-footer">
+          <button
+            id="invitation-link-cancel"
+            class="upload-btn ghost"
+            type="button"
+            data-role="close-invitation-link-modal"
           >
             Cancel
           </button>
