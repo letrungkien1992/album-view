@@ -4682,6 +4682,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .invitation-link-table-wrap {
     max-height: 320px;
+    overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid var(--line);
     border-radius: min(calc(8px * var(--radius-factor)), 10px);
@@ -4701,14 +4702,14 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .invitation-link-table thead th.audio-col-action,
 .invitation-link-table .audio-col-action {
-    width: 118px;
+    width: 146px;
 }
 
 .invitation-link-recipient {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
 }
 
 .invitation-link-wishes {
@@ -4722,6 +4723,19 @@ body.is-guest-token-login .guest-gate-subtitle {
     font-size: 0.86rem;
     line-height: 1.45;
     color: var(--ink);
+    overflow-wrap: anywhere;
+}
+
+.invitation-link-table .admin-request-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.invitation-link-table .admin-request-actions .admin-request-action-button + .admin-request-action-button {
+    margin-left: 0;
 }
 
 .invitation-link-wishes:not(.is-visible) .invitation-link-wish-item {
@@ -4738,8 +4752,13 @@ body.is-guest-token-login .guest-gate-subtitle {
     color: var(--ink);
 }
 
+.invitation-link-delete {
+    color: #9d1b1b;
+}
+
 .invitation-link-copy svg,
-.invitation-link-toggle svg {
+.invitation-link-toggle svg,
+.invitation-link-delete svg {
     width: 15px;
     height: 15px;
     fill: currentColor;

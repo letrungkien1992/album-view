@@ -3742,6 +3742,20 @@ if ($requestPath === '/__invitation_links__') {
     $updateCode = isset($payload['code']) && is_string($payload['code'])
         ? trim($payload['code'])
         : '';
+    if ($updateCode !== '' && !empty($payload['delete'])) {
+        $linkIndex = find_invitation_link_index_by_code($entries, $updateCode);
+        if ($linkIndex < 0) {
+            send_json(['ok' => false, 'message' => 'Thiệp mời không tồn tại.'], 404);
+        }
+        array_splice($entries, $linkIndex, 1);
+        if (!save_invitation_links($invitationLinksFile, $entries)) {
+            send_json(['ok' => false, 'message' => 'Không xóa được thiệp mời.'], 500);
+        }
+        send_json([
+            'ok' => true,
+            'entries' => array_map('invitation_link_public_view', $entries),
+        ]);
+    }
     if ($updateCode !== '' && array_key_exists('guestbook_visible', $payload)) {
         $linkIndex = find_invitation_link_index_by_code($entries, $updateCode);
         if ($linkIndex < 0) {

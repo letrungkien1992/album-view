@@ -3930,8 +3930,19 @@
         '<svg viewBox="0 0 448 512" aria-hidden="true">' +
         '<path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>' +
         "</svg>";
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "admin-request-action-button invitation-link-delete";
+      deleteBtn.setAttribute("data-code", code);
+      deleteBtn.setAttribute("aria-label", "Xóa thiệp mời");
+      deleteBtn.setAttribute("title", "Xóa thiệp mời");
+      deleteBtn.innerHTML =
+        '<svg viewBox="0 0 448 512" aria-hidden="true">' +
+        '<path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path>' +
+        "</svg>";
       tdAction.appendChild(toggleBtn);
       tdAction.appendChild(copyBtn);
+      tdAction.appendChild(deleteBtn);
 
       tr.appendChild(tdNo);
       tr.appendChild(tdRecipient);
@@ -6038,6 +6049,48 @@
             "error",
           );
         });
+    });
+
+    $invitationLinkList.on("click", ".invitation-link-delete", function () {
+      const code = String($(this).attr("data-code") || "").trim();
+      if (!code) {
+        return;
+      }
+      openConfirmModal("Xóa thiệp mời này?").then(function (confirmed) {
+        if (!confirmed) {
+          return;
+        }
+        $.ajax({
+          url: buildApiUrl("__invitation_links__"),
+          method: "POST",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify({
+            code: code,
+            delete: true,
+          }),
+        })
+          .done(function (response) {
+            if (!response || !response.ok) {
+              showResultModal(
+                (response && response.message) || "Không xóa được thiệp mời.",
+                "error",
+              );
+              return;
+            }
+            renderInvitationLinkList(
+              Array.isArray(response.entries) ? response.entries : [],
+            );
+            showResultModal("Đã xóa thiệp mời.", "success");
+          })
+          .fail(function (xhr) {
+            const response = xhr && xhr.responseJSON;
+            showResultModal(
+              (response && response.message) || "Không xóa được thiệp mời.",
+              "error",
+            );
+          });
+      });
     });
 
     $audioList.on("click", ".audio-table-delete", function () {
