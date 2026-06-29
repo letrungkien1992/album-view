@@ -2621,7 +2621,7 @@ $decodedInvitationTitleParam = isset($decodedInvitationPayload['title']) && is_s
     ? trim($decodedInvitationPayload['title'])
     : '';
 $hasInvitationData = $invitationDataParam !== '';
-$hasValidInvitationData = $hasInvitationData && $decodedInvitationTitleParam !== '' && $decodedInvitationNameParam !== '';
+$hasValidInvitationData = $hasInvitationData && $decodedInvitationNameParam !== '';
 $publicScrollCardRoutes = [
     '/',
     '/index.php',
