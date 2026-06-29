@@ -8,3 +8,4 @@ src/thumbs/
 storage/build-images.log
 resources/invite_email.json
 resources/user.json
+storage/invitation_links.json
