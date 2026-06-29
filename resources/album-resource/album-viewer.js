@@ -4006,8 +4006,8 @@
     const title = String($invitationLinkTitle.val() || "").trim();
     const name = String($invitationLinkName.val() || "").trim();
     const suffix = String($invitationLinkSuffix.val() || "").trim();
-    if (!title || !name) {
-      $invitationLinkError.text("Vui lòng nhập xưng hô và tên người nhận.");
+    if (!name) {
+      $invitationLinkError.text("Vui lòng nhập tên người nhận.");
       return;
     }
     state.creatingInvitationLink = true;

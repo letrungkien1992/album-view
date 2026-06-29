@@ -802,7 +802,7 @@ function normalize_invitation_link_entry(array $entry): ?array
     $code = isset($entry['code']) && is_string($entry['code'])
         ? trim($entry['code'])
         : '';
-    if ($title === '' || $name === '' || $code === '') {
+    if ($name === '' || $code === '') {
         return null;
     }
     $linkPath = isset($entry['link_path']) && is_string($entry['link_path'])
@@ -3784,8 +3784,8 @@ if ($requestPath === '/__invitation_links__') {
         ? normalize_guestbook_text($payload['suffix'])
         : '';
 
-    if ($title === '' || $name === '') {
-        send_json(['ok' => false, 'message' => 'Vui lòng nhập xưng hô và tên.'], 400);
+    if ($name === '') {
+        send_json(['ok' => false, 'message' => 'Vui lòng nhập tên người nhận.'], 400);
     }
 
     if (
