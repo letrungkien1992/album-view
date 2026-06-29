@@ -775,6 +775,16 @@ function decode_invitation_recipient_payload(string $encoded): array
     return is_array($payload) ? $payload : [];
 }
 
+function normalize_guestbook_entries(array $entries): array
+{
+    return array_values(array_filter($entries, static function ($entry): bool {
+        return is_array($entry)
+            && isset($entry['name'], $entry['message'])
+            && is_string($entry['name'])
+            && is_string($entry['message']);
+    }));
+}
+
 function normalize_invitation_link_entry(array $entry): ?array
 {
     $prefix = isset($entry['prefix']) && is_string($entry['prefix'])
@@ -798,6 +808,12 @@ function normalize_invitation_link_entry(array $entry): ?array
     $linkPath = isset($entry['link_path']) && is_string($entry['link_path'])
         ? trim($entry['link_path'])
         : '';
+    $guestbook = isset($entry['guestbook']) && is_array($entry['guestbook'])
+        ? normalize_guestbook_entries($entry['guestbook'])
+        : [];
+    $guestbookVisible = !isset($entry['guestbook_visible']) || !is_bool($entry['guestbook_visible'])
+        ? true
+        : $entry['guestbook_visible'];
     $recipient = trim($title . ' ' . $name);
     return [
         'prefix' => $prefix,
@@ -807,6 +823,8 @@ function normalize_invitation_link_entry(array $entry): ?array
         'recipient' => $recipient,
         'code' => $code,
         'link_path' => $linkPath,
+        'guestbook' => $guestbook,
+        'guestbook_visible' => $guestbookVisible,
         'created_at' => isset($entry['created_at']) && is_string($entry['created_at'])
             ? trim($entry['created_at'])
             : '',
@@ -870,12 +888,7 @@ function load_invitation_guestbook(string $guestbookFile): array
     if (!is_array($decoded)) {
         return [];
     }
-    return array_values(array_filter($decoded, static function ($entry): bool {
-        return is_array($entry)
-            && isset($entry['name'], $entry['message'])
-            && is_string($entry['name'])
-            && is_string($entry['message']);
-    }));
+    return normalize_guestbook_entries($decoded);
 }
 
 function save_invitation_guestbook(string $guestbookFile, array $entries): bool
@@ -931,6 +944,45 @@ function guestbook_entry_duplicate(array $entries, string $name, string $message
         }
     }
     return false;
+}
+
+function find_invitation_link_index_by_code(array $entries, string $code): int
+{
+    $code = trim($code);
+    if ($code === '') {
+        return -1;
+    }
+    foreach ($entries as $index => $entry) {
+        $existingCode = isset($entry['code']) && is_string($entry['code'])
+            ? trim($entry['code'])
+            : '';
+        if ($existingCode !== '' && hash_equals($existingCode, $code)) {
+            return (int) $index;
+        }
+    }
+    return -1;
+}
+
+function invitation_link_public_view(array $entry): array
+{
+    $guestbook = isset($entry['guestbook']) && is_array($entry['guestbook'])
+        ? normalize_guestbook_entries($entry['guestbook'])
+        : [];
+    return [
+        'prefix' => isset($entry['prefix']) && is_string($entry['prefix']) ? $entry['prefix'] : '',
+        'title' => isset($entry['title']) && is_string($entry['title']) ? $entry['title'] : '',
+        'name' => isset($entry['name']) && is_string($entry['name']) ? $entry['name'] : '',
+        'suffix' => isset($entry['suffix']) && is_string($entry['suffix']) ? $entry['suffix'] : '',
+        'recipient' => isset($entry['recipient']) && is_string($entry['recipient']) ? $entry['recipient'] : '',
+        'code' => isset($entry['code']) && is_string($entry['code']) ? $entry['code'] : '',
+        'link_path' => isset($entry['link_path']) && is_string($entry['link_path']) ? $entry['link_path'] : '',
+        'guestbook_visible' => !isset($entry['guestbook_visible']) || !is_bool($entry['guestbook_visible'])
+            ? true
+            : $entry['guestbook_visible'],
+        'guestbook' => $guestbook,
+        'guestbook_count' => count($guestbook),
+        'created_at' => isset($entry['created_at']) && is_string($entry['created_at']) ? $entry['created_at'] : '',
+    ];
 }
 
 function cookie_path_for_base(string $basePath): string
@@ -3642,12 +3694,25 @@ if ($requestPath === '/__invitation_card__') {
     }
     $payload = [
         'greet_content' => 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]',
+        'guestbook_visible' => true,
     ];
     if (is_file($invitationCardFile)) {
         $raw = @file_get_contents($invitationCardFile);
         $decoded = is_string($raw) ? json_decode($raw, true) : null;
         if (is_array($decoded)) {
             $payload = array_merge($payload, $decoded);
+        }
+    }
+    $requestCode = isset($_GET['data']) && is_string($_GET['data'])
+        ? trim($_GET['data'])
+        : '';
+    if ($requestCode !== '') {
+        $links = load_invitation_links($invitationLinksFile);
+        $linkIndex = find_invitation_link_index_by_code($links, $requestCode);
+        if ($linkIndex >= 0) {
+            $payload['guestbook_visible'] = !isset($links[$linkIndex]['guestbook_visible']) || !is_bool($links[$linkIndex]['guestbook_visible'])
+                ? true
+                : $links[$linkIndex]['guestbook_visible'];
         }
     }
     send_json($payload);
@@ -3662,9 +3727,10 @@ if ($requestPath === '/__invitation_links__') {
     $entries = load_invitation_links($invitationLinksFile);
 
     if ($method === 'GET') {
+        $publicEntries = array_map('invitation_link_public_view', $entries);
         send_json([
             'ok' => true,
-            'entries' => $entries,
+            'entries' => $publicEntries,
         ]);
     }
 
@@ -3673,6 +3739,24 @@ if ($requestPath === '/__invitation_links__') {
     }
 
     $payload = read_json_body();
+    $updateCode = isset($payload['code']) && is_string($payload['code'])
+        ? trim($payload['code'])
+        : '';
+    if ($updateCode !== '' && array_key_exists('guestbook_visible', $payload)) {
+        $linkIndex = find_invitation_link_index_by_code($entries, $updateCode);
+        if ($linkIndex < 0) {
+            send_json(['ok' => false, 'message' => 'Thiệp mời không tồn tại.'], 404);
+        }
+        $entries[$linkIndex]['guestbook_visible'] = (bool) $payload['guestbook_visible'];
+        if (!save_invitation_links($invitationLinksFile, $entries)) {
+            send_json(['ok' => false, 'message' => 'Không cập nhật được trạng thái lời chúc.'], 500);
+        }
+        send_json([
+            'ok' => true,
+            'entry' => invitation_link_public_view($entries[$linkIndex]),
+            'entries' => array_map('invitation_link_public_view', $entries),
+        ]);
+    }
     $prefix = isset($payload['prefix']) && is_string($payload['prefix'])
         ? normalize_guestbook_text($payload['prefix'])
         : '';
@@ -3709,8 +3793,8 @@ if ($requestPath === '/__invitation_links__') {
             send_json([
                 'ok' => true,
                 'duplicate' => true,
-                'entry' => $existingEntry,
-                'entries' => $entries,
+                'entry' => invitation_link_public_view($existingEntry),
+                'entries' => array_map('invitation_link_public_view', $entries),
             ]);
         }
     }
@@ -3723,6 +3807,8 @@ if ($requestPath === '/__invitation_links__') {
         'recipient' => trim($title . ' ' . $name),
         'code' => $code,
         'link_path' => with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code),
+        'guestbook' => [],
+        'guestbook_visible' => true,
         'created_at' => date('Y-m-d H:i:s'),
     ];
     array_unshift($entries, $entry);
@@ -3733,14 +3819,35 @@ if ($requestPath === '/__invitation_links__') {
 
     send_json([
         'ok' => true,
-        'entry' => $entry,
-        'entries' => $entries,
+        'entry' => invitation_link_public_view($entry),
+        'entries' => array_map('invitation_link_public_view', $entries),
     ]);
 }
 
 if ($requestPath === '/__invitation_guestbook__') {
     $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
-    $entries = load_invitation_guestbook($invitationGuestbookFile);
+    $code = '';
+    if ($method === 'GET') {
+        $code = isset($_GET['data']) && is_string($_GET['data'])
+            ? trim($_GET['data'])
+            : '';
+    } else {
+        $payload = read_json_body();
+        $code = isset($payload['code']) && is_string($payload['code'])
+            ? trim($payload['code'])
+            : '';
+    }
+    if ($code === '') {
+        send_json(['ok' => false, 'message' => 'Thiếu mã thiệp mời.'], 400);
+    }
+    $links = load_invitation_links($invitationLinksFile);
+    $linkIndex = find_invitation_link_index_by_code($links, $code);
+    if ($linkIndex < 0) {
+        send_json(['ok' => false, 'message' => 'Thiệp mời không tồn tại.'], 404);
+    }
+    $entries = isset($links[$linkIndex]['guestbook']) && is_array($links[$linkIndex]['guestbook'])
+        ? normalize_guestbook_entries($links[$linkIndex]['guestbook'])
+        : [];
 
     if ($method === 'GET') {
         send_json([
@@ -3753,7 +3860,6 @@ if ($requestPath === '/__invitation_guestbook__') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
     }
 
-    $payload = read_json_body();
     $name = isset($payload['name']) && is_string($payload['name'])
         ? normalize_guestbook_text($payload['name'])
         : '';
@@ -3783,14 +3889,19 @@ if ($requestPath === '/__invitation_guestbook__') {
         'message' => $message,
         'created_at' => date('Y-m-d H:i:s'),
     ];
-    array_unshift($entries, $entry);
+    $updated = !empty($entries);
+    $entries = [$entry];
+    $links[$linkIndex]['guestbook'] = $entries;
+    $links[$linkIndex]['guestbook_visible'] = false;
 
-    if (!save_invitation_guestbook($invitationGuestbookFile, $entries)) {
+    if (!save_invitation_links($invitationLinksFile, $links)) {
         send_json(['ok' => false, 'message' => 'Không lưu được lời chúc trên máy chủ.'], 500);
     }
 
     send_json([
         'ok' => true,
+        'updated' => $updated,
+        'guestbook_visible' => false,
         'entry' => $entry,
         'entries' => $entries,
     ]);

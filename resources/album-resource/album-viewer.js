@@ -795,6 +795,8 @@
       message:
         "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
       messageFromQuery: false,
+      invitationCode: "",
+      guestbookVisible: true,
       recipientPrefix: "",
       recipientTitle: "",
       recipientName: "",
@@ -832,6 +834,7 @@
   function getScrollCardConfigFromLocation() {
     const query = new URLSearchParams(window.location.search || "");
     const decodedRecipient = decodeInvitationRecipientParams(query) || {};
+    const invitationCode = String(query.get("data") || "").trim();
     const recipientPrefix = String(decodedRecipient.prefix || "").trim();
     const recipientTitle = String(decodedRecipient.title || "").trim();
     const recipientName = String(decodedRecipient.name || "").trim();
@@ -845,6 +848,7 @@
     }
     return {
       enabled: true,
+      invitationCode: invitationCode,
       title: String(query.get("card_title") || "Chúc mừng!").trim(),
       message: String(
         query.get("message") ||
@@ -3856,6 +3860,13 @@
       return;
     }
     list.forEach(function (entry, index) {
+      const code = String(entry && entry.code ? entry.code : "").trim();
+      const guestbookVisible = !(
+        entry &&
+        Object.prototype.hasOwnProperty.call(entry, "guestbook_visible") &&
+        !entry.guestbook_visible
+      );
+      const wishes = Array.isArray(entry && entry.guestbook) ? entry.guestbook : [];
       const tr = document.createElement("tr");
       const tdNo = document.createElement("td");
       tdNo.className = "audio-col-no";
@@ -3869,8 +3880,43 @@
       recipient.setAttribute("title", recipient.textContent);
       tdRecipient.appendChild(recipient);
 
+      const tdMessage = document.createElement("td");
+      tdMessage.className = "invitation-link-col-message";
+      const messageWrap = document.createElement("div");
+      messageWrap.className = "invitation-link-wishes is-visible";
+      if (wishes.length) {
+        wishes.forEach(function (wish) {
+          const item = document.createElement("p");
+          item.className = "invitation-link-wish-item";
+          const message = String(wish && wish.message ? wish.message : "");
+          item.textContent = message;
+          messageWrap.appendChild(item);
+        });
+      } else {
+        const empty = document.createElement("p");
+        empty.className = "invitation-link-wish-empty";
+        empty.textContent = "Chưa có lời chúc";
+        messageWrap.appendChild(empty);
+      }
+      tdMessage.appendChild(messageWrap);
+
       const tdAction = document.createElement("td");
       tdAction.className = "audio-col-action admin-request-actions";
+      const toggleBtn = document.createElement("button");
+      toggleBtn.type = "button";
+      toggleBtn.className = "admin-request-action-button invitation-link-toggle";
+      toggleBtn.setAttribute("data-code", code);
+      toggleBtn.setAttribute(
+        "aria-label",
+        guestbookVisible ? "Ẩn lời chúc" : "Hiện lời chúc",
+      );
+      toggleBtn.setAttribute(
+        "title",
+        guestbookVisible ? "Ẩn lời chúc" : "Hiện lời chúc",
+      );
+      toggleBtn.innerHTML = guestbookVisible
+        ? '<svg viewBox="0 0 640 512" aria-hidden="true"><path d="M320 400c-75.85 0-137.25-58.71-142.9-133.11L72.2 185.82c-13.79 17.3-26.48 35.59-36.72 55.59a32.35 32.35 0 0 0 0 29.19C89.71 376.41 197.07 448 320 448c26.91 0 52.87-4 77.89-10.46L346 397.39a144.13 144.13 0 0 1-26 2.61zm313.82 58.1l-110.55-85.44a331.25 331.25 0 0 0 81.25-102.07 32.35 32.35 0 0 0 0-29.19C550.29 135.59 442.93 64 320 64a308.15 308.15 0 0 0-147.32 37.7L45.46 3.37A16 16 0 0 0 23 6.18L3.37 31.45A16 16 0 0 0 6.18 53.9l588.36 454.73a16 16 0 0 0 22.46-2.81l19.64-25.27a16 16 0 0 0-2.82-22.45zm-183.72-142l-39.3-30.38A94.75 94.75 0 0 0 416 256a94.76 94.76 0 0 0-121.31-92.21A47.65 47.65 0 0 1 304 192a46.64 46.64 0 0 1-1.54 10l-73.61-56.89A142.31 142.31 0 0 1 320 112a143.92 143.92 0 0 1 144 144c0 21.63-5.29 41.79-13.9 60.11z"></path></svg>'
+        : '<svg viewBox="0 0 576 512" aria-hidden="true"><path d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"></path></svg>';
       const copyBtn = document.createElement("button");
       copyBtn.type = "button";
       copyBtn.className = "admin-request-action-button invitation-link-copy";
@@ -3884,10 +3930,12 @@
         '<svg viewBox="0 0 448 512" aria-hidden="true">' +
         '<path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>' +
         "</svg>";
+      tdAction.appendChild(toggleBtn);
       tdAction.appendChild(copyBtn);
 
       tr.appendChild(tdNo);
       tr.appendChild(tdRecipient);
+      tr.appendChild(tdMessage);
       tr.appendChild(tdAction);
       $invitationLinkList.append(tr);
     });
@@ -5940,6 +5988,58 @@
         });
     });
 
+    $invitationLinkList.on("click", ".invitation-link-toggle", function () {
+      const code = String($(this).attr("data-code") || "").trim();
+      if (!code) {
+        return;
+      }
+      const currentEntry = state.invitationLinks.find(function (entry) {
+        return String(entry && entry.code ? entry.code : "").trim() === code;
+      });
+      const nextVisible = !(
+        currentEntry &&
+        Object.prototype.hasOwnProperty.call(currentEntry, "guestbook_visible") &&
+        !currentEntry.guestbook_visible
+      );
+      $.ajax({
+        url: buildApiUrl("__invitation_links__"),
+        method: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({
+          code: code,
+          guestbook_visible: !nextVisible,
+        }),
+      })
+        .done(function (response) {
+          if (!response || !response.ok) {
+            showResultModal(
+              (response && response.message) ||
+                "Không cập nhật được trạng thái lời chúc.",
+              "error",
+            );
+            return;
+          }
+          renderInvitationLinkList(
+            Array.isArray(response.entries) ? response.entries : [],
+          );
+          showResultModal(
+            !nextVisible
+              ? "Đã bật hiển thị lời chúc trên trang thiệp."
+              : "Đã ẩn lời chúc trên trang thiệp.",
+            "success",
+          );
+        })
+        .fail(function (xhr) {
+          const response = xhr && xhr.responseJSON;
+          showResultModal(
+            (response && response.message) ||
+              "Không cập nhật được trạng thái lời chúc.",
+            "error",
+          );
+        });
+    });
+
     $audioList.on("click", ".audio-table-delete", function () {
       const filename = $(this).attr("data-filename") || "";
       if (!filename || !state.authUser) {
@@ -7892,7 +7992,10 @@
   }
 
   function loadScrollCardContent() {
-    return $.getJSON(buildApiUrl("__invitation_card__"))
+    const params = state.scrollCard.invitationCode
+      ? { data: state.scrollCard.invitationCode }
+      : undefined;
+    return $.getJSON(buildApiUrl("__invitation_card__", params))
       .then(function (data) {
         const greetContent =
           data && typeof data.greet_content === "string"
@@ -7969,6 +8072,9 @@
         }
         if (data && typeof data.map_query === "string") {
           state.scrollCard.mapQuery = data.map_query.trim();
+        }
+        if (data && typeof data.guestbook_visible === "boolean") {
+          state.scrollCard.guestbookVisible = data.guestbook_visible;
         }
         renderScrollCardTexts();
       })
@@ -8197,8 +8303,26 @@
     );
   }
 
+  function updateWeddingGuestbookVisibility() {
+    const visible = !!state.scrollCard.guestbookVisible;
+    $weddingGuestbookList.toggleClass("is-hidden", !visible);
+    if (!visible) {
+      $weddingGuestbookList.empty();
+    }
+  }
+
   function loadWeddingGuestbook() {
-    return $.getJSON(buildApiUrl("__invitation_guestbook__"))
+    updateWeddingGuestbookVisibility();
+    if (!state.scrollCard.guestbookVisible) {
+      return $.Deferred().resolve().promise();
+    }
+    if (!state.scrollCard.invitationCode) {
+      renderWeddingGuestbook([]);
+      return $.Deferred().resolve().promise();
+    }
+    return $.getJSON(buildApiUrl("__invitation_guestbook__"), {
+      data: state.scrollCard.invitationCode,
+    })
       .then(function (response) {
         renderWeddingGuestbook(
           response && Array.isArray(response.entries) ? response.entries : [],
@@ -8222,15 +8346,30 @@
       url: buildApiUrl("__invitation_guestbook__"),
       method: "POST",
       contentType: "application/json",
-      data: JSON.stringify({ name: name, message: message }),
+      data: JSON.stringify({
+        code: state.scrollCard.invitationCode,
+        name: name,
+        message: message,
+      }),
     })
       .done(function (response) {
-        renderWeddingGuestbook(
-          response && Array.isArray(response.entries) ? response.entries : [],
-        );
+        if (
+          response &&
+          Object.prototype.hasOwnProperty.call(response, "guestbook_visible")
+        ) {
+          state.scrollCard.guestbookVisible = !!response.guestbook_visible;
+          updateWeddingGuestbookVisibility();
+        }
+        if (state.scrollCard.guestbookVisible) {
+          renderWeddingGuestbook(
+            response && Array.isArray(response.entries) ? response.entries : [],
+          );
+        }
         $weddingGuestbookStatus.text(
           response && response.duplicate
             ? "Lời chúc này đã được lưu trước đó."
+            : response && response.updated
+              ? "Đã cập nhật lời chúc. Cảm ơn bạn!"
             : "Đã gửi lời chúc. Cảm ơn bạn!",
         );
         if (!(response && response.duplicate)) {
@@ -8317,11 +8456,14 @@
     resetScrollCardViewport("auto");
     setScrollCardMusicButton();
     bindScrollCardEvents();
+    const scrollCardContentRequest = loadScrollCardContent();
     $.when(
-      loadScrollCardContent(),
+      scrollCardContentRequest,
       loadScrollCardImages(),
       loadScrollCardMusic(),
-      loadWeddingGuestbook(),
+      scrollCardContentRequest.then(function () {
+        return loadWeddingGuestbook();
+      }),
     ).always(function () {
       setScrollCardMusicButton();
     });

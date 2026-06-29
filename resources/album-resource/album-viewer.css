@@ -2144,16 +2144,17 @@ body.is-scroll-card-view {
 .wedding-hero-names {
     display: grid;
     justify-items: start;
-    padding-left: 64px;
-    color: #850000;
-    font-family: "Playfair Display Local", Georgia, "Times New Roman", serif;
-    font-size: clamp(2rem, 5.5vw, 3rem);
-    font-weight: 800;
-    line-height: 1.2;
+    gap: 10px;
+    min-height: 108px;
+    background-image: url("invitation-assets/rain-cloud.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 99px auto;
+    opacity: 0.74;
 }
 
 .wedding-double-happiness {
-    margin: 110px auto 0;
+    margin: 0 auto 0;
     color: #850000;
     font-family: "Playfair Display Local", Georgia, serif;
     font-size: clamp(6rem, 18vw, 9rem);
@@ -2939,11 +2940,13 @@ body.is-scroll-card-view #scroll-card-music.is-playing .scroll-card-music-bars {
     }
 
     .wedding-hero-names {
-        padding-left: 28px;
+        min-height: 108px;
+        background-size: 99px auto;
+        background-position: center;
     }
 
     .wedding-double-happiness {
-        margin-top: 90px;
+        margin-top: 0;
     }
 
     .wedding-info-section.scroll-card-paper {
@@ -4692,6 +4695,15 @@ body.is-guest-token-login .guest-gate-subtitle {
     min-width: 0;
 }
 
+.invitation-link-table .invitation-link-col-message {
+    min-width: 0;
+}
+
+.invitation-link-table thead th.audio-col-action,
+.invitation-link-table .audio-col-action {
+    width: 118px;
+}
+
 .invitation-link-recipient {
     display: block;
     overflow: hidden;
@@ -4699,11 +4711,35 @@ body.is-guest-token-login .guest-gate-subtitle {
     white-space: nowrap;
 }
 
+.invitation-link-wishes {
+    display: grid;
+    gap: 6px;
+}
+
+.invitation-link-wish-item,
+.invitation-link-wish-empty {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--ink);
+}
+
+.invitation-link-wishes:not(.is-visible) .invitation-link-wish-item {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+}
+
+.invitation-link-wishes:not(.is-visible) .invitation-link-wish-empty {
+    color: var(--muted);
+}
+
 .invitation-link-copy {
     color: var(--ink);
 }
 
-.invitation-link-copy svg {
+.invitation-link-copy svg,
+.invitation-link-toggle svg {
     width: 15px;
     height: 15px;
     fill: currentColor;
@@ -8400,12 +8436,14 @@ body.is-scroll-card-view .scroll-card-route.is-opened .scroll-card-opened {
     }
 
     body.is-scroll-card-view .wedding-hero-names {
-        padding-left: 24px !important;
+        min-height: 108px !important;
+        background-size: 99px auto !important;
+        background-position: center !important;
         font-size: clamp(1.75rem, 9vw, 2.45rem);
     }
 
     body.is-scroll-card-view .wedding-double-happiness {
-        margin-top: 86px !important;
+        margin-top: 0 !important;
         font-size: clamp(5rem, 30vw, 7.5rem);
     }
 
