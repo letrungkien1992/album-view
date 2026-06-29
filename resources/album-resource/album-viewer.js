@@ -605,10 +605,16 @@
   const $audioColTitle = $("#audio-col-title");
   const $audioColAction = $("#audio-col-action");
   const $invitationLinkModal = $("#invitation-link-modal");
+  const $invitationLinkFormSection = $("#invitation-link-form-section");
+  const $invitationLinkFormHeader = $("#invitation-link-form-header");
+  const $invitationLinkFormTitle = $("#invitation-link-form-title");
+  const $invitationLinkFormToggle = $("#invitation-link-form-toggle");
   const $invitationLinkPrefix = $("#invitation-link-prefix");
   const $invitationLinkTitle = $("#invitation-link-title");
   const $invitationLinkName = $("#invitation-link-name");
   const $invitationLinkSuffix = $("#invitation-link-suffix");
+  const $invitationLinkMessage = $("#invitation-link-message");
+  const $invitationLinkEditCancel = $("#invitation-link-edit-cancel");
   const $invitationLinkSubmit = $("#invitation-link-submit");
   const $invitationLinkCancel = $("#invitation-link-cancel");
   const $invitationLinkError = $("#invitation-link-error");
@@ -623,6 +629,8 @@
   const $uploadFolderInput = $("#upload-folder-input");
   const $uploadZipInput = $("#upload-zip-input");
   const $uploadFilesLabel = $("#upload-files-label");
+  const defaultInvitationGreeting =
+    "Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]";
   const $uploadHelpText = $("#upload-help-text");
   const $uploadFilesError = $("#upload-files-error");
   const $uploadError = $("#upload-error");
@@ -773,6 +781,7 @@
     inviteRequestsLoading: false,
     invitationLinks: [],
     invitationLinksLoading: false,
+    editingInvitationLinkCode: "",
     inviteRequestPage: 1,
     inviteRequestPageSize: Number(
       localStorage.getItem("album-viewer-invite-request-page-size") || "10",
@@ -3930,6 +3939,16 @@
         '<svg viewBox="0 0 448 512" aria-hidden="true">' +
         '<path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>' +
         "</svg>";
+      const editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "admin-request-action-button invitation-link-edit";
+      editBtn.setAttribute("data-code", code);
+      editBtn.setAttribute("aria-label", "Sửa thiệp mời");
+      editBtn.setAttribute("title", "Sửa thiệp mời");
+      editBtn.innerHTML =
+        '<svg viewBox="0 0 576 512" aria-hidden="true">' +
+        '<path d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path>' +
+        "</svg>";
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
       deleteBtn.className = "admin-request-action-button invitation-link-delete";
@@ -3942,6 +3961,7 @@
         "</svg>";
       tdAction.appendChild(toggleBtn);
       tdAction.appendChild(copyBtn);
+      tdAction.appendChild(editBtn);
       tdAction.appendChild(deleteBtn);
 
       tr.appendChild(tdNo);
@@ -3979,19 +3999,71 @@
 
   function openInvitationLinkModal() {
     $invitationLinkError.text("");
+    resetInvitationLinkForm();
     renderInvitationLinkList(state.invitationLinks);
     loadInvitationLinkList();
     $invitationLinkModal.removeClass("is-hidden").attr("aria-hidden", "false");
     updateInvitationLinkButtonUi();
     window.setTimeout(function () {
-      $invitationLinkTitle.trigger("focus");
+      $invitationLinkName.trigger("focus");
     }, 0);
+  }
+
+  function setInvitationLinkFormCollapsed(collapsed) {
+    const isCollapsed = !!collapsed;
+    $invitationLinkFormSection.toggleClass("is-collapsed", isCollapsed);
+    $invitationLinkFormToggle
+      .attr("aria-expanded", isCollapsed ? "false" : "true")
+      .attr(
+        "aria-label",
+        isCollapsed ? "Mở rộng form thiệp mời" : "Thu gọn form thiệp mời",
+      )
+      .attr(
+        "title",
+        isCollapsed ? "Mở rộng form thiệp mời" : "Thu gọn form thiệp mời",
+      );
   }
 
   function closeInvitationLinkModal() {
     $invitationLinkModal.addClass("is-hidden").attr("aria-hidden", "true");
     $invitationLinkError.text("");
+    resetInvitationLinkForm();
     updateInvitationLinkButtonUi();
+  }
+
+  function resetInvitationLinkForm() {
+    state.editingInvitationLinkCode = "";
+    $invitationLinkFormTitle.text("Tạo thiệp mới");
+    $invitationLinkSubmit.text("Tạo thiệp");
+    $invitationLinkEditCancel.addClass("is-hidden");
+    $invitationLinkPrefix.val("");
+    $invitationLinkTitle.val("");
+    $invitationLinkName.val("");
+    $invitationLinkSuffix.val("");
+    $invitationLinkMessage.val(defaultInvitationGreeting);
+    setInvitationLinkFormCollapsed(false);
+  }
+
+  function fillInvitationLinkForm(entry) {
+    if (!entry || typeof entry !== "object") {
+      return;
+    }
+    state.editingInvitationLinkCode = String(entry.code || "").trim();
+    $invitationLinkFormTitle.text("Chỉnh sửa thiệp");
+    $invitationLinkSubmit.text("Lưu thiệp");
+    $invitationLinkEditCancel.removeClass("is-hidden");
+    $invitationLinkPrefix.val(String(entry.prefix || ""));
+    $invitationLinkTitle.val(String(entry.title || ""));
+    $invitationLinkName.val(String(entry.name || ""));
+    $invitationLinkSuffix.val(String(entry.suffix || ""));
+    $invitationLinkMessage.val(
+      String(entry.message || "").trim() || defaultInvitationGreeting,
+    );
+    $invitationLinkError.text("");
+    setInvitationLinkFormCollapsed(false);
+    window.setTimeout(function () {
+      $invitationLinkName.trigger("focus");
+    }, 0);
   }
 
   function submitInvitationLinkCreate() {
@@ -4006,12 +4078,14 @@
     const title = String($invitationLinkTitle.val() || "").trim();
     const name = String($invitationLinkName.val() || "").trim();
     const suffix = String($invitationLinkSuffix.val() || "").trim();
+    const message = String($invitationLinkMessage.val() || "").trim();
     if (!name) {
       $invitationLinkError.text("Vui lòng nhập tên người nhận.");
       return;
     }
+    const isEditing = !!state.editingInvitationLinkCode;
     state.creatingInvitationLink = true;
-    $invitationLinkError.text("Đang tạo thiệp...");
+    $invitationLinkError.text(isEditing ? "Đang cập nhật thiệp..." : "Đang tạo thiệp...");
     $invitationLinkSubmit.prop("disabled", true);
     $invitationLinkCancel.prop("disabled", true);
     $.ajax({
@@ -4020,10 +4094,13 @@
       contentType: "application/json",
       dataType: "json",
       data: JSON.stringify({
+        code: state.editingInvitationLinkCode,
+        edit: isEditing,
         prefix: prefix,
         title: title,
         name: name,
         suffix: suffix,
+        message: message,
       }),
     })
       .done(function (response) {
@@ -4036,20 +4113,24 @@
         renderInvitationLinkList(
           Array.isArray(response.entries) ? response.entries : [],
         );
-        $invitationLinkError.text(
-          response.duplicate
-            ? "Thiệp này đã tồn tại, mình đã giữ lại link cũ."
-            : "Tạo thiệp thành công.",
+        $invitationLinkError.text("");
+        showResultModal(
+          isEditing
+            ? "Cập nhật thiệp thành công."
+            : response.duplicate
+              ? "Thiệp này đã tồn tại, mình đã giữ lại link cũ."
+              : "Tạo thiệp thành công.",
+          "success",
         );
-        $invitationLinkPrefix.val("");
-        $invitationLinkTitle.val("");
-        $invitationLinkName.val("");
-        $invitationLinkSuffix.val("");
+        resetInvitationLinkForm();
       })
       .fail(function (xhr) {
         const payload = xhr && xhr.responseJSON;
         $invitationLinkError.text(
-          (payload && payload.message) || "Không tạo được thiệp mời.",
+          (payload && payload.message) ||
+            (isEditing
+              ? "Không cập nhật được thiệp mời."
+              : "Không tạo được thiệp mời."),
         );
       })
       .always(function () {
@@ -5977,6 +6058,20 @@
       submitInvitationLinkCreate();
     });
 
+    $invitationLinkFormHeader.on("click", function () {
+      setInvitationLinkFormCollapsed(
+        !$invitationLinkFormSection.hasClass("is-collapsed"),
+      );
+    });
+
+    $invitationLinkEditCancel.on("click", function () {
+      resetInvitationLinkForm();
+      $invitationLinkError.text("");
+      window.setTimeout(function () {
+        $invitationLinkName.trigger("focus");
+      }, 0);
+    });
+
     $invitationLinkName.on("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -5997,6 +6092,21 @@
         .fail(function () {
           showResultModal("Không copy được link thiệp mời.", "error");
         });
+    });
+
+    $invitationLinkList.on("click", ".invitation-link-edit", function () {
+      const code = String($(this).attr("data-code") || "").trim();
+      if (!code) {
+        return;
+      }
+      const currentEntry = state.invitationLinks.find(function (entry) {
+        return String(entry && entry.code ? entry.code : "").trim() === code;
+      });
+      if (!currentEntry) {
+        showResultModal("Không tìm thấy thiệp để chỉnh sửa.", "error");
+        return;
+      }
+      fillInvitationLinkForm(currentEntry);
     });
 
     $invitationLinkList.on("click", ".invitation-link-toggle", function () {

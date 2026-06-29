@@ -2308,6 +2308,10 @@ body.is-scroll-card-view {
     font-size: 2.1rem;
 }
 
+.wedding-date-row span:last-child {
+    font-weight: 700;
+}
+
 .wedding-lunar-date {
     margin: 20px 0 24px;
     color: #850000;
@@ -4663,16 +4667,53 @@ body.is-guest-token-login .guest-gate-subtitle {
     gap: 12px;
 }
 
+.invitation-link-form-header {
+    border-radius: min(calc(12px * var(--radius-factor)), 14px);
+}
+
+.invitation-link-form-title {
+    margin: 0;
+    font-size: 0.96rem;
+}
+
+.invitation-link-form-toggle svg {
+    fill: none;
+    stroke: currentColor;
+}
+
+.invitation-link-form-body {
+    display: grid;
+    gap: 12px;
+    padding-top: 12px;
+}
+
+.invitation-link-form-section.is-collapsed .invitation-link-form-body {
+    display: none;
+}
+
 .invitation-link-form-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 92px minmax(0, 1fr) 92px minmax(0, 1fr);
     gap: 10px 14px;
     align-items: center;
+}
+
+.invitation-link-form-grid .upload-label {
+    width: auto;
+}
+
+.invitation-link-form-grid #invitation-link-message {
+    grid-column: 2 / 5;
 }
 
 .invitation-link-create-row {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
+}
+
+.invitation-link-create-row .is-hidden {
+    display: none;
 }
 
 .invitation-link-list-section {
@@ -4702,7 +4743,7 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .invitation-link-table thead th.audio-col-action,
 .invitation-link-table .audio-col-action {
-    width: 146px;
+    width: 188px;
 }
 
 .invitation-link-recipient {
@@ -4752,11 +4793,16 @@ body.is-guest-token-login .guest-gate-subtitle {
     color: var(--ink);
 }
 
+.invitation-link-edit {
+    color: #855d12;
+}
+
 .invitation-link-delete {
     color: #9d1b1b;
 }
 
 .invitation-link-copy svg,
+.invitation-link-edit svg,
 .invitation-link-toggle svg,
 .invitation-link-delete svg {
     width: 15px;
@@ -4767,6 +4813,10 @@ body.is-guest-token-login .guest-gate-subtitle {
 @media (max-width: 720px) {
     .invitation-link-form-grid {
         grid-template-columns: 1fr;
+    }
+
+    .invitation-link-form-grid #invitation-link-message {
+        grid-column: auto;
     }
 
     .invitation-link-create-row {

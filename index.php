@@ -799,6 +799,9 @@ function normalize_invitation_link_entry(array $entry): ?array
     $suffix = isset($entry['suffix']) && is_string($entry['suffix'])
         ? normalize_guestbook_text($entry['suffix'])
         : '';
+    $message = isset($entry['message']) && is_string($entry['message'])
+        ? normalize_guestbook_text($entry['message'])
+        : '';
     $code = isset($entry['code']) && is_string($entry['code'])
         ? trim($entry['code'])
         : '';
@@ -820,6 +823,7 @@ function normalize_invitation_link_entry(array $entry): ?array
         'title' => $title,
         'name' => $name,
         'suffix' => $suffix,
+        'message' => $message,
         'recipient' => $recipient,
         'code' => $code,
         'link_path' => $linkPath,
@@ -973,6 +977,7 @@ function invitation_link_public_view(array $entry): array
         'title' => isset($entry['title']) && is_string($entry['title']) ? $entry['title'] : '',
         'name' => isset($entry['name']) && is_string($entry['name']) ? $entry['name'] : '',
         'suffix' => isset($entry['suffix']) && is_string($entry['suffix']) ? $entry['suffix'] : '',
+        'message' => isset($entry['message']) && is_string($entry['message']) ? $entry['message'] : '',
         'recipient' => isset($entry['recipient']) && is_string($entry['recipient']) ? $entry['recipient'] : '',
         'code' => isset($entry['code']) && is_string($entry['code']) ? $entry['code'] : '',
         'link_path' => isset($entry['link_path']) && is_string($entry['link_path']) ? $entry['link_path'] : '',
@@ -3692,8 +3697,9 @@ if ($requestPath === '/__invitation_card__') {
     if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'GET') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
     }
+    $defaultGreetContent = 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]';
     $payload = [
-        'greet_content' => 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]',
+        'greet_content' => $defaultGreetContent,
         'guestbook_visible' => true,
     ];
     if (is_file($invitationCardFile)) {
@@ -3713,6 +3719,13 @@ if ($requestPath === '/__invitation_card__') {
             $payload['guestbook_visible'] = !isset($links[$linkIndex]['guestbook_visible']) || !is_bool($links[$linkIndex]['guestbook_visible'])
                 ? true
                 : $links[$linkIndex]['guestbook_visible'];
+            if (
+                isset($links[$linkIndex]['message']) &&
+                is_string($links[$linkIndex]['message']) &&
+                trim($links[$linkIndex]['message']) !== ''
+            ) {
+                $payload['greet_content'] = trim($links[$linkIndex]['message']);
+            }
         }
     }
     send_json($payload);
@@ -3783,6 +3796,9 @@ if ($requestPath === '/__invitation_links__') {
     $suffix = isset($payload['suffix']) && is_string($payload['suffix'])
         ? normalize_guestbook_text($payload['suffix'])
         : '';
+    $message = isset($payload['message']) && is_string($payload['message'])
+        ? trim($payload['message'])
+        : '';
 
     if ($name === '') {
         send_json(['ok' => false, 'message' => 'Vui lòng nhập tên người nhận.'], 400);
@@ -3792,12 +3808,49 @@ if ($requestPath === '/__invitation_links__') {
         guestbook_text_length($prefix) > 80 ||
         guestbook_text_length($title) > 40 ||
         guestbook_text_length($name) > 120 ||
-        guestbook_text_length($suffix) > 80
+        guestbook_text_length($suffix) > 80 ||
+        guestbook_text_length($message) > 600
     ) {
         send_json(['ok' => false, 'message' => 'Thông tin người nhận quá dài.'], 400);
     }
 
     $code = encode_invitation_recipient_payload($title, $name, $prefix, $suffix);
+    if ($updateCode !== '' && !empty($payload['edit'])) {
+        $linkIndex = find_invitation_link_index_by_code($entries, $updateCode);
+        if ($linkIndex < 0) {
+            send_json(['ok' => false, 'message' => 'Thiệp mời không tồn tại.'], 404);
+        }
+        foreach ($entries as $existingIndex => $existingEntry) {
+            if (
+                $existingIndex !== $linkIndex &&
+                isset($existingEntry['code']) &&
+                is_string($existingEntry['code']) &&
+                hash_equals($existingEntry['code'], $code)
+            ) {
+                send_json(['ok' => false, 'message' => 'Thiệp mời này đã tồn tại.'], 409);
+            }
+        }
+
+        $entries[$linkIndex]['prefix'] = $prefix;
+        $entries[$linkIndex]['title'] = $title;
+        $entries[$linkIndex]['name'] = $name;
+        $entries[$linkIndex]['suffix'] = $suffix;
+        $entries[$linkIndex]['message'] = $message;
+        $entries[$linkIndex]['recipient'] = trim($title . ' ' . $name);
+        $entries[$linkIndex]['code'] = $code;
+        $entries[$linkIndex]['link_path'] = with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code);
+
+        if (!save_invitation_links($invitationLinksFile, $entries)) {
+            send_json(['ok' => false, 'message' => 'Không cập nhật được thiệp mời.'], 500);
+        }
+
+        send_json([
+            'ok' => true,
+            'entry' => invitation_link_public_view($entries[$linkIndex]),
+            'entries' => array_map('invitation_link_public_view', $entries),
+        ]);
+    }
+
     foreach ($entries as $existingEntry) {
         if (
             isset($existingEntry['code']) &&
@@ -3818,6 +3871,7 @@ if ($requestPath === '/__invitation_links__') {
         'title' => $title,
         'name' => $name,
         'suffix' => $suffix,
+        'message' => $message,
         'recipient' => trim($title . ' ' . $name),
         'code' => $code,
         'link_path' => with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code),
