@@ -1947,13 +1947,15 @@
     }
   }
 
-  function showUserAgentTooltip(anchorEl, entry) {
+  function showAdminDetailTooltip(anchorEl, options) {
     if (!anchorEl) {
       return;
     }
     closeUserAgentTooltip();
 
-    const details = describeUserAgent(entry && entry.user_agent);
+    const title = String((options && options.title) || "").trim();
+    const raw = String((options && options.raw) || "").trim();
+    const lines = Array.isArray(options && options.lines) ? options.lines : [];
     const $tooltip = $(
       '<div id="admin-user-agent-tooltip" class="admin-user-agent-tooltip" role="tooltip" aria-hidden="true">' +
         '<button type="button" class="admin-user-agent-close" aria-label="Đóng" title="Đóng">×</button>' +
@@ -1963,11 +1965,15 @@
         "</div>",
     );
 
-    $tooltip.find(".admin-user-agent-raw").text(details.raw);
+    $tooltip.find(".admin-user-agent-title").text(title || "Chi tiết");
+    $tooltip.find(".admin-user-agent-raw").text(raw);
     const $lines = $tooltip.find(".admin-user-agent-lines");
-    details.lines.forEach(function (line) {
+    lines.forEach(function (line) {
       $lines.append($("<li></li>").text(line));
     });
+    if (!lines.length) {
+      $lines.remove();
+    }
     $tooltip.find(".admin-user-agent-close").on("click", function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -1996,6 +2002,24 @@
     window.requestAnimationFrame(function () {
       $tooltip.addClass("is-visible").attr("aria-hidden", "false");
     });
+  }
+
+  function showUserAgentTooltip(anchorEl, entry) {
+    const details = describeUserAgent(entry && entry.user_agent);
+    showAdminDetailTooltip(anchorEl, {
+      title: "User agent",
+      raw: details.raw,
+      lines: details.lines,
+    });
+  }
+
+  function truncateTextPreview(value, limit) {
+    const text = String(value || "").trim();
+    const max = Number(limit) > 0 ? Number(limit) : 30;
+    if (text.length <= max) {
+      return text;
+    }
+    return text.slice(0, Math.max(1, max - 3)).trimEnd() + "...";
   }
 
   function renderAdminRequestsPanel() {
@@ -3512,7 +3536,7 @@
       .on("click.adminUserAgentTooltip", function (event) {
         if (
           $(event.target).closest(
-            ".admin-request-agent-button, #admin-user-agent-tooltip",
+            ".admin-request-agent-button, .invitation-link-wish-item, #admin-user-agent-tooltip",
           ).length
         ) {
           return;
@@ -3538,6 +3562,24 @@
           event.stopPropagation();
           const raw = String($(this).attr("data-user-agent") || "");
           showUserAgentTooltip(this, { user_agent: raw });
+        },
+      )
+      .off("click.invitationLinkWishPreview")
+      .on(
+        "click.invitationLinkWishPreview",
+        ".invitation-link-wish-item",
+        function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          const raw = String($(this).attr("data-full-message") || "").trim();
+          if (!raw) {
+            return;
+          }
+          showAdminDetailTooltip(this, {
+            title: "Lời chúc",
+            raw: raw,
+            lines: [],
+          });
         },
       );
   }
@@ -3895,10 +3937,14 @@
       messageWrap.className = "invitation-link-wishes is-visible";
       if (wishes.length) {
         wishes.forEach(function (wish) {
-          const item = document.createElement("p");
-          item.className = "invitation-link-wish-item";
           const message = String(wish && wish.message ? wish.message : "");
-          item.textContent = message;
+          const item = document.createElement("button");
+          item.className = "invitation-link-wish-item";
+          item.type = "button";
+          item.textContent = truncateTextPreview(message, 30);
+          item.setAttribute("data-full-message", message);
+          item.setAttribute("title", message);
+          item.setAttribute("aria-label", "Xem toàn bộ lời chúc");
           messageWrap.appendChild(item);
         });
       } else {
@@ -3910,7 +3956,9 @@
       tdMessage.appendChild(messageWrap);
 
       const tdAction = document.createElement("td");
-      tdAction.className = "audio-col-action admin-request-actions";
+      tdAction.className = "audio-col-action";
+      const actionWrap = document.createElement("div");
+      actionWrap.className = "invitation-link-actions admin-request-actions";
       const toggleBtn = document.createElement("button");
       toggleBtn.type = "button";
       toggleBtn.className = "admin-request-action-button invitation-link-toggle";
@@ -3959,10 +4007,11 @@
         '<svg viewBox="0 0 448 512" aria-hidden="true">' +
         '<path d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path>' +
         "</svg>";
-      tdAction.appendChild(toggleBtn);
-      tdAction.appendChild(copyBtn);
-      tdAction.appendChild(editBtn);
-      tdAction.appendChild(deleteBtn);
+      actionWrap.appendChild(toggleBtn);
+      actionWrap.appendChild(copyBtn);
+      actionWrap.appendChild(editBtn);
+      actionWrap.appendChild(deleteBtn);
+      tdAction.appendChild(actionWrap);
 
       tr.appendChild(tdNo);
       tr.appendChild(tdRecipient);

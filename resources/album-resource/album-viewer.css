@@ -4744,6 +4744,9 @@ body.is-guest-token-login .guest-gate-subtitle {
 .invitation-link-table thead th.audio-col-action,
 .invitation-link-table .audio-col-action {
     width: 188px;
+    text-align: right;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .invitation-link-recipient {
@@ -4767,15 +4770,59 @@ body.is-guest-token-login .guest-gate-subtitle {
     overflow-wrap: anywhere;
 }
 
-.invitation-link-table .admin-request-actions {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-    gap: 8px;
+.invitation-link-wish-item {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: normal;
 }
 
-.invitation-link-table .admin-request-actions .admin-request-action-button + .admin-request-action-button {
+.invitation-link-wish-item:hover {
+    color: var(--ink);
+}
+
+.invitation-link-wish-item:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+.invitation-link-wish-empty {
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    text-align: left;
+    word-break: break-word;
+}
+
+.invitation-link-table .invitation-link-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 8px;
+    white-space: nowrap;
+    min-height: 34px;
+}
+
+.invitation-link-table .invitation-link-actions .admin-request-action-button + .admin-request-action-button {
     margin-left: 0;
 }
 
