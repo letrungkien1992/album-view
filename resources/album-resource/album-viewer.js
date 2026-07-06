@@ -605,6 +605,35 @@
   const $audioColTitle = $("#audio-col-title");
   const $audioColAction = $("#audio-col-action");
   const $invitationLinkModal = $("#invitation-link-modal");
+  const $invitationLinkDialogBody = $invitationLinkModal
+    .find(".upload-dialog-body")
+    .first();
+  const $invitationCardEditorSection = $("#invitation-card-editor-section");
+  const $invitationCardEditorHeader = $("#invitation-card-editor-header");
+  const $invitationCardEditorToggle = $("#invitation-card-editor-toggle");
+  const $invitationCardEditorHint = $("#invitation-card-editor-hint");
+  const $invitationCardEditorError = $("#invitation-card-error");
+  const $invitationCardSelectButtons = $(".invitation-card-switch-btn");
+  const $invitationCardSubmit = $("#invitation-card-submit");
+  const $invitationCardGreetContent = $("#invitation-card-greet-content");
+  const $invitationCardBrideName = $("#invitation-card-bride-name");
+  const $invitationCardGroomName = $("#invitation-card-groom-name");
+  const $invitationCardBrideFather = $("#invitation-card-bride-father");
+  const $invitationCardBrideMother = $("#invitation-card-bride-mother");
+  const $invitationCardBrideAddress = $("#invitation-card-bride-address");
+  const $invitationCardGroomFather = $("#invitation-card-groom-father");
+  const $invitationCardGroomMother = $("#invitation-card-groom-mother");
+  const $invitationCardGroomAddress = $("#invitation-card-groom-address");
+  const $invitationCardEventDate = $("#invitation-card-event-date");
+  const $invitationCardEventTime = $("#invitation-card-event-time");
+  const $invitationCardLunarDate = $("#invitation-card-lunar-date");
+  const $invitationCardGuestTime = $("#invitation-card-guest-time");
+  const $invitationCardPartyTime = $("#invitation-card-party-time");
+  const $invitationCardCeremonyLocation = $(
+    "#invitation-card-ceremony-location",
+  );
+  const $invitationCardPartyLocation = $("#invitation-card-party-location");
+  const $invitationCardMapQuery = $("#invitation-card-map-query");
   const $invitationLinkFormSection = $("#invitation-link-form-section");
   const $invitationLinkFormHeader = $("#invitation-link-form-header");
   const $invitationLinkFormTitle = $("#invitation-link-form-title");
@@ -614,6 +643,7 @@
   const $invitationLinkName = $("#invitation-link-name");
   const $invitationLinkSuffix = $("#invitation-link-suffix");
   const $invitationLinkMessage = $("#invitation-link-message");
+  const $invitationLinkCard = $("#invitation-link-card");
   const $invitationLinkEditCancel = $("#invitation-link-edit-cancel");
   const $invitationLinkSubmit = $("#invitation-link-submit");
   const $invitationLinkCancel = $("#invitation-link-cancel");
@@ -781,6 +811,11 @@
     inviteRequestsLoading: false,
     invitationLinks: [],
     invitationLinksLoading: false,
+    invitationCardProfiles: {},
+    invitationCardActiveKey: "card_1",
+    invitationCardSelectedKey: "card_1",
+    invitationCardLoading: false,
+    invitationCardSaving: false,
     editingInvitationLinkCode: "",
     inviteRequestPage: 1,
     inviteRequestPageSize: Number(
@@ -805,6 +840,7 @@
         "Cảm ơn bạn đã luôn đồng hành và tạo nên những khoảnh khắc đáng nhớ.",
       messageFromQuery: false,
       invitationCode: "",
+      cardKey: "",
       guestbookVisible: true,
       recipientPrefix: "",
       recipientTitle: "",
@@ -844,6 +880,14 @@
     const query = new URLSearchParams(window.location.search || "");
     const decodedRecipient = decodeInvitationRecipientParams(query) || {};
     const invitationCode = String(query.get("data") || "").trim();
+    const cardKeyFromPayload = String(decodedRecipient.card || "")
+      .trim()
+      .toLowerCase();
+    const cardKeyFromQuery = String(query.get("card") || "").trim().toLowerCase();
+    const cardKey =
+      cardKeyFromPayload === "card_1" || cardKeyFromPayload === "card_2"
+        ? cardKeyFromPayload
+        : cardKeyFromQuery;
     const recipientPrefix = String(decodedRecipient.prefix || "").trim();
     const recipientTitle = String(decodedRecipient.title || "").trim();
     const recipientName = String(decodedRecipient.name || "").trim();
@@ -858,6 +902,8 @@
     return {
       enabled: true,
       invitationCode: invitationCode,
+      cardKey:
+        cardKey === "card_1" || cardKey === "card_2" ? cardKey : "",
       title: String(query.get("card_title") || "Chúc mừng!").trim(),
       message: String(
         query.get("message") ||
@@ -1333,6 +1379,7 @@
       title: String(params.get("title") || "").trim(),
       name: String(params.get("name") || "").trim(),
       suffix: String(params.get("suffix") || "").trim(),
+      card: String(params.get("card") || "").trim().toLowerCase(),
     };
   }
 
@@ -3912,6 +3959,7 @@
     }
     list.forEach(function (entry, index) {
       const code = String(entry && entry.code ? entry.code : "").trim();
+      const cardKey = normalizeInvitationCardKey(entry && entry.card_key);
       const guestbookVisible = !(
         entry &&
         Object.prototype.hasOwnProperty.call(entry, "guestbook_visible") &&
@@ -3930,6 +3978,13 @@
       recipient.textContent = String(entry && entry.recipient ? entry.recipient : "");
       recipient.setAttribute("title", recipient.textContent);
       tdRecipient.appendChild(recipient);
+
+      const tdCard = document.createElement("td");
+      tdCard.className = "invitation-link-col-card";
+      const cardPill = document.createElement("span");
+      cardPill.className = "invitation-link-card-pill";
+      cardPill.textContent = getInvitationCardLabel(cardKey);
+      tdCard.appendChild(cardPill);
 
       const tdMessage = document.createElement("td");
       tdMessage.className = "invitation-link-col-message";
@@ -3983,6 +4038,7 @@
         "data-link-path",
         String(entry && entry.link_path ? entry.link_path : ""),
       );
+      copyBtn.setAttribute("data-card-key", cardKey);
       copyBtn.innerHTML =
         '<svg viewBox="0 0 448 512" aria-hidden="true">' +
         '<path d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path>' +
@@ -4015,10 +4071,310 @@
 
       tr.appendChild(tdNo);
       tr.appendChild(tdRecipient);
+      tr.appendChild(tdCard);
       tr.appendChild(tdMessage);
       tr.appendChild(tdAction);
       $invitationLinkList.append(tr);
     });
+  }
+
+  function getDefaultInvitationCardData() {
+    return {
+      greet_content:
+        "Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]",
+      bride_name: "Vũ Thị Thu Thủy",
+      groom_name: "Lê Trung Kiên",
+      bride_father: "Ông Vũ Quang Tân",
+      bride_mother: "Bà Nguyễn Thị Vân",
+      bride_family_address: "Thôn An Bình, Xã Liên Hiệp, Tỉnh Lâm Đồng",
+      groom_father: "",
+      groom_mother: "Bà Uông Thị Mỹ Quế",
+      groom_family_address: "Ấp 39, Xã Nhà Bè, Thành phố Hồ Chí Minh",
+      event_date: "28 tháng 11, 2026",
+      event_time: "15:00",
+      lunar_date: "(Tức ngày 20/10 năm Bính Ngọ)",
+      guest_time: "17:30",
+      party_time: "18:00",
+      ceremony_location: "Tư gia",
+      party_location:
+        "Trung tâm nhà hàng tiệc cưới Crystal Palace, 13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+      map_query:
+        "13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+    };
+  }
+
+  function normalizeInvitationCardKey(value) {
+    return String(value || "").trim().toLowerCase() === "card_2"
+      ? "card_2"
+      : "card_1";
+  }
+
+  function getInvitationCardLabel(cardKey) {
+    return normalizeInvitationCardKey(cardKey) === "card_2"
+      ? "Thiệp 2"
+      : "Thiệp 1";
+  }
+
+  function buildInvitationLinkWithCard(linkPath, cardKey) {
+    const normalizedPath = String(linkPath || "").trim();
+    if (!normalizedPath) {
+      return "";
+    }
+    try {
+      const absoluteUrl = new URL(toAbsoluteUrl(normalizedPath));
+      const encodedData = String(absoluteUrl.searchParams.get("data") || "").trim();
+      const decodedData = decodeBase64UrlString(encodedData);
+      if (decodedData) {
+        const payload = new URLSearchParams(decodedData);
+        const embeddedCard = String(payload.get("card") || "")
+          .trim()
+          .toLowerCase();
+        if (embeddedCard === "card_1" || embeddedCard === "card_2") {
+          absoluteUrl.searchParams.delete("card");
+          return absoluteUrl.toString();
+        }
+      }
+      absoluteUrl.searchParams.set("card", normalizeInvitationCardKey(cardKey));
+      return absoluteUrl.toString();
+    } catch (_err) {
+      return toAbsoluteUrl(normalizedPath);
+    }
+  }
+
+  function normalizeInvitationCardData(entry) {
+    const defaults = getDefaultInvitationCardData();
+    const source = entry && typeof entry === "object" ? entry : {};
+    return {
+      greet_content: String(
+        source.greet_content || defaults.greet_content || "",
+      ).trim(),
+      bride_name: String(source.bride_name || defaults.bride_name || "").trim(),
+      groom_name: String(source.groom_name || defaults.groom_name || "").trim(),
+      bride_father: String(
+        source.bride_father || defaults.bride_father || "",
+      ).trim(),
+      bride_mother: String(
+        source.bride_mother || defaults.bride_mother || "",
+      ).trim(),
+      bride_family_address: String(
+        source.bride_family_address || defaults.bride_family_address || "",
+      ).trim(),
+      groom_father: String(
+        source.groom_father || defaults.groom_father || "",
+      ).trim(),
+      groom_mother: String(
+        source.groom_mother || defaults.groom_mother || "",
+      ).trim(),
+      groom_family_address: String(
+        source.groom_family_address || defaults.groom_family_address || "",
+      ).trim(),
+      event_date: String(source.event_date || defaults.event_date || "").trim(),
+      event_time: String(source.event_time || defaults.event_time || "").trim(),
+      lunar_date: String(source.lunar_date || defaults.lunar_date || "").trim(),
+      guest_time: String(source.guest_time || defaults.guest_time || "").trim(),
+      party_time: String(source.party_time || defaults.party_time || "").trim(),
+      ceremony_location: String(
+        source.ceremony_location || defaults.ceremony_location || "",
+      ).trim(),
+      party_location: String(
+        source.party_location || defaults.party_location || "",
+      ).trim(),
+      map_query: String(source.map_query || defaults.map_query || "").trim(),
+    };
+  }
+
+  function setInvitationCardEditorCollapsed(collapsed) {
+    const isCollapsed = !!collapsed;
+    $invitationCardEditorSection.toggleClass("is-collapsed", isCollapsed);
+    $invitationCardEditorToggle
+      .attr("aria-expanded", isCollapsed ? "false" : "true")
+      .attr(
+        "aria-label",
+        isCollapsed ? "Mở rộng nội dung thiệp" : "Thu gọn nội dung thiệp",
+      )
+      .attr(
+        "title",
+        isCollapsed ? "Mở rộng nội dung thiệp" : "Thu gọn nội dung thiệp",
+      );
+  }
+
+  function applyInvitationCardEditorData(cardKey) {
+    const normalizedKey = normalizeInvitationCardKey(cardKey);
+    const profiles =
+      state.invitationCardProfiles && typeof state.invitationCardProfiles === "object"
+        ? state.invitationCardProfiles
+        : {};
+    const currentData = normalizeInvitationCardData(profiles[normalizedKey]);
+    state.invitationCardSelectedKey = normalizedKey;
+    $invitationCardGreetContent.val(currentData.greet_content);
+    $invitationCardBrideName.val(currentData.bride_name);
+    $invitationCardGroomName.val(currentData.groom_name);
+    $invitationCardBrideFather.val(currentData.bride_father);
+    $invitationCardBrideMother.val(currentData.bride_mother);
+    $invitationCardBrideAddress.val(currentData.bride_family_address);
+    $invitationCardGroomFather.val(currentData.groom_father);
+    $invitationCardGroomMother.val(currentData.groom_mother);
+    $invitationCardGroomAddress.val(currentData.groom_family_address);
+    $invitationCardEventDate.val(currentData.event_date);
+    $invitationCardEventTime.val(currentData.event_time);
+    $invitationCardLunarDate.val(currentData.lunar_date);
+    $invitationCardGuestTime.val(currentData.guest_time);
+    $invitationCardPartyTime.val(currentData.party_time);
+    $invitationCardCeremonyLocation.val(currentData.ceremony_location);
+    $invitationCardPartyLocation.val(currentData.party_location);
+    $invitationCardMapQuery.val(currentData.map_query);
+    $invitationCardSelectButtons.each(function () {
+      const $button = $(this);
+      const buttonCard = normalizeInvitationCardKey($button.attr("data-card"));
+      const isActive = buttonCard === normalizedKey;
+      $button.toggleClass("is-active", isActive).attr(
+        "aria-pressed",
+        isActive ? "true" : "false",
+      );
+    });
+    const activeLabel =
+      state.invitationCardActiveKey === "card_2" ? "Thiệp 2" : "Thiệp 1";
+    const selectedLabel = normalizedKey === "card_2" ? "Thiệp 2" : "Thiệp 1";
+    $invitationCardEditorHint.text(
+      selectedLabel +
+        " đang được chỉnh sửa. Link công khai hiện dùng " +
+        activeLabel +
+        ".",
+    );
+    $invitationCardEditorError.text("");
+  }
+
+  function renderInvitationCardConfig(response, preferredCardKey) {
+    const responseCards =
+      response && response.cards && typeof response.cards === "object"
+        ? response.cards
+        : {};
+    state.invitationCardProfiles = {
+      card_1: normalizeInvitationCardData(
+        responseCards.card_1 || getDefaultInvitationCardData(),
+      ),
+      card_2: normalizeInvitationCardData(
+        responseCards.card_2 ||
+          responseCards.card_1 ||
+          getDefaultInvitationCardData(),
+      ),
+    };
+    state.invitationCardActiveKey = normalizeInvitationCardKey(
+      response && response.active_card,
+    );
+    const selectedKey = normalizeInvitationCardKey(
+      preferredCardKey ||
+        (response && response.selected_card) ||
+        state.invitationCardActiveKey,
+    );
+    applyInvitationCardEditorData(selectedKey);
+    if (!state.editingInvitationLinkCode) {
+      $invitationLinkCard.val(
+        normalizeInvitationCardKey(state.invitationCardActiveKey),
+      );
+    }
+  }
+
+  function loadInvitationCardConfig(preferredCardKey) {
+    if (!state.authUser) {
+      return $.Deferred().resolve().promise();
+    }
+    state.invitationCardLoading = true;
+    $invitationCardEditorHint.text("Đang tải dữ liệu thiệp...");
+    $invitationCardEditorError.text("");
+    return $.getJSON(buildApiUrl("__invitation_card__"))
+      .done(function (response) {
+        renderInvitationCardConfig(response, preferredCardKey);
+      })
+      .fail(function (xhr) {
+        const payload = xhr && xhr.responseJSON;
+        state.invitationCardProfiles = {
+          card_1: normalizeInvitationCardData(getDefaultInvitationCardData()),
+          card_2: normalizeInvitationCardData(getDefaultInvitationCardData()),
+        };
+        state.invitationCardActiveKey = "card_1";
+        applyInvitationCardEditorData(preferredCardKey || "card_1");
+        $invitationCardEditorError.text(
+          (payload && payload.message) || "Không tải được nội dung thiệp.",
+        );
+      })
+      .always(function () {
+        state.invitationCardLoading = false;
+      });
+  }
+
+  function submitInvitationCardSave() {
+    if (state.invitationCardSaving) {
+      return;
+    }
+    if (!state.authUser) {
+      showResultModal("Bạn cần đăng nhập admin để sửa nội dung thiệp.", "warning");
+      return;
+    }
+    const selectedCard = normalizeInvitationCardKey(
+      state.invitationCardSelectedKey,
+    );
+    const payload = {
+      card: selectedCard,
+      greet_content: String($invitationCardGreetContent.val() || "").trim(),
+      bride_name: String($invitationCardBrideName.val() || "").trim(),
+      groom_name: String($invitationCardGroomName.val() || "").trim(),
+      bride_father: String($invitationCardBrideFather.val() || "").trim(),
+      bride_mother: String($invitationCardBrideMother.val() || "").trim(),
+      bride_family_address: String($invitationCardBrideAddress.val() || "").trim(),
+      groom_father: String($invitationCardGroomFather.val() || "").trim(),
+      groom_mother: String($invitationCardGroomMother.val() || "").trim(),
+      groom_family_address: String($invitationCardGroomAddress.val() || "").trim(),
+      event_date: String($invitationCardEventDate.val() || "").trim(),
+      event_time: String($invitationCardEventTime.val() || "").trim(),
+      lunar_date: String($invitationCardLunarDate.val() || "").trim(),
+      guest_time: String($invitationCardGuestTime.val() || "").trim(),
+      party_time: String($invitationCardPartyTime.val() || "").trim(),
+      ceremony_location: String($invitationCardCeremonyLocation.val() || "").trim(),
+      party_location: String($invitationCardPartyLocation.val() || "").trim(),
+      map_query: String($invitationCardMapQuery.val() || "").trim(),
+    };
+    if (!payload.greet_content) {
+      $invitationCardEditorError.text("Vui lòng nhập lời mời hiển thị trong thiệp.");
+      return;
+    }
+    state.invitationCardSaving = true;
+    $invitationCardEditorError.text("Đang lưu nội dung thiệp...");
+    $invitationCardSubmit.prop("disabled", true);
+    $invitationCardSelectButtons.prop("disabled", true);
+    $.ajax({
+      url: buildApiUrl("__invitation_card__"),
+      method: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify(payload),
+    })
+      .done(function (response) {
+        if (!response || response.ok === false) {
+          $invitationCardEditorError.text(
+            (response && response.message) || "Không lưu được nội dung thiệp.",
+          );
+          return;
+        }
+        renderInvitationCardConfig(response, selectedCard);
+        $invitationCardEditorError.text("");
+        showResultModal(
+          (selectedCard === "card_2" ? "Thiệp 2" : "Thiệp 1") +
+            " đã được lưu và đặt làm thiệp đang dùng.",
+          "success",
+        );
+      })
+      .fail(function (xhr) {
+        const response = xhr && xhr.responseJSON;
+        $invitationCardEditorError.text(
+          (response && response.message) || "Không lưu được nội dung thiệp.",
+        );
+      })
+      .always(function () {
+        state.invitationCardSaving = false;
+        $invitationCardSubmit.prop("disabled", false);
+        $invitationCardSelectButtons.prop("disabled", false);
+      });
   }
 
   function loadInvitationLinkList() {
@@ -4047,14 +4403,20 @@
   }
 
   function openInvitationLinkModal() {
+    $invitationCardEditorError.text("");
     $invitationLinkError.text("");
+    setInvitationCardEditorCollapsed(true);
     resetInvitationLinkForm();
+    loadInvitationCardConfig(state.invitationCardSelectedKey);
     renderInvitationLinkList(state.invitationLinks);
     loadInvitationLinkList();
+    if ($invitationLinkDialogBody.length) {
+      $invitationLinkDialogBody.scrollTop(0);
+    }
     $invitationLinkModal.removeClass("is-hidden").attr("aria-hidden", "false");
     updateInvitationLinkButtonUi();
     window.setTimeout(function () {
-      $invitationLinkName.trigger("focus");
+      $invitationCardEditorToggle.trigger("focus");
     }, 0);
   }
 
@@ -4075,8 +4437,12 @@
 
   function closeInvitationLinkModal() {
     $invitationLinkModal.addClass("is-hidden").attr("aria-hidden", "true");
+    $invitationCardEditorError.text("");
     $invitationLinkError.text("");
     resetInvitationLinkForm();
+    if ($invitationLinkDialogBody.length) {
+      $invitationLinkDialogBody.scrollTop(0);
+    }
     updateInvitationLinkButtonUi();
   }
 
@@ -4090,7 +4456,10 @@
     $invitationLinkName.val("");
     $invitationLinkSuffix.val("");
     $invitationLinkMessage.val(defaultInvitationGreeting);
-    setInvitationLinkFormCollapsed(false);
+    $invitationLinkCard.val(
+      normalizeInvitationCardKey(state.invitationCardActiveKey || "card_1"),
+    );
+    setInvitationLinkFormCollapsed(true);
   }
 
   function fillInvitationLinkForm(entry) {
@@ -4108,8 +4477,12 @@
     $invitationLinkMessage.val(
       String(entry.message || "").trim() || defaultInvitationGreeting,
     );
+    $invitationLinkCard.val(normalizeInvitationCardKey(entry.card_key));
     $invitationLinkError.text("");
     setInvitationLinkFormCollapsed(false);
+    if ($invitationLinkDialogBody.length) {
+      $invitationLinkDialogBody.scrollTop(0);
+    }
     window.setTimeout(function () {
       $invitationLinkName.trigger("focus");
     }, 0);
@@ -4128,6 +4501,7 @@
     const name = String($invitationLinkName.val() || "").trim();
     const suffix = String($invitationLinkSuffix.val() || "").trim();
     const message = String($invitationLinkMessage.val() || "").trim();
+    const cardKey = normalizeInvitationCardKey($invitationLinkCard.val());
     if (!name) {
       $invitationLinkError.text("Vui lòng nhập tên người nhận.");
       return;
@@ -4150,6 +4524,7 @@
         name: name,
         suffix: suffix,
         message: message,
+        card_key: cardKey,
       }),
     })
       .done(function (response) {
@@ -6107,6 +6482,26 @@
       submitInvitationLinkCreate();
     });
 
+    $invitationCardSubmit.on("click", function () {
+      submitInvitationCardSave();
+    });
+
+    $invitationCardEditorHeader.on("click", function () {
+      setInvitationCardEditorCollapsed(
+        !$invitationCardEditorSection.hasClass("is-collapsed"),
+      );
+    });
+
+    $invitationCardSelectButtons.on("click", function () {
+      if (state.invitationCardSaving) {
+        return;
+      }
+      applyInvitationCardEditorData($(this).attr("data-card"));
+      if ($invitationLinkDialogBody.length) {
+        $invitationLinkDialogBody.scrollTop(0);
+      }
+    });
+
     $invitationLinkFormHeader.on("click", function () {
       setInvitationLinkFormCollapsed(
         !$invitationLinkFormSection.hasClass("is-collapsed"),
@@ -6117,7 +6512,7 @@
       resetInvitationLinkForm();
       $invitationLinkError.text("");
       window.setTimeout(function () {
-        $invitationLinkName.trigger("focus");
+        $invitationLinkFormToggle.trigger("focus");
       }, 0);
     });
 
@@ -6130,11 +6525,14 @@
 
     $invitationLinkList.on("click", ".invitation-link-copy", function () {
       const linkPath = String($(this).attr("data-link-path") || "").trim();
+      const cardKey = normalizeInvitationCardKey(
+        $(this).attr("data-card-key") || "card_1",
+      );
       if (!linkPath) {
         showResultModal("Không tìm thấy link thiệp để copy.", "error");
         return;
       }
-      copyTextToClipboard(toAbsoluteUrl(linkPath))
+      copyTextToClipboard(buildInvitationLinkWithCard(linkPath, cardKey))
         .then(function () {
           showResultModal("Đã copy link thiệp mời.", "success");
         })
@@ -8204,9 +8602,13 @@
   }
 
   function loadScrollCardContent() {
-    const params = state.scrollCard.invitationCode
-      ? { data: state.scrollCard.invitationCode }
-      : undefined;
+    const params = {};
+    if (state.scrollCard.invitationCode) {
+      params.data = state.scrollCard.invitationCode;
+    }
+    if (state.scrollCard.cardKey) {
+      params.card = state.scrollCard.cardKey;
+    }
     return $.getJSON(buildApiUrl("__invitation_card__", params))
       .then(function (data) {
         const greetContent =

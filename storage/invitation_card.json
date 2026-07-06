@@ -15,5 +15,49 @@
   "party_time": "18:00",
   "ceremony_location": "Tư gia",
   "party_location": "Trung tâm nhà hàng tiệc cưới Crystal Palace, 13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
-  "map_query": "13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam"
+  "map_query": "13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+  "guestbook_visible": true,
+  "active_card": "card_1",
+  "cards": {
+    "card_1": {
+      "greet_content": "Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]",
+      "bride_name": "Vũ Thị Thu Thủy",
+      "groom_name": "Lê Trung Kiên",
+      "bride_father": "Ông Vũ Quang Tân",
+      "bride_mother": "Bà Nguyễn Thị Vân",
+      "bride_family_address": "Thôn An Bình, Xã Liên Hiệp, Tỉnh Lâm Đồng",
+      "groom_father": "",
+      "groom_mother": "Bà Uông Thị Mỹ Quế",
+      "groom_family_address": "Ấp 39, Xã Nhà Bè, Thành phố Hồ Chí Minh",
+      "event_date": "28 tháng 11, 2026",
+      "event_time": "15:00",
+      "lunar_date": "(Tức ngày 20/10 năm Bính Ngọ)",
+      "guest_time": "17:30",
+      "party_time": "18:00",
+      "ceremony_location": "Tư gia",
+      "party_location": "Trung tâm nhà hàng tiệc cưới Crystal Palace, 13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+      "map_query": "13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+      "guestbook_visible": true
+    },
+    "card_2": {
+      "greet_content": "Trân trọng kính mời [title] [name] đến chung vui cùng gia đình.",
+      "bride_name": "Vũ Thị Thu Thủy",
+      "groom_name": "Lê Trung Kiên",
+      "bride_father": "Ông Vũ Quang Tân",
+      "bride_mother": "Bà Nguyễn Thị Vân",
+      "bride_family_address": "Thôn An Bình, Xã Liên Hiệp, Tỉnh Lâm Đồng",
+      "groom_father": "",
+      "groom_mother": "Bà Uông Thị Mỹ Quế",
+      "groom_family_address": "Ấp 39, Xã Nhà Bè, Thành phố Hồ Chí Minh",
+      "event_date": "28 tháng 11, 2026",
+      "event_time": "15:00",
+      "lunar_date": "(Tức ngày 20/10 năm Bính Ngọ)",
+      "guest_time": "17:30",
+      "party_time": "18:00",
+      "ceremony_location": "Tư gia - Nhà gái",
+      "party_location": "Trung tâm nhà hàng tiệc cưới Crystal Palace, 13 Nguyễn Lương Bằng, Khu đô thị Phú Mỹ Hưng, Tân Mỹ, Hồ Chí Minh, Việt Nam",
+      "map_query": "Crystal Palace Phú Mỹ Hưng, 13 Nguyễn Lương Bằng, Hồ Chí Minh",
+      "guestbook_visible": true
+    }
+  }
 }

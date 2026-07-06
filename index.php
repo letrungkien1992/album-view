@@ -753,7 +753,8 @@ function encode_invitation_recipient_payload(
     string $title,
     string $name,
     string $prefix = '',
-    string $suffix = ''
+    string $suffix = '',
+    string $cardKey = ''
 ): string
 {
     $query = http_build_query([
@@ -761,6 +762,7 @@ function encode_invitation_recipient_payload(
         'title' => trim($title),
         'name' => trim($name),
         'suffix' => trim($suffix),
+        'card' => $cardKey !== '' ? normalize_invitation_card_key($cardKey) : '',
     ], '', '&', PHP_QUERY_RFC3986);
     return base64url_encode_string($query);
 }
@@ -805,6 +807,9 @@ function normalize_invitation_link_entry(array $entry): ?array
     $code = isset($entry['code']) && is_string($entry['code'])
         ? trim($entry['code'])
         : '';
+    $cardKey = isset($entry['card_key']) && is_string($entry['card_key'])
+        ? normalize_invitation_card_key($entry['card_key'])
+        : 'card_1';
     if ($name === '' || $code === '') {
         return null;
     }
@@ -826,6 +831,7 @@ function normalize_invitation_link_entry(array $entry): ?array
         'message' => $message,
         'recipient' => $recipient,
         'code' => $code,
+        'card_key' => $cardKey,
         'link_path' => $linkPath,
         'guestbook' => $guestbook,
         'guestbook_visible' => $guestbookVisible,
@@ -833,6 +839,216 @@ function normalize_invitation_link_entry(array $entry): ?array
             ? trim($entry['created_at'])
             : '',
     ];
+}
+
+function invitation_card_default_payload(): array
+{
+    return [
+        'greet_content' => 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]',
+        'bride_name' => '',
+        'groom_name' => '',
+        'bride_father' => '',
+        'bride_mother' => '',
+        'bride_family_address' => '',
+        'groom_father' => '',
+        'groom_mother' => '',
+        'groom_family_address' => '',
+        'event_date' => '',
+        'event_time' => '',
+        'lunar_date' => '',
+        'guest_time' => '',
+        'party_time' => '',
+        'ceremony_location' => '',
+        'party_location' => '',
+        'map_query' => '',
+        'guestbook_visible' => true,
+    ];
+}
+
+function normalize_invitation_card_key(string $value): string
+{
+    $normalized = strtolower(trim($value));
+    return $normalized === 'card_2' ? 'card_2' : 'card_1';
+}
+
+function normalize_invitation_card_multiline(string $value, int $maxLength = 1200): string
+{
+    $value = trim(str_replace(["\r\n", "\r"], "\n", $value));
+    if ($value === '') {
+        return '';
+    }
+    $length = function_exists('mb_strlen')
+        ? mb_strlen($value, 'UTF-8')
+        : strlen($value);
+    if ($length <= $maxLength) {
+        return $value;
+    }
+    return function_exists('mb_substr')
+        ? mb_substr($value, 0, $maxLength, 'UTF-8')
+        : substr($value, 0, $maxLength);
+}
+
+function normalize_invitation_card_line(string $value, int $maxLength = 255): string
+{
+    $value = normalize_guestbook_text($value);
+    if ($value === '') {
+        return '';
+    }
+    $length = function_exists('mb_strlen')
+        ? mb_strlen($value, 'UTF-8')
+        : strlen($value);
+    if ($length <= $maxLength) {
+        return $value;
+    }
+    return function_exists('mb_substr')
+        ? mb_substr($value, 0, $maxLength, 'UTF-8')
+        : substr($value, 0, $maxLength);
+}
+
+function normalize_invitation_card_payload(array $entry): array
+{
+    $defaults = invitation_card_default_payload();
+    return [
+        'greet_content' => isset($entry['greet_content']) && is_string($entry['greet_content'])
+            ? normalize_invitation_card_multiline($entry['greet_content'], 1600)
+            : $defaults['greet_content'],
+        'bride_name' => isset($entry['bride_name']) && is_string($entry['bride_name'])
+            ? normalize_invitation_card_line($entry['bride_name'], 120)
+            : '',
+        'groom_name' => isset($entry['groom_name']) && is_string($entry['groom_name'])
+            ? normalize_invitation_card_line($entry['groom_name'], 120)
+            : '',
+        'bride_father' => isset($entry['bride_father']) && is_string($entry['bride_father'])
+            ? normalize_invitation_card_line($entry['bride_father'], 120)
+            : '',
+        'bride_mother' => isset($entry['bride_mother']) && is_string($entry['bride_mother'])
+            ? normalize_invitation_card_line($entry['bride_mother'], 120)
+            : '',
+        'bride_family_address' => isset($entry['bride_family_address']) && is_string($entry['bride_family_address'])
+            ? normalize_invitation_card_line($entry['bride_family_address'], 255)
+            : '',
+        'groom_father' => isset($entry['groom_father']) && is_string($entry['groom_father'])
+            ? normalize_invitation_card_line($entry['groom_father'], 120)
+            : '',
+        'groom_mother' => isset($entry['groom_mother']) && is_string($entry['groom_mother'])
+            ? normalize_invitation_card_line($entry['groom_mother'], 120)
+            : '',
+        'groom_family_address' => isset($entry['groom_family_address']) && is_string($entry['groom_family_address'])
+            ? normalize_invitation_card_line($entry['groom_family_address'], 255)
+            : '',
+        'event_date' => isset($entry['event_date']) && is_string($entry['event_date'])
+            ? normalize_invitation_card_line($entry['event_date'], 120)
+            : '',
+        'event_time' => isset($entry['event_time']) && is_string($entry['event_time'])
+            ? normalize_invitation_card_line($entry['event_time'], 80)
+            : '',
+        'lunar_date' => isset($entry['lunar_date']) && is_string($entry['lunar_date'])
+            ? normalize_invitation_card_line($entry['lunar_date'], 120)
+            : '',
+        'guest_time' => isset($entry['guest_time']) && is_string($entry['guest_time'])
+            ? normalize_invitation_card_line($entry['guest_time'], 80)
+            : '',
+        'party_time' => isset($entry['party_time']) && is_string($entry['party_time'])
+            ? normalize_invitation_card_line($entry['party_time'], 80)
+            : '',
+        'ceremony_location' => isset($entry['ceremony_location']) && is_string($entry['ceremony_location'])
+            ? normalize_invitation_card_line($entry['ceremony_location'], 255)
+            : '',
+        'party_location' => isset($entry['party_location']) && is_string($entry['party_location'])
+            ? normalize_invitation_card_line($entry['party_location'], 255)
+            : '',
+        'map_query' => isset($entry['map_query']) && is_string($entry['map_query'])
+            ? normalize_invitation_card_line($entry['map_query'], 255)
+            : '',
+        'guestbook_visible' => !isset($entry['guestbook_visible']) || !is_bool($entry['guestbook_visible'])
+            ? (bool) $defaults['guestbook_visible']
+            : $entry['guestbook_visible'],
+    ];
+}
+
+function load_invitation_card_config(string $invitationCardFile): array
+{
+    $defaults = invitation_card_default_payload();
+    $baseCard = $defaults;
+    $activeCard = 'card_1';
+
+    if (is_file($invitationCardFile)) {
+        $raw = @file_get_contents($invitationCardFile);
+        $decoded = is_string($raw) ? json_decode($raw, true) : null;
+        if (is_array($decoded)) {
+            $baseCard = normalize_invitation_card_payload($decoded);
+            if (isset($decoded['active_card']) && is_string($decoded['active_card'])) {
+                $activeCard = normalize_invitation_card_key($decoded['active_card']);
+            }
+            if (isset($decoded['cards']) && is_array($decoded['cards'])) {
+                $baseCard = isset($decoded['cards'][$activeCard]) && is_array($decoded['cards'][$activeCard])
+                    ? normalize_invitation_card_payload($decoded['cards'][$activeCard])
+                    : $baseCard;
+            }
+        }
+    }
+
+    $cards = [
+        'card_1' => $baseCard,
+        'card_2' => $baseCard,
+    ];
+
+    if (is_file($invitationCardFile)) {
+        $raw = @file_get_contents($invitationCardFile);
+        $decoded = is_string($raw) ? json_decode($raw, true) : null;
+        if (is_array($decoded) && isset($decoded['cards']) && is_array($decoded['cards'])) {
+            foreach (['card_1', 'card_2'] as $cardKey) {
+                if (isset($decoded['cards'][$cardKey]) && is_array($decoded['cards'][$cardKey])) {
+                    $cards[$cardKey] = normalize_invitation_card_payload($decoded['cards'][$cardKey]);
+                }
+            }
+        }
+    }
+
+    return [
+        'active_card' => $activeCard,
+        'cards' => $cards,
+    ];
+}
+
+function save_invitation_card_config(string $invitationCardFile, array $config): bool
+{
+    $dir = dirname($invitationCardFile);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        upload_log('Invitation card save failed: cannot create directory ' . $dir);
+        return false;
+    }
+    $activeCard = normalize_invitation_card_key(isset($config['active_card']) && is_string($config['active_card']) ? $config['active_card'] : 'card_1');
+    $cards = isset($config['cards']) && is_array($config['cards']) ? $config['cards'] : [];
+    $card1 = isset($cards['card_1']) && is_array($cards['card_1'])
+        ? normalize_invitation_card_payload($cards['card_1'])
+        : invitation_card_default_payload();
+    $card2 = isset($cards['card_2']) && is_array($cards['card_2'])
+        ? normalize_invitation_card_payload($cards['card_2'])
+        : $card1;
+    $activePayload = $activeCard === 'card_2' ? $card2 : $card1;
+    $payload = array_merge($activePayload, [
+        'active_card' => $activeCard,
+        'cards' => [
+            'card_1' => $card1,
+            'card_2' => $card2,
+        ],
+    ]);
+    $encoded = json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if (!is_string($encoded)) {
+        upload_log('Invitation card save failed: json_encode returned false');
+        return false;
+    }
+    $saved = @file_put_contents($invitationCardFile, $encoded . PHP_EOL, LOCK_EX);
+    if ($saved === false) {
+        $lastError = error_get_last();
+        upload_log(
+            'Invitation card save failed for ' . $invitationCardFile .
+            '; error=' . (isset($lastError['message']) ? (string) $lastError['message'] : 'unknown')
+        );
+        return false;
+    }
+    return true;
 }
 
 function load_invitation_links(string $invitationLinksFile): array
@@ -980,6 +1196,9 @@ function invitation_link_public_view(array $entry): array
         'message' => isset($entry['message']) && is_string($entry['message']) ? $entry['message'] : '',
         'recipient' => isset($entry['recipient']) && is_string($entry['recipient']) ? $entry['recipient'] : '',
         'code' => isset($entry['code']) && is_string($entry['code']) ? $entry['code'] : '',
+        'card_key' => isset($entry['card_key']) && is_string($entry['card_key'])
+            ? normalize_invitation_card_key($entry['card_key'])
+            : 'card_1',
         'link_path' => isset($entry['link_path']) && is_string($entry['link_path']) ? $entry['link_path'] : '',
         'guestbook_visible' => !isset($entry['guestbook_visible']) || !is_bool($entry['guestbook_visible'])
             ? true
@@ -988,6 +1207,12 @@ function invitation_link_public_view(array $entry): array
         'guestbook_count' => count($guestbook),
         'created_at' => isset($entry['created_at']) && is_string($entry['created_at']) ? $entry['created_at'] : '',
     ];
+}
+
+function build_invitation_link_path(string $basePath, string $code, string $cardKey = ''): string
+{
+    $query = ['data' => trim($code)];
+    return with_base($basePath, '/invitation_card') . '?' . http_build_query($query, '', '&', PHP_QUERY_RFC3986);
 }
 
 function cookie_path_for_base(string $basePath): string
@@ -2625,6 +2850,9 @@ $decodedInvitationNameParam = isset($decodedInvitationPayload['name']) && is_str
 $decodedInvitationTitleParam = isset($decodedInvitationPayload['title']) && is_string($decodedInvitationPayload['title'])
     ? trim($decodedInvitationPayload['title'])
     : '';
+$decodedInvitationCardParam = isset($decodedInvitationPayload['card']) && is_string($decodedInvitationPayload['card'])
+    ? normalize_invitation_card_key($decodedInvitationPayload['card'])
+    : '';
 $hasInvitationData = $invitationDataParam !== '';
 $hasValidInvitationData = $hasInvitationData && $decodedInvitationNameParam !== '';
 $publicScrollCardRoutes = [
@@ -3694,21 +3922,56 @@ if ($requestPath === '/__albums__') {
 }
 
 if ($requestPath === '/__invitation_card__') {
-    if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'GET') {
+    $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    if ($method === 'POST') {
+        if (!is_admin()) {
+            send_json(['ok' => false, 'message' => 'Forbidden.'], 403);
+        }
+        $payload = read_json_body();
+        $cardKey = normalize_invitation_card_key(isset($payload['card']) && is_string($payload['card']) ? $payload['card'] : 'card_1');
+        $config = load_invitation_card_config($invitationCardFile);
+        $cards = isset($config['cards']) && is_array($config['cards']) ? $config['cards'] : [];
+        $cards[$cardKey] = normalize_invitation_card_payload($payload);
+        $config['cards'] = $cards;
+        $config['active_card'] = $cardKey;
+        if (!save_invitation_card_config($invitationCardFile, $config)) {
+            send_json(['ok' => false, 'message' => 'Không lưu được nội dung thiệp.'], 500);
+        }
+        $savedConfig = load_invitation_card_config($invitationCardFile);
+        $activeCard = isset($savedConfig['active_card']) && is_string($savedConfig['active_card'])
+            ? normalize_invitation_card_key($savedConfig['active_card'])
+            : 'card_1';
+        $cards = isset($savedConfig['cards']) && is_array($savedConfig['cards'])
+            ? $savedConfig['cards']
+            : [];
+        $activePayload = isset($cards[$activeCard]) && is_array($cards[$activeCard])
+            ? $cards[$activeCard]
+            : invitation_card_default_payload();
+        send_json(array_merge($activePayload, [
+            'ok' => true,
+            'active_card' => $activeCard,
+            'selected_card' => $cardKey,
+            'cards' => $cards,
+        ]));
+    }
+    if ($method !== 'GET') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
     }
-    $defaultGreetContent = 'Hành trình yêu thương chính thức lật sang trang mới. Thật trọn vẹn và ý nghĩa khi ngày trọng đại này có sự đồng hành, chứng kiến và sẻ chia niềm vui của [title] [name]';
-    $payload = [
-        'greet_content' => $defaultGreetContent,
-        'guestbook_visible' => true,
-    ];
-    if (is_file($invitationCardFile)) {
-        $raw = @file_get_contents($invitationCardFile);
-        $decoded = is_string($raw) ? json_decode($raw, true) : null;
-        if (is_array($decoded)) {
-            $payload = array_merge($payload, $decoded);
-        }
-    }
+    $config = load_invitation_card_config($invitationCardFile);
+    $activeCard = isset($config['active_card']) && is_string($config['active_card'])
+        ? normalize_invitation_card_key($config['active_card'])
+        : 'card_1';
+    $selectedCard = $decodedInvitationCardParam !== ''
+        ? $decodedInvitationCardParam
+        : (isset($_GET['card']) && is_string($_GET['card'])
+            ? normalize_invitation_card_key($_GET['card'])
+            : $activeCard);
+    $cards = isset($config['cards']) && is_array($config['cards'])
+        ? $config['cards']
+        : [];
+    $payload = isset($cards[$selectedCard]) && is_array($cards[$selectedCard])
+        ? $cards[$selectedCard]
+        : invitation_card_default_payload();
     $requestCode = isset($_GET['data']) && is_string($_GET['data'])
         ? trim($_GET['data'])
         : '';
@@ -3728,7 +3991,11 @@ if ($requestPath === '/__invitation_card__') {
             }
         }
     }
-    send_json($payload);
+    send_json(array_merge($payload, [
+        'active_card' => $activeCard,
+        'selected_card' => $selectedCard,
+        'cards' => $cards,
+    ]));
 }
 
 if ($requestPath === '/__invitation_links__') {
@@ -3738,7 +4005,6 @@ if ($requestPath === '/__invitation_links__') {
 
     $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
     $entries = load_invitation_links($invitationLinksFile);
-
     if ($method === 'GET') {
         $publicEntries = array_map('invitation_link_public_view', $entries);
         send_json([
@@ -3799,6 +4065,9 @@ if ($requestPath === '/__invitation_links__') {
     $message = isset($payload['message']) && is_string($payload['message'])
         ? trim($payload['message'])
         : '';
+    $cardKey = isset($payload['card_key']) && is_string($payload['card_key'])
+        ? normalize_invitation_card_key($payload['card_key'])
+        : 'card_1';
 
     if ($name === '') {
         send_json(['ok' => false, 'message' => 'Vui lòng nhập tên người nhận.'], 400);
@@ -3814,7 +4083,7 @@ if ($requestPath === '/__invitation_links__') {
         send_json(['ok' => false, 'message' => 'Thông tin người nhận quá dài.'], 400);
     }
 
-    $code = encode_invitation_recipient_payload($title, $name, $prefix, $suffix);
+    $code = encode_invitation_recipient_payload($title, $name, $prefix, $suffix, $cardKey);
     if ($updateCode !== '' && !empty($payload['edit'])) {
         $linkIndex = find_invitation_link_index_by_code($entries, $updateCode);
         if ($linkIndex < 0) {
@@ -3838,7 +4107,8 @@ if ($requestPath === '/__invitation_links__') {
         $entries[$linkIndex]['message'] = $message;
         $entries[$linkIndex]['recipient'] = trim($title . ' ' . $name);
         $entries[$linkIndex]['code'] = $code;
-        $entries[$linkIndex]['link_path'] = with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code);
+        $entries[$linkIndex]['card_key'] = $cardKey;
+        $entries[$linkIndex]['link_path'] = build_invitation_link_path($basePath, $code, $cardKey);
 
         if (!save_invitation_links($invitationLinksFile, $entries)) {
             send_json(['ok' => false, 'message' => 'Không cập nhật được thiệp mời.'], 500);
@@ -3874,7 +4144,8 @@ if ($requestPath === '/__invitation_links__') {
         'message' => $message,
         'recipient' => trim($title . ' ' . $name),
         'code' => $code,
-        'link_path' => with_base($basePath, '/invitation_card') . '?data=' . rawurlencode($code),
+        'card_key' => $cardKey,
+        'link_path' => build_invitation_link_path($basePath, $code, $cardKey),
         'guestbook' => [],
         'guestbook_visible' => true,
         'created_at' => date('Y-m-d H:i:s'),

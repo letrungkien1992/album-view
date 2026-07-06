@@ -1113,6 +1113,262 @@
         </header>
         <section class="upload-dialog-body">
           <div
+            id="invitation-card-editor-section"
+            class="invitation-card-editor-section"
+          >
+            <div
+              id="invitation-card-editor-header"
+              class="invitation-card-editor-header admin-request-search-header"
+            >
+              <div class="invitation-card-editor-title admin-request-search-title">
+                <span class="admin-request-search-icon" aria-hidden="true">
+                  <svg viewBox="0 0 576 512">
+                    <path
+                      d="M64 64C28.7 64 0 92.7 0 128v256c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm32 96h384c17.7 0 32 14.3 32 32v128c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32zm32 32v64h128v-64H128zm160 0v64h160v-64H288z"
+                    ></path>
+                  </svg>
+                </span>
+                <h4
+                  id="invitation-card-editor-title"
+                  class="invitation-card-editor-title"
+                >
+                  Nội dung thiệp mẫu
+                </h4>
+              </div>
+              <div class="admin-request-search-header-actions">
+                <button
+                  id="invitation-card-editor-toggle"
+                  class="admin-request-search-header-action admin-request-search-header-action--toggle"
+                  type="button"
+                  aria-expanded="true"
+                  aria-label="Thu gọn nội dung thiệp"
+                  title="Thu gọn nội dung thiệp"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                      d="M7 10l5 5 5-5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="invitation-card-editor-body">
+              <div class="invitation-card-editor-switch" role="tablist" aria-label="Chọn bộ dữ liệu thiệp">
+                <button
+                  id="invitation-card-select-card-1"
+                  class="upload-btn ghost invitation-card-switch-btn"
+                  type="button"
+                  data-card="card_1"
+                >
+                  Thiệp 1
+                </button>
+                <button
+                  id="invitation-card-select-card-2"
+                  class="upload-btn ghost invitation-card-switch-btn"
+                  type="button"
+                  data-card="card_2"
+                >
+                  Thiệp 2
+                </button>
+              </div>
+              <p id="invitation-card-editor-hint" class="upload-help">
+                Đang tải dữ liệu thiệp...
+              </p>
+              <div class="invitation-card-editor-grid">
+                <label class="upload-label" for="invitation-card-greet-content">
+                  Lời mời
+                </label>
+                <textarea
+                  id="invitation-card-greet-content"
+                  class="upload-input upload-textarea"
+                  rows="4"
+                  maxlength="1600"
+                  placeholder="Nhập lời mời hiển thị trong thiệp"
+                ></textarea>
+
+                <label class="upload-label" for="invitation-card-bride-name">
+                  Tên cô dâu
+                </label>
+                <input
+                  id="invitation-card-bride-name"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-groom-name">
+                  Tên chú rể
+                </label>
+                <input
+                  id="invitation-card-groom-name"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-bride-father">
+                  Ba cô dâu
+                </label>
+                <input
+                  id="invitation-card-bride-father"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-bride-mother">
+                  Mẹ cô dâu
+                </label>
+                <input
+                  id="invitation-card-bride-mother"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-bride-address">
+                  Địa chỉ nhà gái
+                </label>
+                <input
+                  id="invitation-card-bride-address"
+                  class="upload-input"
+                  type="text"
+                  maxlength="255"
+                />
+
+                <label class="upload-label" for="invitation-card-groom-father">
+                  Ba chú rể
+                </label>
+                <input
+                  id="invitation-card-groom-father"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-groom-mother">
+                  Mẹ chú rể
+                </label>
+                <input
+                  id="invitation-card-groom-mother"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-groom-address">
+                  Địa chỉ nhà trai
+                </label>
+                <input
+                  id="invitation-card-groom-address"
+                  class="upload-input"
+                  type="text"
+                  maxlength="255"
+                />
+
+                <label class="upload-label" for="invitation-card-event-date">
+                  Ngày cưới
+                </label>
+                <input
+                  id="invitation-card-event-date"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-event-time">
+                  Giờ lễ
+                </label>
+                <input
+                  id="invitation-card-event-time"
+                  class="upload-input"
+                  type="text"
+                  maxlength="80"
+                />
+
+                <label class="upload-label" for="invitation-card-lunar-date">
+                  Âm lịch
+                </label>
+                <input
+                  id="invitation-card-lunar-date"
+                  class="upload-input"
+                  type="text"
+                  maxlength="120"
+                />
+
+                <label class="upload-label" for="invitation-card-guest-time">
+                  Giờ đón khách
+                </label>
+                <input
+                  id="invitation-card-guest-time"
+                  class="upload-input"
+                  type="text"
+                  maxlength="80"
+                />
+
+                <label class="upload-label" for="invitation-card-party-time">
+                  Giờ nhập tiệc
+                </label>
+                <input
+                  id="invitation-card-party-time"
+                  class="upload-input"
+                  type="text"
+                  maxlength="80"
+                />
+
+                <label class="upload-label" for="invitation-card-ceremony-location">
+                  Địa điểm lễ
+                </label>
+                <input
+                  id="invitation-card-ceremony-location"
+                  class="upload-input"
+                  type="text"
+                  maxlength="255"
+                />
+
+                <label class="upload-label" for="invitation-card-party-location">
+                  Địa điểm tiệc
+                </label>
+                <input
+                  id="invitation-card-party-location"
+                  class="upload-input"
+                  type="text"
+                  maxlength="255"
+                />
+
+                <label class="upload-label" for="invitation-card-map-query">
+                  Từ khóa bản đồ
+                </label>
+                <input
+                  id="invitation-card-map-query"
+                  class="upload-input"
+                  type="text"
+                  maxlength="255"
+                />
+              </div>
+              <div class="invitation-card-editor-save-row">
+                <button
+                  id="invitation-card-submit"
+                  class="upload-btn primary"
+                  type="button"
+                >
+                  Lưu nội dung thiệp
+                </button>
+              </div>
+              <p
+                id="invitation-card-error"
+                class="upload-error"
+                aria-live="polite"
+              ></p>
+            </div>
+          </div>
+          <hr class="audio-upload-divider" />
+          <div
             id="invitation-link-form-section"
             class="invitation-link-form-section"
           >
@@ -1206,6 +1462,13 @@
                 maxlength="600"
                 rows="4"
               ></textarea>
+              <label class="upload-label" for="invitation-link-card">
+                Loại thiệp
+              </label>
+              <select id="invitation-link-card" class="upload-input">
+                <option value="card_1">Thiệp 1</option>
+                <option value="card_2">Thiệp 2</option>
+              </select>
             </div>
             <div class="invitation-link-create-row">
               <button
@@ -1241,8 +1504,9 @@
                   <tr>
                     <th class="audio-col-no">STT</th>
                     <th class="invitation-link-col-recipient">Người nhận</th>
+                    <th class="invitation-link-col-card">Loại thiệp</th>
                     <th class="invitation-link-col-message">Lời chúc</th>
-                    <th class="audio-col-action">Action</th>
+                    <th class="audio-col-action">Thao tác</th>
                   </tr>
                 </thead>
                 <tbody id="invitation-link-list"></tbody>
@@ -1263,7 +1527,7 @@
             type="button"
             data-role="close-invitation-link-modal"
           >
-            Cancel
+            Đóng
           </button>
         </footer>
       </div>

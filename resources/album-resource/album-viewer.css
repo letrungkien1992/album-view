@@ -4662,18 +4662,78 @@ body.is-guest-token-login .guest-gate-subtitle {
     width: min(760px, calc(100vw - 24px));
 }
 
+.invitation-link-dialog .upload-dialog-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.invitation-card-editor-section,
 .invitation-link-form-section {
     display: grid;
     gap: 12px;
 }
 
+.invitation-card-editor-header,
 .invitation-link-form-header {
     border-radius: min(calc(12px * var(--radius-factor)), 14px);
 }
 
+.invitation-card-editor-title,
 .invitation-link-form-title {
     margin: 0;
     font-size: 0.96rem;
+}
+
+.invitation-card-editor-body {
+    display: grid;
+    gap: 12px;
+    padding-top: 12px;
+}
+
+.invitation-card-editor-section.is-collapsed .invitation-card-editor-body {
+    display: none;
+}
+
+.invitation-card-editor-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.invitation-card-switch-btn {
+    min-width: 110px;
+}
+
+.invitation-card-switch-btn.is-active {
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 14%, var(--panel));
+    color: var(--accent-strong, var(--accent));
+}
+
+.invitation-card-editor-grid {
+    display: grid;
+    grid-template-columns: 124px minmax(0, 1fr) 124px minmax(0, 1fr);
+    gap: 10px 14px;
+    align-items: center;
+}
+
+.invitation-card-editor-grid .upload-label {
+    width: auto;
+}
+
+.invitation-card-editor-grid #invitation-card-greet-content,
+.invitation-card-editor-grid #invitation-card-bride-address,
+.invitation-card-editor-grid #invitation-card-groom-address,
+.invitation-card-editor-grid #invitation-card-party-location,
+.invitation-card-editor-grid #invitation-card-map-query {
+    grid-column: 2 / 5;
+}
+
+.invitation-card-editor-save-row {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .invitation-link-form-toggle svg {
@@ -4704,6 +4764,11 @@ body.is-guest-token-login .guest-gate-subtitle {
 
 .invitation-link-form-grid #invitation-link-message {
     grid-column: 2 / 5;
+}
+
+.invitation-link-form-grid #invitation-link-card {
+    grid-column: 2 / 3;
+    max-width: 220px;
 }
 
 .invitation-link-create-row {
@@ -4741,6 +4806,10 @@ body.is-guest-token-login .guest-gate-subtitle {
     min-width: 0;
 }
 
+.invitation-link-table .invitation-link-col-card {
+    width: 110px;
+}
+
 .invitation-link-table thead th.audio-col-action,
 .invitation-link-table .audio-col-action {
     width: 188px;
@@ -4754,6 +4823,20 @@ body.is-guest-token-login .guest-gate-subtitle {
     white-space: normal;
     overflow-wrap: anywhere;
     line-height: 1.35;
+}
+
+.invitation-link-card-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--line));
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+    color: var(--ink);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .invitation-link-wishes {
@@ -4858,20 +4941,44 @@ body.is-guest-token-login .guest-gate-subtitle {
 }
 
 @media (max-width: 720px) {
+    .invitation-link-dialog {
+        max-height: min(88dvh, calc(100dvh - 16px));
+    }
+
+    .invitation-card-editor-grid,
     .invitation-link-form-grid {
         grid-template-columns: 1fr;
     }
 
-    .invitation-link-form-grid #invitation-link-message {
+    .invitation-card-editor-grid #invitation-card-greet-content,
+    .invitation-card-editor-grid #invitation-card-bride-address,
+    .invitation-card-editor-grid #invitation-card-groom-address,
+    .invitation-card-editor-grid #invitation-card-party-location,
+    .invitation-card-editor-grid #invitation-card-map-query,
+    .invitation-link-form-grid #invitation-link-message,
+    .invitation-link-form-grid #invitation-link-card {
         grid-column: auto;
     }
 
-    .invitation-link-create-row {
+    .invitation-card-editor-save-row {
         justify-content: stretch;
+    }
+
+    .invitation-card-editor-save-row .upload-btn {
+        width: 100%;
+    }
+
+    .invitation-link-create-row {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .invitation-link-create-row .upload-btn {
         width: 100%;
+    }
+
+    .invitation-link-create-row #invitation-link-submit {
+        order: -1;
     }
 }
 
