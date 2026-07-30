@@ -4945,6 +4945,95 @@ body.is-guest-token-login .guest-gate-subtitle {
         max-height: min(88dvh, calc(100dvh - 16px));
     }
 
+    .invitation-link-table-wrap {
+        max-height: 420px;
+        padding: 8px;
+        overflow-x: hidden;
+    }
+
+    .invitation-link-table {
+        display: block;
+    }
+
+    .invitation-link-table thead {
+        display: none;
+    }
+
+    .invitation-link-table tbody {
+        display: grid;
+        gap: 10px;
+    }
+
+    .invitation-link-table tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px 12px;
+        height: auto;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: min(calc(8px * var(--radius-factor)), 10px);
+    }
+
+    .invitation-link-table tbody td {
+        display: grid;
+        grid-template-columns: 86px minmax(0, 1fr);
+        align-items: start;
+        gap: 8px;
+        width: auto;
+        height: auto;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .invitation-link-table tbody td::before {
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        line-height: 1.45;
+    }
+
+    .invitation-link-table tbody .audio-col-no {
+        grid-column: 1 / 2;
+        display: flex;
+        gap: 6px;
+        width: auto;
+    }
+
+    .invitation-link-table tbody .audio-col-no::before {
+        content: "STT:";
+    }
+
+    .invitation-link-table tbody .invitation-link-col-recipient,
+    .invitation-link-table tbody .invitation-link-col-card,
+    .invitation-link-table tbody .invitation-link-col-message,
+    .invitation-link-table tbody .audio-col-action {
+        grid-column: 1 / -1;
+    }
+
+    .invitation-link-table tbody .invitation-link-col-recipient::before {
+        content: "Người nhận";
+    }
+
+    .invitation-link-table tbody .invitation-link-col-card::before {
+        content: "Loại thiệp";
+    }
+
+    .invitation-link-table tbody .invitation-link-col-message::before {
+        content: "Lời chúc";
+    }
+
+    .invitation-link-table tbody .audio-col-action::before {
+        content: "Thao tác";
+    }
+
+    .invitation-link-table .invitation-link-actions {
+        justify-content: flex-start;
+        min-width: 0;
+    }
+
     .invitation-card-editor-grid,
     .invitation-link-form-grid {
         grid-template-columns: 1fr;
