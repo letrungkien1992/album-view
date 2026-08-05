@@ -31,9 +31,60 @@ $scriptName = isset($_SERVER['SCRIPT_NAME']) ? (string) $_SERVER['SCRIPT_NAME'] 
 $scriptDir = str_replace('\\', '/', dirname($scriptName));
 $basePath = ($scriptDir === '/' || $scriptDir === '.') ? '' : rtrim($scriptDir, '/');
 
+function run_permission_setup_if_needed(string $rootDir): void
+{
+    $pathsToCheck = [
+        $rootDir . '/storage',
+        $rootDir . '/resources',
+        $rootDir . '/src/albums',
+        $rootDir . '/src/row',
+        $rootDir . '/src/thumbs',
+        $rootDir . '/src/audio',
+    ];
+    foreach ($pathsToCheck as $path) {
+        if (!is_dir($path)) {
+            continue;
+        }
+        if (!is_writable($path)) {
+            $script = $rootDir . '/scripts/prod-build-setup.sh';
+            if (is_file($script) && function_exists('exec')) {
+                @exec('bash ' . escapeshellarg($script) . ' >/dev/null 2>&1', $output, $exitCode);
+            }
+            return;
+        }
+    }
+
+    $filesToCheck = [
+        $rootDir . '/resources/user.json',
+        $rootDir . '/resources/invite_email.json',
+        $rootDir . '/storage/album-titles.json',
+        $rootDir . '/storage/album-hidden.json',
+        $rootDir . '/storage/album-hidden-images.json',
+        $rootDir . '/storage/audio-order.json',
+        $rootDir . '/storage/invitation_card.json',
+        $rootDir . '/storage/invitation_links.json',
+        $rootDir . '/storage/invitation_guestbook.json',
+    ];
+    foreach ($filesToCheck as $file) {
+        if (!is_file($file)) {
+            continue;
+        }
+        if (!is_writable($file)) {
+            $script = $rootDir . '/scripts/prod-build-setup.sh';
+            if (is_file($script) && function_exists('exec')) {
+                @exec('bash ' . escapeshellarg($script) . ' >/dev/null 2>&1', $output, $exitCode);
+            }
+            return;
+        }
+    }
+}
+
 if (session_status() === PHP_SESSION_NONE) {
     session_name('album_view_session');
     session_start();
+}
+if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) === 'POST') {
+    run_permission_setup_if_needed($rootDir);
 }
 try_restore_auth_from_token($userStoreFile, $inviteEmailFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
 refresh_auth_from_session($userStoreFile, $inviteEmailFile, $authCookieName, $authTtlSeconds, $authRefreshIntervalSeconds, $basePath);
@@ -75,6 +126,23 @@ function client_ip_address(): string
         $clientIp = trim((string) $_SERVER['REMOTE_ADDR']);
     }
     return $clientIp !== '' ? $clientIp : 'unknown';
+}
+
+function ensure_writable_path(string $path): bool
+{
+    $dir = dirname($path);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        return false;
+    }
+    if (!is_file($path)) {
+        $created = @touch($path);
+        if ($created === false) {
+            return false;
+        }
+    }
+    @chmod($dir, 0775);
+    @chmod($path, 0664);
+    return is_writable($dir) && is_writable($path);
 }
 
 function append_invite_request(string $logFile, array $payload): void
@@ -180,8 +248,7 @@ function save_invite_email_store(string $inviteEmailFile, array $store): bool
     if (!is_string($payload)) {
         return false;
     }
-    $dir = dirname($inviteEmailFile);
-    if (!is_dir($dir) && !@mkdir($dir, 0775, true)) {
+    if (!ensure_writable_path($inviteEmailFile)) {
         return false;
     }
     return @file_put_contents($inviteEmailFile, $payload . PHP_EOL, LOCK_EX) !== false;
@@ -755,8 +822,7 @@ function encode_invitation_recipient_payload(
     string $prefix = '',
     string $suffix = '',
     string $cardKey = ''
-): string
-{
+): string {
     $query = http_build_query([
         'prefix' => trim($prefix),
         'title' => trim($title),
@@ -1304,6 +1370,9 @@ function save_user_store(string $userStoreFile, array $store): bool
     if (!is_string($payload)) {
         return false;
     }
+    if (!ensure_writable_path($userStoreFile)) {
+        return false;
+    }
     return @file_put_contents($userStoreFile, $payload . PHP_EOL, LOCK_EX) !== false;
 }
 
@@ -1641,6 +1710,9 @@ function save_album_titles(string $file, array $titles): bool
     if (!is_string($payload)) {
         return false;
     }
+    if (!ensure_writable_path($file)) {
+        return false;
+    }
     return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
 }
 
@@ -1679,6 +1751,9 @@ function save_album_hidden(string $file, array $hidden): bool
 {
     $payload = json_encode($hidden, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     if (!is_string($payload)) {
+        return false;
+    }
+    if (!ensure_writable_path($file)) {
         return false;
     }
     return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
@@ -1746,6 +1821,9 @@ function save_album_hidden_images(string $file, array $hidden): bool
     if (!is_string($json)) {
         return false;
     }
+    if (!ensure_writable_path($file)) {
+        return false;
+    }
     return @file_put_contents($file, $json . PHP_EOL, LOCK_EX) !== false;
 }
 
@@ -1789,6 +1867,9 @@ function save_audio_order(string $file, array $order): bool
     }
     $payload = json_encode(array_values($clean), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     if (!is_string($payload)) {
+        return false;
+    }
+    if (!ensure_writable_path($file)) {
         return false;
     }
     return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
@@ -2363,16 +2444,16 @@ function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $l
     $albumFilter = sanitize_album_folder_name($albumFilter);
 
     if (!is_file($scriptPath)) {
-        return skip_background_build($logFile, 'build script missing', $albumFilter);
+        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
     if (!can_execute_shell_command()) {
-        return skip_background_build($logFile, 'shell execution unavailable', $albumFilter);
+        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
     if (!has_shell_binary('bash')) {
-        return skip_background_build($logFile, 'bash not found', $albumFilter);
+        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
     if (!has_shell_binary('cwebp')) {
-        return skip_background_build($logFile, 'cwebp not found', $albumFilter);
+        return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
 
     $status = build_status($lockFile);
@@ -2508,6 +2589,49 @@ function image_stem_key_from_stem(string $stem): string
     return function_exists('mb_strtolower')
         ? mb_strtolower($stem, 'UTF-8')
         : strtolower($stem);
+}
+
+function maybe_rebuild_missing_assets(string $rootDir, string $buildLockFile, string $buildLogFile, string $albumName = ''): void
+{
+    $albumFilter = sanitize_album_folder_name($albumName);
+    $albumsDir = $rootDir . '/src/albums';
+    if (!is_dir($albumsDir)) {
+        return;
+    }
+
+    $folders = $albumFilter !== '' ? [$albumFilter] : list_subdirs($albumsDir);
+    foreach ($folders as $folder) {
+        $albumFolder = $albumsDir . DIRECTORY_SEPARATOR . $folder;
+        if (!is_dir($albumFolder)) {
+            continue;
+        }
+        $rowFolder = $rootDir . '/src/row/' . $folder;
+        $thumbFolder = $rootDir . '/src/thumbs/' . $folder;
+
+        $needsBuild = false;
+        foreach (list_files_sorted($albumFolder) as $fileName) {
+            if (!is_image_name($fileName)) {
+                continue;
+            }
+            $base = pathinfo($fileName, PATHINFO_FILENAME);
+            $rowOut = $rowFolder . DIRECTORY_SEPARATOR . $base . '.webp';
+            $thumbOut = $thumbFolder . DIRECTORY_SEPARATOR . $base . '.webp';
+            if (!is_file($rowOut) || !is_file($thumbOut)) {
+                $needsBuild = true;
+                break;
+            }
+        }
+
+        if ($needsBuild) {
+            for ($attempt = 1; $attempt <= 2; $attempt += 1) {
+                $result = queue_build_row_and_thumbs($rootDir, $buildLockFile, $buildLogFile, $folder);
+                if (($result['ok'] ?? false) && ($result['code'] ?? 0) === 0) {
+                    break;
+                }
+            }
+            return;
+        }
+    }
 }
 
 function build_albums(
@@ -3665,6 +3789,11 @@ if ($requestPath === '/__build_status__') {
     send_json(build_status($buildLockFile));
 }
 
+if ($requestPath === '/__albums__') {
+    $albumFilter = isset($_GET['album']) && is_string($_GET['album']) ? trim((string) $_GET['album']) : '';
+    maybe_rebuild_missing_assets($rootDir, $buildLockFile, $buildLogFile, $albumFilter);
+}
+
 if ($requestPath === '/__client_error__') {
     if (strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET')) !== 'POST') {
         send_json(['ok' => false, 'message' => 'Method not allowed.'], 405);
@@ -3695,13 +3824,13 @@ if ($requestPath === '/__rebuild_album__') {
     }
 
     $payload = read_json_body();
-    $album = isset($payload['album']) && is_string($payload['album']) ? trim($payload['album']) : '';
-    $album = sanitize_album_folder_name($album);
-    if ($album === '') {
-        send_json(['ok' => false, 'message' => 'Missing album name.'], 400);
+    $albumInput = isset($payload['album']) && is_string($payload['album']) ? trim($payload['album']) : '';
+    $album = $albumInput === '' ? '' : sanitize_album_folder_name($albumInput);
+    if ($albumInput !== '' && $album === '') {
+        send_json(['ok' => false, 'message' => 'Invalid album name.'], 400);
     }
     $albumDir = $albumsDir . DIRECTORY_SEPARATOR . $album;
-    if (!is_dir($albumDir)) {
+    if ($album !== '' && !is_dir($albumDir)) {
         send_json(['ok' => false, 'message' => 'Album not found.'], 404);
     }
 
@@ -3915,6 +4044,8 @@ if ($requestPath === '/__edit_page_save__') {
 }
 
 if ($requestPath === '/__albums__') {
+    $albumFilter = isset($_GET['album']) && is_string($_GET['album']) ? trim((string) $_GET['album']) : '';
+    maybe_rebuild_missing_assets($rootDir, $buildLockFile, $buildLogFile, $albumFilter);
     $titleMap = load_album_titles($albumTitlesFile);
     $hiddenMap = load_album_hidden($albumHiddenFile);
     $hiddenImagesMap = load_album_hidden_images($albumHiddenImagesFile);

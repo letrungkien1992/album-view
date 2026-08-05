@@ -37,9 +37,30 @@ ensure_webp() {
 }
 
 fix_permissions() {
+  local writable_dirs=(
+    "$PROJECT_ROOT/storage"
+    "$PROJECT_ROOT/resources"
+    "$PROJECT_ROOT/src/albums"
+    "$PROJECT_ROOT/src/row"
+    "$PROJECT_ROOT/src/thumbs"
+    "$PROJECT_ROOT/src/audio"
+  )
+
+  umask 002
+
+  for dir in "${writable_dirs[@]}"; do
+    ensure_dir "$dir"
+  done
+
   if is_linux; then
     if id -u "$APP_USER" >/dev/null 2>&1 && getent group "$APP_GROUP" >/dev/null 2>&1; then
-      chown -R "$APP_USER:$APP_GROUP" "$PROJECT_ROOT"
+      chown -R "$APP_USER:$APP_GROUP" "${writable_dirs[@]}"
+    fi
+
+    if command -v setfacl >/dev/null 2>&1; then
+      for dir in "${writable_dirs[@]}"; do
+        setfacl -R -m "u:${APP_USER}:rwX,g:${APP_GROUP}:rwX,d:u:${APP_USER}:rwX,d:g:${APP_GROUP}:rwX" "$dir" 2>/dev/null || true
+      done
     fi
   fi
 
@@ -48,9 +69,12 @@ fix_permissions() {
     "$SCRIPT_DIR/convert-images-webp.sh" \
     "$SCRIPT_DIR/prod-build-setup.sh"
 
-  chmod -R u+rwX,g+rwX \
-    "$PROJECT_ROOT/src" \
-    "$PROJECT_ROOT/storage"
+  for dir in "${writable_dirs[@]}"; do
+    find "$dir" -type d -exec chmod 2775 {} + 2>/dev/null || true
+    find "$dir" -type f -exec chmod 664 {} + 2>/dev/null || true
+  done
+
+  chmod 2775 "$PROJECT_ROOT/storage" "$PROJECT_ROOT/resources" "$PROJECT_ROOT/src/albums" "$PROJECT_ROOT/src/row" "$PROJECT_ROOT/src/thumbs" "$PROJECT_ROOT/src/audio"
 }
 
 main() {

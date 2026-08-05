@@ -515,6 +515,7 @@
   const $albumSortToggle = $("#album-sort-toggle");
   const $albumSortMenu = $("#album-sort-menu");
   const $albumSlideshowToggle = $("#album-slideshow-toggle");
+  const $albumRebuildButton = $("#album-rebuild-button");
   const $scrollTop = $("#scroll-top");
   const $imageGridWrap = $("#image-grid-wrap");
   const $gridLoadingOverlay = $("#grid-loading-overlay");
@@ -883,7 +884,9 @@
     const cardKeyFromPayload = String(decodedRecipient.card || "")
       .trim()
       .toLowerCase();
-    const cardKeyFromQuery = String(query.get("card") || "").trim().toLowerCase();
+    const cardKeyFromQuery = String(query.get("card") || "")
+      .trim()
+      .toLowerCase();
     const cardKey =
       cardKeyFromPayload === "card_1" || cardKeyFromPayload === "card_2"
         ? cardKeyFromPayload
@@ -902,8 +905,7 @@
     return {
       enabled: true,
       invitationCode: invitationCode,
-      cardKey:
-        cardKey === "card_1" || cardKey === "card_2" ? cardKey : "",
+      cardKey: cardKey === "card_1" || cardKey === "card_2" ? cardKey : "",
       title: String(query.get("card_title") || "Chúc mừng!").trim(),
       message: String(
         query.get("message") ||
@@ -969,7 +971,9 @@
   ) {
     state.previewAudioVolume = 0.8;
   }
-  if (!inviteRequestPageSizeOptions.includes(Number(state.inviteRequestPageSize))) {
+  if (
+    !inviteRequestPageSizeOptions.includes(Number(state.inviteRequestPageSize))
+  ) {
     state.inviteRequestPageSize = 10;
   }
   previewAudio.volume = state.previewAudioVolume;
@@ -1347,6 +1351,20 @@
       .toggleClass("is-active", !$invitationLinkModal.hasClass("is-hidden"));
   }
 
+  function updateHeaderRebuildButtonUi() {
+    if (!$albumRebuildButton.length) {
+      return;
+    }
+    const isAdminUser =
+      String(state.authRole || "").toLowerCase() === "admin" &&
+      !!String(state.authUser || "").trim();
+    $albumRebuildButton.toggleClass("is-hidden", !isAdminUser);
+    $albumRebuildButton
+      .attr("aria-label", t("retry_album_label"))
+      .attr("title", t("retry_album_label"))
+      .prop("disabled", !isAdminUser);
+  }
+
   function escapeHtml(value) {
     return $("<div></div>")
       .text(value == null ? "" : String(value))
@@ -1359,8 +1377,7 @@
       return "";
     }
     const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/");
-    const padded =
-      normalized + "===".slice((normalized.length + 3) % 4);
+    const padded = normalized + "===".slice((normalized.length + 3) % 4);
     try {
       return window.atob(padded);
     } catch (_err) {
@@ -1379,7 +1396,9 @@
       title: String(params.get("title") || "").trim(),
       name: String(params.get("name") || "").trim(),
       suffix: String(params.get("suffix") || "").trim(),
-      card: String(params.get("card") || "").trim().toLowerCase(),
+      card: String(params.get("card") || "")
+        .trim()
+        .toLowerCase(),
     };
   }
 
@@ -1746,7 +1765,10 @@
   function renderInviteRequestPagination(total) {
     const pageSize = getInviteRequestPageSize();
     const pageCount = getInviteRequestPageCount(total);
-    state.inviteRequestPage = clampInviteRequestPage(state.inviteRequestPage, total);
+    state.inviteRequestPage = clampInviteRequestPage(
+      state.inviteRequestPage,
+      total,
+    );
     const currentPage = state.inviteRequestPage;
     const start = (currentPage - 1) * pageSize + 1;
     const end = Math.min(total, currentPage * pageSize);
@@ -2091,7 +2113,10 @@
     );
     const currentPage = state.inviteRequestPage;
     const pageStart = (currentPage - 1) * pageSize;
-    const pageRequests = filteredRequests.slice(pageStart, pageStart + pageSize);
+    const pageRequests = filteredRequests.slice(
+      pageStart,
+      pageStart + pageSize,
+    );
     const loadingHtml = state.inviteRequestsLoading
       ? '<p class="admin-request-empty">' +
         t("invite_requests_loading") +
@@ -2422,10 +2447,7 @@
     $audioUploadPlayAll.text(
       state.previewAudioAutoAdvance ? t("audio_stop_all") : t("audio_play_all"),
     );
-    $audioUploadPlayAll.toggleClass(
-      "is-active",
-      state.previewAudioAutoAdvance,
-    );
+    $audioUploadPlayAll.toggleClass("is-active", state.previewAudioAutoAdvance);
     $audioUploadCancel.text(t("upload_cancel"));
     $audioUploadSubmit
       .attr("aria-label", t("upload_audio_submit"))
@@ -2981,13 +3003,17 @@
   }
 
   function updatePreviewTrackControls() {
-    const hasList = Array.isArray(state.slideshowAudioList) &&
+    const hasList =
+      Array.isArray(state.slideshowAudioList) &&
       state.slideshowAudioList.length > 0;
     const currentIndex = hasList
       ? state.slideshowAudioList.indexOf(state.previewAudioFile)
       : -1;
     const canPrev = hasList && currentIndex > 0;
-    const canNext = hasList && currentIndex > -1 && currentIndex < state.slideshowAudioList.length - 1;
+    const canNext =
+      hasList &&
+      currentIndex > -1 &&
+      currentIndex < state.slideshowAudioList.length - 1;
     $audioPreviewPrev
       .prop("disabled", !canPrev)
       .attr("aria-label", t("audio_preview_prev"))
@@ -3003,7 +3029,11 @@
       return;
     }
     $audioUploadPlayAll
-      .text(state.previewAudioAutoAdvance ? t("audio_stop_all") : t("audio_play_all"))
+      .text(
+        state.previewAudioAutoAdvance
+          ? t("audio_stop_all")
+          : t("audio_play_all"),
+      )
       .toggleClass("is-active", state.previewAudioAutoAdvance);
   }
 
@@ -3030,7 +3060,9 @@
       stopPreviewAutoAdvance();
       return;
     }
-    const currentIndex = state.slideshowAudioList.indexOf(state.previewAudioFile);
+    const currentIndex = state.slideshowAudioList.indexOf(
+      state.previewAudioFile,
+    );
     const nextIndex = currentIndex >= 0 ? currentIndex + 1 : 0;
     if (nextIndex < state.slideshowAudioList.length) {
       playPreviewAudio(state.slideshowAudioList[nextIndex]);
@@ -3040,17 +3072,25 @@
   }
 
   function playPreviewTrackByOffset(offset) {
-    if (!Array.isArray(state.slideshowAudioList) || !state.slideshowAudioList.length) {
+    if (
+      !Array.isArray(state.slideshowAudioList) ||
+      !state.slideshowAudioList.length
+    ) {
       return;
     }
-    const currentIndex = state.slideshowAudioList.indexOf(state.previewAudioFile);
+    const currentIndex = state.slideshowAudioList.indexOf(
+      state.previewAudioFile,
+    );
     let nextIndex = currentIndex;
     if (currentIndex < 0) {
       nextIndex = offset > 0 ? 0 : state.slideshowAudioList.length - 1;
     } else {
       nextIndex = currentIndex + offset;
     }
-    nextIndex = Math.max(0, Math.min(state.slideshowAudioList.length - 1, nextIndex));
+    nextIndex = Math.max(
+      0,
+      Math.min(state.slideshowAudioList.length - 1, nextIndex),
+    );
     const nextFilename = state.slideshowAudioList[nextIndex];
     if (nextFilename) {
       playPreviewAudio(nextFilename);
@@ -3330,6 +3370,9 @@
       $albumUploadButton.addClass("is-hidden").prop("disabled", true);
       $audioUploadButton.addClass("is-hidden").prop("disabled", true);
       $invitationLinkButton.addClass("is-hidden").prop("disabled", true);
+      if ($albumRebuildButton.length) {
+        $albumRebuildButton.addClass("is-hidden").prop("disabled", true);
+      }
       if ($adminNavButton.length) {
         $adminNavButton.addClass("is-hidden");
       }
@@ -3392,6 +3435,7 @@
     updateAdminNavUi();
     updateInviteRequestsButtonUi();
     updateInvitationLinkButtonUi();
+    updateHeaderRebuildButtonUi();
     updateAdminUserClass();
     renderAlbumList();
   }
@@ -3403,6 +3447,26 @@
     $uploadFolderInput.val("");
     $uploadZipInput.val("");
   }
+
+  $albumRebuildButton.on("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const activeEntry =
+      state.albums[state.activeIndex] || state.albums[0] || null;
+    if (!activeEntry) {
+      return;
+    }
+    const activeAlbumName = activeEntry.isAll
+      ? t("view_all")
+      : state.albumTitleOverrides &&
+          state.albumTitleOverrides[String(activeEntry.folder || "")]
+        ? String(
+            state.albumTitleOverrides[String(activeEntry.folder || "")] || "",
+          )
+        : activeEntry.title ||
+          t("album_default_name", { index: state.activeIndex + 1 });
+    runAlbumRebuildRequest(activeEntry, activeAlbumName, $albumRebuildButton);
+  });
 
   function setGuestInviteMessage(text) {
     $guestInviteMessage.text(text || "");
@@ -3965,7 +4029,9 @@
         Object.prototype.hasOwnProperty.call(entry, "guestbook_visible") &&
         !entry.guestbook_visible
       );
-      const wishes = Array.isArray(entry && entry.guestbook) ? entry.guestbook : [];
+      const wishes = Array.isArray(entry && entry.guestbook)
+        ? entry.guestbook
+        : [];
       const tr = document.createElement("tr");
       const tdNo = document.createElement("td");
       tdNo.className = "audio-col-no";
@@ -3975,7 +4041,9 @@
       tdRecipient.className = "invitation-link-col-recipient";
       const recipient = document.createElement("span");
       recipient.className = "invitation-link-recipient";
-      recipient.textContent = String(entry && entry.recipient ? entry.recipient : "");
+      recipient.textContent = String(
+        entry && entry.recipient ? entry.recipient : "",
+      );
       recipient.setAttribute("title", recipient.textContent);
       tdRecipient.appendChild(recipient);
 
@@ -4016,7 +4084,8 @@
       actionWrap.className = "invitation-link-actions admin-request-actions";
       const toggleBtn = document.createElement("button");
       toggleBtn.type = "button";
-      toggleBtn.className = "admin-request-action-button invitation-link-toggle";
+      toggleBtn.className =
+        "admin-request-action-button invitation-link-toggle";
       toggleBtn.setAttribute("data-code", code);
       toggleBtn.setAttribute(
         "aria-label",
@@ -4055,7 +4124,8 @@
         "</svg>";
       const deleteBtn = document.createElement("button");
       deleteBtn.type = "button";
-      deleteBtn.className = "admin-request-action-button invitation-link-delete";
+      deleteBtn.className =
+        "admin-request-action-button invitation-link-delete";
       deleteBtn.setAttribute("data-code", code);
       deleteBtn.setAttribute("aria-label", "Xóa thiệp mời");
       deleteBtn.setAttribute("title", "Xóa thiệp mời");
@@ -4104,7 +4174,9 @@
   }
 
   function normalizeInvitationCardKey(value) {
-    return String(value || "").trim().toLowerCase() === "card_2"
+    return String(value || "")
+      .trim()
+      .toLowerCase() === "card_2"
       ? "card_2"
       : "card_1";
   }
@@ -4122,7 +4194,9 @@
     }
     try {
       const absoluteUrl = new URL(toAbsoluteUrl(normalizedPath));
-      const encodedData = String(absoluteUrl.searchParams.get("data") || "").trim();
+      const encodedData = String(
+        absoluteUrl.searchParams.get("data") || "",
+      ).trim();
       const decodedData = decodeBase64UrlString(encodedData);
       if (decodedData) {
         const payload = new URLSearchParams(decodedData);
@@ -4201,7 +4275,8 @@
   function applyInvitationCardEditorData(cardKey) {
     const normalizedKey = normalizeInvitationCardKey(cardKey);
     const profiles =
-      state.invitationCardProfiles && typeof state.invitationCardProfiles === "object"
+      state.invitationCardProfiles &&
+      typeof state.invitationCardProfiles === "object"
         ? state.invitationCardProfiles
         : {};
     const currentData = normalizeInvitationCardData(profiles[normalizedKey]);
@@ -4227,10 +4302,9 @@
       const $button = $(this);
       const buttonCard = normalizeInvitationCardKey($button.attr("data-card"));
       const isActive = buttonCard === normalizedKey;
-      $button.toggleClass("is-active", isActive).attr(
-        "aria-pressed",
-        isActive ? "true" : "false",
-      );
+      $button
+        .toggleClass("is-active", isActive)
+        .attr("aria-pressed", isActive ? "true" : "false");
     });
     const activeLabel =
       state.invitationCardActiveKey === "card_2" ? "Thiệp 2" : "Thiệp 1";
@@ -4308,7 +4382,10 @@
       return;
     }
     if (!state.authUser) {
-      showResultModal("Bạn cần đăng nhập admin để sửa nội dung thiệp.", "warning");
+      showResultModal(
+        "Bạn cần đăng nhập admin để sửa nội dung thiệp.",
+        "warning",
+      );
       return;
     }
     const selectedCard = normalizeInvitationCardKey(
@@ -4321,21 +4398,29 @@
       groom_name: String($invitationCardGroomName.val() || "").trim(),
       bride_father: String($invitationCardBrideFather.val() || "").trim(),
       bride_mother: String($invitationCardBrideMother.val() || "").trim(),
-      bride_family_address: String($invitationCardBrideAddress.val() || "").trim(),
+      bride_family_address: String(
+        $invitationCardBrideAddress.val() || "",
+      ).trim(),
       groom_father: String($invitationCardGroomFather.val() || "").trim(),
       groom_mother: String($invitationCardGroomMother.val() || "").trim(),
-      groom_family_address: String($invitationCardGroomAddress.val() || "").trim(),
+      groom_family_address: String(
+        $invitationCardGroomAddress.val() || "",
+      ).trim(),
       event_date: String($invitationCardEventDate.val() || "").trim(),
       event_time: String($invitationCardEventTime.val() || "").trim(),
       lunar_date: String($invitationCardLunarDate.val() || "").trim(),
       guest_time: String($invitationCardGuestTime.val() || "").trim(),
       party_time: String($invitationCardPartyTime.val() || "").trim(),
-      ceremony_location: String($invitationCardCeremonyLocation.val() || "").trim(),
+      ceremony_location: String(
+        $invitationCardCeremonyLocation.val() || "",
+      ).trim(),
       party_location: String($invitationCardPartyLocation.val() || "").trim(),
       map_query: String($invitationCardMapQuery.val() || "").trim(),
     };
     if (!payload.greet_content) {
-      $invitationCardEditorError.text("Vui lòng nhập lời mời hiển thị trong thiệp.");
+      $invitationCardEditorError.text(
+        "Vui lòng nhập lời mời hiển thị trong thiệp.",
+      );
       return;
     }
     state.invitationCardSaving = true;
@@ -4508,7 +4593,9 @@
     }
     const isEditing = !!state.editingInvitationLinkCode;
     state.creatingInvitationLink = true;
-    $invitationLinkError.text(isEditing ? "Đang cập nhật thiệp..." : "Đang tạo thiệp...");
+    $invitationLinkError.text(
+      isEditing ? "Đang cập nhật thiệp..." : "Đang tạo thiệp...",
+    );
     $invitationLinkSubmit.prop("disabled", true);
     $invitationLinkCancel.prop("disabled", true);
     $.ajax({
@@ -5647,6 +5734,61 @@
     });
   }
 
+  function runAlbumRebuildRequest(albumEntry, albumName, buttonEl) {
+    if (!albumEntry) {
+      return;
+    }
+    const albumLabel = String(albumName || "").trim() || t("view_all");
+    const albumFolder = albumEntry.isAll ? "" : String(albumEntry.folder || "");
+    const target = buttonEl && buttonEl.jquery ? buttonEl : null;
+    openConfirmModal(t("retry_album_confirm", { album: albumLabel })).then(
+      function (confirmed) {
+        if (!confirmed) {
+          if (target) {
+            target.prop("disabled", false);
+          }
+          return;
+        }
+        if (target) {
+          target.prop("disabled", true);
+        }
+        $.ajax({
+          url: buildApiUrl("__rebuild_album__"),
+          method: "POST",
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify({ album: albumFolder }),
+        })
+          .done(function (response) {
+            if (!response || !response.ok) {
+              showResultModal(
+                (response && response.message) || t("retry_album_fail"),
+                "error",
+              );
+              return;
+            }
+            showResultModal(
+              t("retry_album_success", { album: albumLabel }),
+              "success",
+            );
+            pollBuildAndReload(albumFolder);
+          })
+          .fail(function (xhr) {
+            const payload = xhr && xhr.responseJSON;
+            showResultModal(
+              (payload && payload.message) || t("retry_album_fail"),
+              "error",
+            );
+          })
+          .always(function () {
+            if (target) {
+              target.prop("disabled", false);
+            }
+          });
+      },
+    );
+  }
+
   function renderAlbumList() {
     $albumList.empty();
 
@@ -5795,45 +5937,7 @@
         $retry.on("click", function (event) {
           event.preventDefault();
           event.stopPropagation();
-          openConfirmModal(t("retry_album_confirm", { album: albumName })).then(
-            function (confirmed) {
-              if (!confirmed) {
-                return;
-              }
-              $retry.prop("disabled", true);
-              $.ajax({
-                url: buildApiUrl("__rebuild_album__"),
-                method: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({ album: album.folder || "" }),
-              })
-                .done(function (response) {
-                  if (!response || !response.ok) {
-                    showResultModal(
-                      (response && response.message) || t("retry_album_fail"),
-                      "error",
-                    );
-                    return;
-                  }
-                  showResultModal(
-                    t("retry_album_success", { album: albumName }),
-                    "success",
-                  );
-                  pollBuildAndReload(album.folder || "");
-                })
-                .fail(function (xhr) {
-                  const payload = xhr && xhr.responseJSON;
-                  showResultModal(
-                    (payload && payload.message) || t("retry_album_fail"),
-                    "error",
-                  );
-                })
-                .always(function () {
-                  $retry.prop("disabled", false);
-                });
-            },
-          );
+          runAlbumRebuildRequest(album, albumName, $retry);
         });
 
         const $delete = $(
@@ -6566,7 +6670,10 @@
       });
       const nextVisible = !(
         currentEntry &&
-        Object.prototype.hasOwnProperty.call(currentEntry, "guestbook_visible") &&
+        Object.prototype.hasOwnProperty.call(
+          currentEntry,
+          "guestbook_visible",
+        ) &&
         !currentEntry.guestbook_visible
       );
       $.ajax({
@@ -8546,7 +8653,7 @@
     if (!list.length) {
       $scrollCardGallery.html(
         '<div class="scroll-card-photo-placeholder">' +
-          '<span>♡</span><strong>Khoảnh khắc kỷ niệm</strong>' +
+          "<span>♡</span><strong>Khoảnh khắc kỷ niệm</strong>" +
           "<em>Ảnh sẽ hiện ở đây khi album có dữ liệu</em>" +
           "</div>",
       );
@@ -8856,7 +8963,9 @@
       "is-hidden",
       !state.scrollCard.eventTime && !state.scrollCard.ceremonyLocation,
     );
-    $scrollCardSender.text("— " + (state.scrollCard.senderName || "Yêu thương"));
+    $scrollCardSender.text(
+      "— " + (state.scrollCard.senderName || "Yêu thương"),
+    );
     $weddingGuestbookName
       .val(recipient)
       .attr("readonly", true)
@@ -8897,12 +9006,18 @@
     $weddingGuestbookList.html(
       list
         .map(function (entry) {
-          const name = escapeHtml(entry && entry.name ? entry.name : "Khách mời");
-          const message = escapeHtml(entry && entry.message ? entry.message : "");
-          const createdAt = escapeHtml(formatGuestbookDate(entry && entry.created_at));
+          const name = escapeHtml(
+            entry && entry.name ? entry.name : "Khách mời",
+          );
+          const message = escapeHtml(
+            entry && entry.message ? entry.message : "",
+          );
+          const createdAt = escapeHtml(
+            formatGuestbookDate(entry && entry.created_at),
+          );
           return (
             '<article class="wedding-guestbook-item">' +
-            '<header><strong>' +
+            "<header><strong>" +
             name +
             "</strong>" +
             (createdAt ? "<time>" + createdAt + "</time>" : "") +
@@ -8984,7 +9099,7 @@
             ? "Lời chúc này đã được lưu trước đó."
             : response && response.updated
               ? "Đã cập nhật lời chúc. Cảm ơn bạn!"
-            : "Đã gửi lời chúc. Cảm ơn bạn!",
+              : "Đã gửi lời chúc. Cảm ơn bạn!",
         );
         if (!(response && response.duplicate)) {
           $weddingGuestbookMessage.val("");

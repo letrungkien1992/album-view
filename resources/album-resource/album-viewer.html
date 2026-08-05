@@ -249,9 +249,13 @@
                 <span>Thứ</span>
                 <strong class="wedding-detail-date">7</strong>
                 <span>Ngày</span>
-                <strong class="wedding-detail-date" id="wedding-detail-day">28</strong>
+                <strong class="wedding-detail-date" id="wedding-detail-day"
+                  >28</strong
+                >
                 <span>THÁNG</span>
-                <strong class="wedding-detail-date" id="wedding-detail-month">11</strong>
+                <strong class="wedding-detail-date" id="wedding-detail-month"
+                  >11</strong
+                >
               </div>
               <p id="wedding-lunar-date" class="wedding-lunar-date">
                 (Tức ngày 20/10 năm Bính Ngọ)
@@ -619,6 +623,22 @@
                   ></rect>
                   <line x1="8" y1="20" x2="16" y2="20"></line>
                   <polygon points="10,8 15,11 10,14"></polygon>
+                </svg>
+              </button>
+              <button
+                id="album-rebuild-button"
+                class="album-slideshow-toggle album-rebuild-button is-hidden"
+                type="button"
+                aria-label="Build lại album"
+                title="Build lại album"
+              >
+                <svg
+                  class="icon-stroke icon-rebuild"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M20 12a8 8 0 1 1-2.34-5.66"></path>
+                  <polyline points="20,4 20,10 14,10"></polyline>
                 </svg>
               </button>
             </div>
@@ -1120,7 +1140,9 @@
               id="invitation-card-editor-header"
               class="invitation-card-editor-header admin-request-search-header"
             >
-              <div class="invitation-card-editor-title admin-request-search-title">
+              <div
+                class="invitation-card-editor-title admin-request-search-title"
+              >
                 <span class="admin-request-search-icon" aria-hidden="true">
                   <svg viewBox="0 0 576 512">
                     <path
@@ -1158,7 +1180,11 @@
               </div>
             </div>
             <div class="invitation-card-editor-body">
-              <div class="invitation-card-editor-switch" role="tablist" aria-label="Chọn bộ dữ liệu thiệp">
+              <div
+                class="invitation-card-editor-switch"
+                role="tablist"
+                aria-label="Chọn bộ dữ liệu thiệp"
+              >
                 <button
                   id="invitation-card-select-card-1"
                   class="upload-btn ghost invitation-card-switch-btn"
@@ -1321,7 +1347,10 @@
                   maxlength="80"
                 />
 
-                <label class="upload-label" for="invitation-card-ceremony-location">
+                <label
+                  class="upload-label"
+                  for="invitation-card-ceremony-location"
+                >
                   Địa điểm lễ
                 </label>
                 <input
@@ -1331,7 +1360,10 @@
                   maxlength="255"
                 />
 
-                <label class="upload-label" for="invitation-card-party-location">
+                <label
+                  class="upload-label"
+                  for="invitation-card-party-location"
+                >
                   Địa điểm tiệc
                 </label>
                 <input
@@ -1376,7 +1408,9 @@
               id="invitation-link-form-header"
               class="invitation-link-form-header admin-request-search-header"
             >
-              <div class="invitation-link-form-title admin-request-search-title">
+              <div
+                class="invitation-link-form-title admin-request-search-title"
+              >
                 <span class="admin-request-search-icon" aria-hidden="true">
                   <svg viewBox="0 0 576 512">
                     <path
@@ -1384,7 +1418,10 @@
                     ></path>
                   </svg>
                 </span>
-                <h4 id="invitation-link-form-title" class="invitation-link-form-title">
+                <h4
+                  id="invitation-link-form-title"
+                  class="invitation-link-form-title"
+                >
                   Tạo thiệp mới
                 </h4>
               </div>
@@ -1411,86 +1448,86 @@
               </div>
             </div>
             <div class="invitation-link-form-body">
-            <div class="invitation-link-form-grid">
-              <label class="upload-label" for="invitation-link-prefix">
-                Prefix
-              </label>
-              <input
-                id="invitation-link-prefix"
-                class="upload-input"
-                type="text"
-                placeholder="Ví dụ: Gia đình"
-                maxlength="80"
-              />
-              <label class="upload-label" for="invitation-link-title">
-                Xưng hô
-              </label>
-              <input
-                id="invitation-link-title"
-                class="upload-input"
-                type="text"
-                placeholder="Ví dụ: Chị"
-                maxlength="40"
-              />
-              <label class="upload-label" for="invitation-link-name">
-                Tên người nhận
-              </label>
-              <input
-                id="invitation-link-name"
-                class="upload-input"
-                type="text"
-                placeholder="Ví dụ: Quỳnh"
-                maxlength="120"
-              />
-              <label class="upload-label" for="invitation-link-suffix">
-                Suffix
-              </label>
-              <input
-                id="invitation-link-suffix"
-                class="upload-input"
-                type="text"
-                placeholder="Ví dụ: thân mến"
-                maxlength="80"
-              />
-              <label class="upload-label" for="invitation-link-message">
-                Nội dung thiệp
-              </label>
-              <textarea
-                id="invitation-link-message"
-                class="upload-input upload-textarea"
-                placeholder="Nhập nội dung hiển thị trong thiệp"
-                maxlength="600"
-                rows="4"
-              ></textarea>
-              <label class="upload-label" for="invitation-link-card">
-                Loại thiệp
-              </label>
-              <select id="invitation-link-card" class="upload-input">
-                <option value="card_1">Thiệp 1</option>
-                <option value="card_2">Thiệp 2</option>
-              </select>
-            </div>
-            <div class="invitation-link-create-row">
-              <button
-                id="invitation-link-edit-cancel"
-                class="upload-btn ghost is-hidden"
-                type="button"
-              >
-                Hủy
-              </button>
-              <button
-                id="invitation-link-submit"
-                class="upload-btn primary"
-                type="button"
-              >
-                Tạo thiệp
-              </button>
-            </div>
-            <p
-              id="invitation-link-error"
-              class="upload-error"
-              aria-live="polite"
-            ></p>
+              <div class="invitation-link-form-grid">
+                <label class="upload-label" for="invitation-link-prefix">
+                  Prefix
+                </label>
+                <input
+                  id="invitation-link-prefix"
+                  class="upload-input"
+                  type="text"
+                  placeholder="Ví dụ: Gia đình"
+                  maxlength="80"
+                />
+                <label class="upload-label" for="invitation-link-title">
+                  Xưng hô
+                </label>
+                <input
+                  id="invitation-link-title"
+                  class="upload-input"
+                  type="text"
+                  placeholder="Ví dụ: Chị"
+                  maxlength="40"
+                />
+                <label class="upload-label" for="invitation-link-name">
+                  Tên người nhận
+                </label>
+                <input
+                  id="invitation-link-name"
+                  class="upload-input"
+                  type="text"
+                  placeholder="Ví dụ: Quỳnh"
+                  maxlength="120"
+                />
+                <label class="upload-label" for="invitation-link-suffix">
+                  Suffix
+                </label>
+                <input
+                  id="invitation-link-suffix"
+                  class="upload-input"
+                  type="text"
+                  placeholder="Ví dụ: thân mến"
+                  maxlength="80"
+                />
+                <label class="upload-label" for="invitation-link-message">
+                  Nội dung thiệp
+                </label>
+                <textarea
+                  id="invitation-link-message"
+                  class="upload-input upload-textarea"
+                  placeholder="Nhập nội dung hiển thị trong thiệp"
+                  maxlength="600"
+                  rows="4"
+                ></textarea>
+                <label class="upload-label" for="invitation-link-card">
+                  Loại thiệp
+                </label>
+                <select id="invitation-link-card" class="upload-input">
+                  <option value="card_1">Thiệp 1</option>
+                  <option value="card_2">Thiệp 2</option>
+                </select>
+              </div>
+              <div class="invitation-link-create-row">
+                <button
+                  id="invitation-link-edit-cancel"
+                  class="upload-btn ghost is-hidden"
+                  type="button"
+                >
+                  Hủy
+                </button>
+                <button
+                  id="invitation-link-submit"
+                  class="upload-btn primary"
+                  type="button"
+                >
+                  Tạo thiệp
+                </button>
+              </div>
+              <p
+                id="invitation-link-error"
+                class="upload-error"
+                aria-live="polite"
+              ></p>
             </div>
           </div>
           <hr class="audio-upload-divider" />

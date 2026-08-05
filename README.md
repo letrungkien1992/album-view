@@ -63,16 +63,30 @@ bash scripts/run-scripts.sh build-deploy-zip
 Setup domain:
 
 - Linux (Debian/Ubuntu):
+
 ```bash
 sudo bash scripts/setup-domain.sh
 ```
 
 - macOS:
+
 ```bash
 bash scripts/setup-domain.sh
 ```
 
 ## Deploy Shared Hosting (DirectAdmin / Apache + PHP)
+
+Vấn đề mất quyền ghi đối với các file JSON như trong thư mục storage thường xuất phát từ owner/group khác nhau giữa user deploy và user chạy PHP (thường là www-data hoặc apache). Để xử lý dứt điểm, hãy chạy script production setup sau mỗi lần deploy:
+
+```bash
+APP_USER=www-data APP_GROUP=www-data bash scripts/prod-build-setup.sh
+```
+
+Script này sẽ:
+
+- tự động chown/chgrp thư mục writable như storage, resources và các thư mục album/media cho user chạy web;
+- bật setgid trên thư mục để file mới được tạo inherit group đúng;
+- thiết lập quyền 2775 cho thư mục và 664 cho file, đồng thời giữ script shell có quyền thực thi.
 
 Project đã có sẵn:
 
