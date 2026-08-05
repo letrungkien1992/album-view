@@ -6163,10 +6163,13 @@
       if (!album || album.isAll) {
         return;
       }
-      if (typeof album.hiddenOriginal !== "boolean") {
-        return;
-      }
-      if (!!album.hidden === !!album.hiddenOriginal) {
+      // If hiddenOriginal is missing, treat it as false so toggles
+      // performed in the editor are still picked up by the save payload.
+      const origHidden =
+        typeof album.hiddenOriginal === "boolean"
+          ? !!album.hiddenOriginal
+          : false;
+      if (!!album.hidden === origHidden) {
         return;
       }
       const folder = String(album.folder || "").trim();
