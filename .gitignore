@@ -6,6 +6,7 @@ src/thumbs/
 
 # Ignore build output and temporary files
 storage/build-images.log
+storage/build-images.lock
 resources/invite_email.json
 resources/user.json
 storage/invitation_links.json
