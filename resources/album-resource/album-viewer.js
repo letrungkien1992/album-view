@@ -5734,6 +5734,59 @@
     });
   }
 
+  function updateAlbumHiddenState(album, nextHidden, buttonEl) {
+    if (!album || album.isAll) {
+      return;
+    }
+    const target = buttonEl && buttonEl.jquery ? buttonEl : null;
+    if (target) {
+      target.prop("disabled", true);
+    }
+    $.ajax({
+      url: buildApiUrl("__edit_page_save__"),
+      method: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify({
+        album_titles: [],
+        image_names: [],
+        hidden_albums: [
+          {
+            folder: String(album.folder || ""),
+            hidden: !!nextHidden,
+          },
+        ],
+        hidden_images: [],
+      }),
+    })
+      .done(function (response) {
+        if (!response || !response.ok) {
+          showResultModal(
+            (response && response.message) || t("edit_save_fail"),
+            "error",
+          );
+          return;
+        }
+        album.hidden = !!nextHidden;
+        album.hiddenOriginal = !!nextHidden;
+        renderAlbumList();
+        renderActiveAlbum();
+        showResultModal(t("edit_save_success"), "success");
+      })
+      .fail(function (xhr) {
+        const payload = xhr && xhr.responseJSON;
+        showResultModal(
+          (payload && payload.message) || t("edit_save_fail"),
+          "error",
+        );
+      })
+      .always(function () {
+        if (target) {
+          target.prop("disabled", false);
+        }
+      });
+  }
+
   function runAlbumRebuildRequest(albumEntry, albumName, buttonEl) {
     if (!albumEntry) {
       return;
@@ -5898,30 +5951,32 @@
         itemActions.push($download);
       }
       if (canAdminAction) {
-        if (state.editingPage) {
-          const hiddenLabel = album.hidden
-            ? t("album_show_label")
-            : t("album_hide_label");
-          const iconSvg = album.hidden
-            ? '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>'
-            : '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><line x1="4" y1="4" x2="20" y2="20"></line></svg>';
-          const $toggleHidden = $(
-            '<button type="button" class="album-hide" aria-label="' +
-              hiddenLabel +
-              '" title="' +
-              hiddenLabel +
-              '">' +
-              iconSvg +
-              "</button>",
-          );
-          $toggleHidden.on("click", function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+        const hiddenLabel = album.hidden
+          ? t("album_show_label")
+          : t("album_hide_label");
+        const iconSvg = album.hidden
+          ? '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>'
+          : '<svg class="icon-stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"></path><line x1="4" y1="4" x2="20" y2="20"></line></svg>';
+        const $toggleHidden = $(
+          '<button type="button" class="album-hide" aria-label="' +
+            hiddenLabel +
+            '" title="' +
+            hiddenLabel +
+            '">' +
+            iconSvg +
+            "</button>",
+        );
+        $toggleHidden.on("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (state.editingPage) {
             album.hidden = !album.hidden;
             renderAlbumList();
-          });
-          itemActions.push($toggleHidden);
-        }
+            return;
+          }
+          updateAlbumHiddenState(album, !album.hidden, $toggleHidden);
+        });
+        itemActions.push($toggleHidden);
         const $retry = $(
           '<button type="button" class="album-retry" aria-label="' +
             t("retry_album_label") +
