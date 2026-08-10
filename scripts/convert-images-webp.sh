@@ -135,7 +135,7 @@ convert_one() {
     return 1
   fi
 
-  if ! cwebp -quiet -mt -m 6 -q 76 "$src_rel" -o "$tmp"; then
+  if ! cwebp -quiet -mt -m 4 -q 76 "$src_rel" -o "$tmp"; then
     rm -f "$tmp" "$thumb_tmp"
     printf "WARN convert failed (pass1): %s\n" "$src_rel" >&2
     return 1
@@ -148,8 +148,9 @@ convert_one() {
   size=$(wc -c < "$tmp" | tr -d '[:space:]')
 
   if [[ "$size" -gt "$MAX_BYTES" ]]; then
-    # Ask encoder to target <= 500KB.
-    if ! cwebp -quiet -mt -m 6 -pass 6 -q 70 -size "$MAX_BYTES" "$src_rel" -o "$tmp"; then
+    # Large originals are expensive to optimize at full resolution. Resize
+    # before the targeted pass so production rebuilds finish predictably.
+    if ! cwebp -quiet -mt -m 4 -pass 2 -q 70 -size "$MAX_BYTES" -resize 2400 0 "$src_rel" -o "$tmp"; then
       rm -f "$tmp" "$thumb_tmp"
       printf "WARN convert failed (pass2): %s\n" "$src_rel" >&2
       return 1
@@ -164,7 +165,7 @@ convert_one() {
 
   if [[ "$size" -gt "$MAX_BYTES" ]]; then
     # Fallback: reduce resolution for hard cases.
-    if ! cwebp -quiet -mt -m 6 -pass 6 -q 60 -size "$MAX_BYTES" -resize 1920 0 "$src_rel" -o "$tmp"; then
+    if ! cwebp -quiet -mt -m 4 -pass 2 -q 60 -size "$MAX_BYTES" -resize 1920 0 "$src_rel" -o "$tmp"; then
       rm -f "$tmp" "$thumb_tmp"
       printf "WARN convert failed (pass3): %s\n" "$src_rel" >&2
       return 1
@@ -184,7 +185,7 @@ convert_one() {
   fi
 
   # Lightweight thumbnail for list pages.
-  if ! cwebp -quiet -mt -m 6 -q 64 -resize 900 0 "$src_rel" -o "$thumb_tmp"; then
+  if ! cwebp -quiet -mt -m 4 -q 64 -resize 900 0 "$src_rel" -o "$thumb_tmp"; then
     rm -f "$thumb_tmp"
     printf "WARN thumb convert failed (pass1): %s\n" "$src_rel" >&2
     return 1
@@ -196,7 +197,7 @@ convert_one() {
   fi
   thumb_size=$(wc -c < "$thumb_tmp" | tr -d '[:space:]')
   if [[ "$thumb_size" -gt "$THUMB_MAX_BYTES" ]]; then
-    if ! cwebp -quiet -mt -m 6 -pass 6 -q 58 -size "$THUMB_MAX_BYTES" -resize 760 0 "$src_rel" -o "$thumb_tmp"; then
+    if ! cwebp -quiet -mt -m 4 -pass 2 -q 58 -size "$THUMB_MAX_BYTES" -resize 760 0 "$src_rel" -o "$thumb_tmp"; then
       rm -f "$thumb_tmp"
       printf "WARN thumb convert failed (pass2): %s\n" "$src_rel" >&2
       return 1
@@ -209,7 +210,7 @@ convert_one() {
     thumb_size=$(wc -c < "$thumb_tmp" | tr -d '[:space:]')
   fi
   if [[ "$thumb_size" -gt "$THUMB_MAX_BYTES" ]]; then
-    if ! cwebp -quiet -mt -m 6 -pass 6 -q 52 -size "$THUMB_MAX_BYTES" -resize 640 0 "$src_rel" -o "$thumb_tmp"; then
+    if ! cwebp -quiet -mt -m 4 -pass 2 -q 52 -size "$THUMB_MAX_BYTES" -resize 640 0 "$src_rel" -o "$thumb_tmp"; then
       rm -f "$thumb_tmp"
       printf "WARN thumb convert failed (pass3): %s\n" "$src_rel" >&2
       return 1
