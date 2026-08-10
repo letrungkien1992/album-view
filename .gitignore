@@ -10,3 +10,5 @@ storage/build-images.lock
 resources/invite_email.json
 resources/user.json
 storage/invitation_links.json
+.server.log
+.server.pid
