@@ -1,0 +1,49 @@
+[2026-08-10 10:02:47] Queue build album=pokemon
+Building row + thumbnail images for album: pokemon
+src/albums/pokemon/Oranguru Thuong Tam Linh.png -> row:src/row/pokemon/Oranguru Thuong Tam Linh.webp (39046 bytes), thumb:src/thumbs/pokemon/Oranguru Thuong Tam Linh.webp (62904 bytes)
+src/albums/pokemon/Slaking Thuong.png -> row:src/row/pokemon/Slaking Thuong.webp (29414 bytes), thumb:src/thumbs/pokemon/Slaking Thuong.webp (45196 bytes)
+src/albums/pokemon/Zarude Bong Toi Co.png -> row:src/row/pokemon/Zarude Bong Toi Co.webp (38908 bytes), thumb:src/thumbs/pokemon/Zarude Bong Toi Co.webp (51508 bytes)
+src/albums/pokemon/Rillaboom Co.png -> row:src/row/pokemon/Rillaboom Co.webp (38062 bytes), thumb:src/thumbs/pokemon/Rillaboom Co.webp (62996 bytes)
+src/albums/pokemon/Primeape Vo.png -> row:src/row/pokemon/Primeape Vo.webp (37400 bytes), thumb:src/thumbs/pokemon/Primeape Vo.webp (63254 bytes)
+src/albums/pokemon/Infernape Lua Vo.png -> row:src/row/pokemon/Infernape Lua Vo.webp (48984 bytes), thumb:src/thumbs/pokemon/Infernape Lua Vo.webp (85496 bytes)
+src/albums/pokemon/Annihilape Vo Ma.png -> row:src/row/pokemon/Annihilape Vo Ma.webp (42532 bytes), thumb:src/thumbs/pokemon/Annihilape Vo Ma.webp (53920 bytes)
+src/albums/pokemon/Zeraora Đien.png -> row:src/row/pokemon/Zeraora Đien.webp (47780 bytes), thumb:src/thumbs/pokemon/Zeraora Đien.webp (79600 bytes)
+src/albums/pokemon/Smeargle Thuong.png -> row:src/row/pokemon/Smeargle Thuong.webp (35590 bytes), thumb:src/thumbs/pokemon/Smeargle Thuong.webp (60864 bytes)
+src/albums/pokemon/Ambipom Thuong.png -> row:src/row/pokemon/Ambipom Thuong.webp (44508 bytes), thumb:src/thumbs/pokemon/Ambipom Thuong.webp (76328 bytes)
+Done: generated .webp files in src/row and src/thumbs
+Converted: 10 | Skipped: 0 | Failed: 0 | Removed row: 0 | Removed thumbs: 0
+
+Done.
+Output folders:
+  - src/row
+  - src/thumbs
+
+Tip: run this command each time you add new images/albums:
+  ./scripts/build-album-images.sh
+[2026-08-10 10:03:23] Queue build album=cau_long
+Building row + thumbnail images for album: cau_long
+src/albums/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.jpg -> row:src/row/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.webp (216012 bytes), thumb:src/thumbs/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.webp (75466 bytes)
+src/albums/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.jpg -> row:src/row/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.webp (374604 bytes), thumb:src/thumbs/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.webp (96142 bytes)
+src/albums/cau_long/IMG_6314.jpg -> row:src/row/cau_long/IMG_6314.webp (490136 bytes), thumb:src/thumbs/cau_long/IMG_6314.webp (78014 bytes)
+src/albums/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.jpg -> row:src/row/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.webp (312906 bytes), thumb:src/thumbs/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.webp (86504 bytes)
+src/albums/cau_long/IMG_6311.jpg -> row:src/row/cau_long/IMG_6311.webp (491780 bytes), thumb:src/thumbs/cau_long/IMG_6311.webp (68372 bytes)
+src/albums/cau_long/IMG_6312.jpg -> row:src/row/cau_long/IMG_6312.webp (489360 bytes), thumb:src/thumbs/cau_long/IMG_6312.webp (73060 bytes)
+src/albums/cau_long/IMG_6313.jpg -> row:src/row/cau_long/IMG_6313.webp (488282 bytes), thumb:src/thumbs/cau_long/IMG_6313.webp (75526 bytes)
+src/albums/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.jpg -> row:src/row/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.webp (363266 bytes), thumb:src/thumbs/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.webp (85314 bytes)
+src/albums/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.jpg -> row:src/row/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.webp (380548 bytes), thumb:src/thumbs/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.webp (98128 bytes)
+src/albums/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.jpg -> row:src/row/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.webp (192260 bytes), thumb:src/thumbs/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.webp (60168 bytes)
+src/albums/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.jpg -> row:src/row/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.webp (238272 bytes), thumb:src/thumbs/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.webp (72444 bytes)
+src/albums/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.jpg -> row:src/row/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.webp (355408 bytes), thumb:src/thumbs/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.webp (99376 bytes)
+src/albums/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.jpg -> row:src/row/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.webp (215604 bytes), thumb:src/thumbs/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.webp (73380 bytes)
+src/albums/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.jpg -> row:src/row/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.webp (210542 bytes), thumb:src/thumbs/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.webp (67030 bytes)
+src/albums/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.jpg -> row:src/row/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.webp (214448 bytes), thumb:src/thumbs/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.webp (57168 bytes)
+Done: generated .webp files in src/row and src/thumbs
+Converted: 15 | Skipped: 0 | Failed: 0 | Removed row: 0 | Removed thumbs: 0
+
+Done.
+Output folders:
+  - src/row
+  - src/thumbs
+
+Tip: run this command each time you add new images/albums:
+  ./scripts/build-album-images.sh

@@ -2131,6 +2131,21 @@ function has_shell_binary(string $binary): bool
     return $exitCode === 0;
 }
 
+function shell_binary_path(string $binary): string
+{
+    if (!can_execute_shell_command()) {
+        return '';
+    }
+    $output = [];
+    $exitCode = 1;
+    @exec('command -v ' . escapeshellarg($binary) . ' 2>/dev/null', $output, $exitCode);
+    if ($exitCode !== 0) {
+        return '';
+    }
+    $path = trim((string) ($output[0] ?? ''));
+    return $path !== '' && str_starts_with($path, '/') ? $path : '';
+}
+
 function read_build_pid(string $lockFile): int
 {
     if (!is_file($lockFile)) {
@@ -2452,7 +2467,8 @@ function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $l
     if (!has_shell_binary('bash')) {
         return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
-    if (!has_shell_binary('cwebp')) {
+    $cwebpPath = shell_binary_path('cwebp');
+    if ($cwebpPath === '') {
         return php_build_row_and_thumbs($rootDir, $logFile, $albumFilter);
     }
 
@@ -2465,6 +2481,14 @@ function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $l
     if (!is_dir($storageDir) && !@mkdir($storageDir, 0775, true)) {
         return ['ok' => false, 'queued' => false, 'message' => 'Storage directory is not writable.', 'code' => -1];
     }
+    if (!ensure_writable_path($logFile) || !ensure_writable_path($lockFile)) {
+        return ['ok' => false, 'queued' => false, 'message' => 'Build status or log file is not writable.', 'code' => -1];
+    }
+    log_build_line(
+        $logFile,
+        '[' . date('Y-m-d H:i:s') . '] Queue build'
+        . ($albumFilter !== '' ? ' album=' . $albumFilter : ' all albums')
+    );
     @file_put_contents($lockFile, 'running:' . time(), LOCK_EX);
 
     $output = [];
@@ -2473,7 +2497,8 @@ function queue_build_row_and_thumbs(string $rootDir, string $lockFile, string $l
     if ($albumFilter !== '') {
         $buildCmd .= ' ' . escapeshellarg($albumFilter);
     }
-    $worker = 'cd ' . escapeshellarg($rootDir)
+    $worker = 'export PATH=' . escapeshellarg(dirname($cwebpPath)) . ':"$PATH"'
+        . '; cd ' . escapeshellarg($rootDir)
         . ' && ' . $buildCmd . ' >> ' . escapeshellarg($logFile) . ' 2>&1'
         . '; status=$?; printf "done:%s\n" "$status" > ' . escapeshellarg($lockFile);
     $command = 'nohup bash -lc ' . escapeshellarg($worker) . ' >/dev/null 2>&1 & echo $!';
@@ -2745,7 +2770,8 @@ function build_albums(
             $createdAtValue = $createdAt === false ? $uploadedAtValue : (int) $createdAt;
 
             $hiddenKey = image_stem_key_from_filename($originalName !== '' ? $originalName : $previewName);
-            $hiddenImage = isset($albumHiddenImages[$folderName]) && isset($albumHiddenImages[$folderName][$hiddenKey]);
+            $folderKey = sanitize_album_folder_name($folderName);
+            $hiddenImage = isset($albumHiddenImages[$folderKey]) && isset($albumHiddenImages[$folderKey][$hiddenKey]);
             $images[] = [
                 'name' => $previewName,
                 'root' => $previewRoot,
@@ -2762,7 +2788,8 @@ function build_albums(
         if (count($images) < 1 && count($originalIndex) < 1) {
             continue;
         }
-        $hidden = isset($albumHidden[$folderName]) && $albumHidden[$folderName] ? true : false;
+        $folderKey = sanitize_album_folder_name($folderName);
+        $hidden = isset($albumHidden[$folderKey]) && $albumHidden[$folderKey] ? true : false;
         $albums[] = [
             'title' => isset($albumTitles[$folderName]) && is_string($albumTitles[$folderName]) && trim($albumTitles[$folderName]) !== ''
                 ? sanitize_album_title($albumTitles[$folderName])

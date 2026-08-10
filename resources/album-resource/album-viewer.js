@@ -1153,6 +1153,28 @@
     state.hiddenImageCurrent = cloneHiddenImageMap(state.hiddenImageBase);
   }
 
+  function commitHiddenImageDrafts() {
+    state.albums.forEach(function (album) {
+      if (!album || !Array.isArray(album.images)) {
+        return;
+      }
+      const albumFolder = album.isAll ? "" : String(album.folder || "");
+      album.images.forEach(function (entry) {
+        if (!entry || typeof entry !== "object") {
+          return;
+        }
+        const folder = album.isAll
+          ? String(entry.folder || "")
+          : albumFolder;
+        entry.hidden = isImageHidden(
+          folder,
+          entry.original || entry.name || "",
+        );
+      });
+    });
+    state.hiddenImageBase = cloneHiddenImageMap(state.hiddenImageCurrent);
+  }
+
   function isImageHidden(folder, name) {
     const folderKey = String(folder || "").trim();
     if (!folderKey) {
@@ -1165,6 +1187,18 @@
     return !!(
       state.hiddenImageCurrent[folderKey] &&
       state.hiddenImageCurrent[folderKey][stem]
+    );
+  }
+
+  function isImageEntryHidden(folder, entry) {
+    if (entry && typeof entry === "object" && entry.hidden) {
+      return true;
+    }
+    return isImageHidden(
+      folder,
+      entry && typeof entry === "object"
+        ? entry.original || entry.name || ""
+        : entry || "",
     );
   }
 
@@ -5473,10 +5507,7 @@
         const folder = String(
           entry && entry.folder ? entry.folder : fallbackFolder,
         );
-        return !isImageHidden(
-          folder,
-          entry && (entry.original || entry.name || ""),
-        );
+        return !isImageEntryHidden(folder, entry);
       });
     }
     images = sortImageEntries(images);
@@ -5869,10 +5900,7 @@
             if (hiddenFolders.size && hiddenFolders.has(folder)) {
               return false;
             }
-            return !isImageHidden(
-              folder,
-              entry && (entry.original || entry.name || ""),
-            );
+            return !isImageEntryHidden(folder, entry);
           },
         ).length;
       } else if (!album.isAll && !state.editingPage) {
@@ -5880,10 +5908,7 @@
         if (folder) {
           photoCount = (Array.isArray(album.images) ? album.images : []).filter(
             function (entry) {
-              return !isImageHidden(
-                folder,
-                entry && (entry.original || entry.name || ""),
-              );
+              return !isImageEntryHidden(folder, entry);
             },
           ).length;
         }
@@ -6278,6 +6303,7 @@
           return;
         }
         showResultModal(t("edit_save_success"), "success");
+        commitHiddenImageDrafts();
         setEditingPage(false);
         loadAlbums(preferredFolder).catch(function () {
           renderError();
@@ -7615,8 +7641,7 @@
     return (context.images || [])
       .filter(function (entry) {
         const folder = entry && entry.folder ? entry.folder : "";
-        const name = entry && (entry.original || entry.name || "");
-        return !isImageHidden(folder, name);
+        return !isImageEntryHidden(folder, entry);
       })
       .map(function (entry) {
         const folder = entry.folder || "";

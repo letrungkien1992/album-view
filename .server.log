@@ -1,0 +1,678 @@
+[Mon Aug 10 17:02:01 2026] PHP 8.2.12 Development Server (http://0.0.0.0:5500) started
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57085 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57085 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57086 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57086 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57087 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57088 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57087 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57088 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57086 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57087 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57088 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57089 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57089 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57089 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57090 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57090 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57091 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57092 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57091 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57090 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57092 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57091 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57092 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57093 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57093 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57093 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57094 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57094 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57095 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57095 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57095 Closing
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57096 Accepted
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57096 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:02:12 2026] 127.0.0.1:57096 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57098 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57098 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57099 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57099 [200]: GET /resources/album-resource/login.css?v=1782534527
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57100 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57101 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57100 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57099 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57101 [200]: GET /resources/album-resource/login.js?v=1781062127
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57100 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57101 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57102 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57102 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57102 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57103 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57103 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57103 Closing
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57104 Accepted
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57104 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:02:16 2026] 127.0.0.1:57104 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57105 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57105 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57107 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57108 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57107 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57108 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57108 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57109 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57109 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57109 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57110 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57110 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57110 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57111 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57111 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57111 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57112 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57113 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57112 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57114 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57113 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57114 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57112 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57113 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57114 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57115 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57115 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57115 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57117 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57117 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57118 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57118 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57118 Closing
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57119 Accepted
+[Mon Aug 10 17:02:24 2026] 127.0.0.1:57119 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57122 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57122 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57123 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57123 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57123 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57124 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57124 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57125 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57125 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57124 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57125 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57126 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57126 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57126 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57127 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57128 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57127 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57128 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57127 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57128 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57129 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57129 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57129 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57130 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57130 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57130 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57131 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57131 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57132 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57132 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57133 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57133 Closing
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57134 Accepted
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57134 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:02:29 2026] 127.0.0.1:57134 Closing
+[Mon Aug 10 17:02:47 2026] 127.0.0.1:57146 Accepted
+[Mon Aug 10 17:02:47 2026] 127.0.0.1:57146 Closing
+[Mon Aug 10 17:02:47 2026] 127.0.0.1:57147 Accepted
+[Mon Aug 10 17:02:47 2026] 127.0.0.1:57147 Closing
+[Mon Aug 10 17:02:49 2026] 127.0.0.1:57148 Accepted
+[Mon Aug 10 17:02:49 2026] 127.0.0.1:57148 Closing
+[Mon Aug 10 17:02:49 2026] 127.0.0.1:57149 Accepted
+[Mon Aug 10 17:02:49 2026] 127.0.0.1:57149 Closing
+[Mon Aug 10 17:02:50 2026] 127.0.0.1:57150 Accepted
+[Mon Aug 10 17:02:50 2026] 127.0.0.1:57150 Closing
+[Mon Aug 10 17:02:52 2026] 127.0.0.1:57151 Accepted
+[Mon Aug 10 17:02:52 2026] 127.0.0.1:57151 Closing
+[Mon Aug 10 17:02:53 2026] 127.0.0.1:57152 Accepted
+[Mon Aug 10 17:02:53 2026] 127.0.0.1:57152 Closing
+[Mon Aug 10 17:02:55 2026] 127.0.0.1:57153 Accepted
+[Mon Aug 10 17:02:55 2026] 127.0.0.1:57153 Closing
+[Mon Aug 10 17:02:56 2026] 127.0.0.1:57154 Accepted
+[Mon Aug 10 17:02:56 2026] 127.0.0.1:57154 Closing
+[Mon Aug 10 17:02:58 2026] 127.0.0.1:57155 Accepted
+[Mon Aug 10 17:02:58 2026] 127.0.0.1:57155 Closing
+[Mon Aug 10 17:02:59 2026] 127.0.0.1:57156 Accepted
+[Mon Aug 10 17:02:59 2026] 127.0.0.1:57156 Closing
+[Mon Aug 10 17:03:01 2026] 127.0.0.1:57157 Accepted
+[Mon Aug 10 17:03:01 2026] 127.0.0.1:57157 Closing
+[Mon Aug 10 17:03:02 2026] 127.0.0.1:57158 Accepted
+[Mon Aug 10 17:03:02 2026] 127.0.0.1:57158 Closing
+[Mon Aug 10 17:03:04 2026] 127.0.0.1:57159 Accepted
+[Mon Aug 10 17:03:04 2026] 127.0.0.1:57159 Closing
+[Mon Aug 10 17:03:05 2026] 127.0.0.1:57160 Accepted
+[Mon Aug 10 17:03:05 2026] 127.0.0.1:57160 Closing
+[Mon Aug 10 17:03:07 2026] 127.0.0.1:57162 Accepted
+[Mon Aug 10 17:03:07 2026] 127.0.0.1:57162 Closing
+[Mon Aug 10 17:03:08 2026] 127.0.0.1:57163 Accepted
+[Mon Aug 10 17:03:08 2026] 127.0.0.1:57163 Closing
+[Mon Aug 10 17:03:10 2026] 127.0.0.1:57164 Accepted
+[Mon Aug 10 17:03:10 2026] 127.0.0.1:57164 Closing
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57165 Accepted
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57165 Closing
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57166 Accepted
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57166 Closing
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57167 Accepted
+[Mon Aug 10 17:03:11 2026] 127.0.0.1:57167 Closing
+[Mon Aug 10 17:03:12 2026] 127.0.0.1:57168 Accepted
+[Mon Aug 10 17:03:12 2026] 127.0.0.1:57168 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57169 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57169 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57170 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57171 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57170 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57171 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57172 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57173 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57172 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57173 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57171 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57172 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57173 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57174 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57174 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57174 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57175 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57176 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57175 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57176 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57175 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57176 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57177 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57177 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57177 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57178 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57178 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57178 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57179 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57179 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57180 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57180 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57181 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57181 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57181 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57182 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57182 [200]: GET /src/albums/cau_long/IMG_6311.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57183 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57183 [200]: GET /src/albums/cau_long/IMG_6312.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57184 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57185 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57184 [200]: GET /src/albums/cau_long/IMG_6313.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57186 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57185 [200]: GET /src/albums/cau_long/IMG_6314.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57187 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57186 [200]: GET /src/albums/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57187 [200]: GET /src/albums/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57188 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57182 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57188 [200]: GET /src/albums/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57186 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57183 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57187 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57189 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57184 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57185 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57190 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57189 [200]: GET /src/albums/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57191 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57190 [200]: GET /src/albums/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57192 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57191 [200]: GET /src/albums/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57193 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57192 [200]: GET /src/albums/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57193 [200]: GET /src/albums/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57188 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57190 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57189 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57191 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57194 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57195 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57194 [200]: GET /src/albums/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57192 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57196 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57195 [200]: GET /src/albums/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57197 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57196 [200]: GET /src/albums/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.jpg
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57193 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57198 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57197 [200]: GET /src/albums/pokemon/Ambipom%20Thuong.png
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57199 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57198 [200]: GET /src/thumbs/pokemon/Annihilape%20Vo%20Ma.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57199 [200]: GET /src/thumbs/pokemon/Infernape%20Lua%20Vo.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57197 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57200 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57194 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57198 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57201 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57195 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57200 [200]: GET /src/thumbs/pokemon/Oranguru%20Thuong%20Tam%20Linh.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57199 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57202 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57201 [200]: GET /src/thumbs/pokemon/Primeape%20Vo.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57203 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57202 [200]: GET /src/thumbs/pokemon/Rillaboom%20Co.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57200 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57203 [200]: GET /src/thumbs/pokemon/Slaking%20Thuong.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57201 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57196 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57202 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57203 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57204 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57204 [200]: GET /src/row/pokemon/Smeargle%20Thuong.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57205 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57204 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57206 Accepted
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57205 [200]: GET /src/thumbs/pokemon/Zarude%20Bong%20Toi%20Co.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57206 [200]: GET /src/thumbs/pokemon/Zeraora%20%C4%90ien.webp
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57205 Closing
+[Mon Aug 10 17:03:13 2026] 127.0.0.1:57206 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57207 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57208 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57209 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57207 [200]: GET /src/albums/cau_long/IMG_6311.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57210 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57208 [200]: GET /src/albums/cau_long/IMG_6312.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57209 [200]: GET /src/albums/cau_long/IMG_6313.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57211 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57210 [200]: GET /src/albums/cau_long/IMG_6314.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57212 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57211 [200]: GET /src/albums/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57212 [200]: GET /src/albums/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57207 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57212 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57213 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57209 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57210 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57213 [200]: GET /src/albums/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57208 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57211 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57213 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57214 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57215 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57216 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57217 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57214 [200]: GET /src/albums/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57215 [200]: GET /src/albums/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57216 [200]: GET /src/albums/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57218 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57217 [200]: GET /src/albums/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57218 [200]: GET /src/albums/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57215 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57216 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57217 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57214 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57218 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57219 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57220 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57219 [200]: GET /src/albums/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57221 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57220 [200]: GET /src/albums/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57221 [200]: GET /src/albums/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.jpg
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57222 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57223 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57222 [200]: GET /src/albums/pokemon/Ambipom%20Thuong.png
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57224 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57223 [200]: GET /src/thumbs/pokemon/Annihilape%20Vo%20Ma.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57224 [200]: GET /src/thumbs/pokemon/Infernape%20Lua%20Vo.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57225 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57219 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57222 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57220 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57223 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57225 [200]: GET /src/thumbs/pokemon/Oranguru%20Thuong%20Tam%20Linh.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57224 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57226 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57225 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57227 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57226 [200]: GET /src/thumbs/pokemon/Primeape%20Vo.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57221 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57228 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57227 [200]: GET /src/thumbs/pokemon/Rillaboom%20Co.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57229 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57228 [200]: GET /src/thumbs/pokemon/Slaking%20Thuong.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57230 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57226 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57229 [200]: GET /src/row/pokemon/Smeargle%20Thuong.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57231 Accepted
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57227 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57230 [200]: GET /src/thumbs/pokemon/Zarude%20Bong%20Toi%20Co.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57231 [200]: GET /src/thumbs/pokemon/Zeraora%20%C4%90ien.webp
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57228 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57229 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57230 Closing
+[Mon Aug 10 17:03:15 2026] 127.0.0.1:57231 Closing
+[Mon Aug 10 17:03:23 2026] 127.0.0.1:57232 Accepted
+[Mon Aug 10 17:03:23 2026] 127.0.0.1:57232 Closing
+[Mon Aug 10 17:03:23 2026] 127.0.0.1:57233 Accepted
+[Mon Aug 10 17:03:23 2026] 127.0.0.1:57233 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57234 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57234 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57235 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57235 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57235 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57236 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57236 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57236 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57237 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57237 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57237 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57238 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57238 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57238 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57239 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57240 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57239 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57240 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57239 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57240 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57241 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57241 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57241 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57242 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57242 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57242 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57243 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57243 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57244 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57244 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57245 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57245 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57245 Closing
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57246 Accepted
+[Mon Aug 10 17:03:32 2026] 127.0.0.1:57246 Closing
+[Mon Aug 10 17:03:33 2026] 127.0.0.1:57247 Accepted
+[Mon Aug 10 17:03:33 2026] 127.0.0.1:57248 Accepted
+[Mon Aug 10 17:03:33 2026] 127.0.0.1:57247 Closing
+[Mon Aug 10 17:03:33 2026] 127.0.0.1:57248 Closing
+[Mon Aug 10 17:03:40 2026] 127.0.0.1:57249 Accepted
+[Mon Aug 10 17:03:40 2026] 127.0.0.1:57249 Closing
+[Mon Aug 10 17:03:41 2026] 127.0.0.1:57250 Accepted
+[Mon Aug 10 17:03:41 2026] 127.0.0.1:57250 Closing
+[Mon Aug 10 17:03:49 2026] 127.0.0.1:57251 Accepted
+[Mon Aug 10 17:03:49 2026] 127.0.0.1:57251 Closing
+[Mon Aug 10 17:03:49 2026] 127.0.0.1:57252 Accepted
+[Mon Aug 10 17:03:49 2026] 127.0.0.1:57252 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57257 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57257 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57258 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57258 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57259 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57260 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57258 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57259 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57260 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57259 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57260 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57261 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57261 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57261 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57262 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57263 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57262 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57263 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57262 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57263 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57264 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57264 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57265 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57265 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57265 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57266 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57266 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57266 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57267 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57267 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57267 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57268 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57268 Closing
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57269 Accepted
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57269 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:09 2026] 127.0.0.1:57269 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57272 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57272 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57273 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57273 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57274 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57275 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57276 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57274 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57275 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57276 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57274 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57275 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57276 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57277 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57277 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57277 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57278 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57279 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57278 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57280 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57279 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57280 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57278 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57279 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57280 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57281 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57281 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57281 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57282 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57282 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57282 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57283 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57283 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57284 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57284 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57284 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57285 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57285 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57285 Closing
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57286 Accepted
+[Mon Aug 10 17:04:14 2026] 127.0.0.1:57286 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57289 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57289 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57290 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57290 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57290 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57291 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57292 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57291 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57292 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57291 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57292 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57293 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57293 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57293 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57294 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57294 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57294 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57295 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57296 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57295 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57296 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57295 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57297 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57296 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57297 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57297 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57298 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57298 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57299 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57299 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57299 Closing
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57300 Accepted
+[Mon Aug 10 17:04:19 2026] 127.0.0.1:57300 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57301 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57301 [200]: GET /src/thumbs/cau_long/IMG_6311.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57302 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57303 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57302 [200]: GET /src/thumbs/cau_long/IMG_6312.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57304 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57301 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57303 [200]: GET /src/thumbs/cau_long/IMG_6313.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57305 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57304 [200]: GET /src/thumbs/cau_long/IMG_6314.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57306 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57305 [200]: GET /src/thumbs/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57302 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57307 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57303 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57306 [200]: GET /src/thumbs/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57308 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57307 [200]: GET /src/thumbs/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57304 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57309 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57305 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57308 [200]: GET /src/thumbs/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57310 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57309 [200]: GET /src/thumbs/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57306 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57311 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57307 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57310 [200]: GET /src/thumbs/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57312 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57311 [200]: GET /src/thumbs/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57308 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57313 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57312 [200]: GET /src/thumbs/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57309 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57314 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57313 [200]: GET /src/thumbs/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57310 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57311 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57314 [200]: GET /src/thumbs/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57315 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57312 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57316 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57313 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57315 [200]: GET /src/thumbs/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57317 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57316 [200]: GET /src/thumbs/pokemon/Ambipom%20Thuong.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57314 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57318 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57317 [200]: GET /src/thumbs/pokemon/Annihilape%20Vo%20Ma.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57319 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57318 [200]: GET /src/thumbs/pokemon/Infernape%20Lua%20Vo.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57315 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57320 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57316 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57319 [200]: GET /src/thumbs/pokemon/Oranguru%20Thuong%20Tam%20Linh.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57321 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57320 [200]: GET /src/thumbs/pokemon/Primeape%20Vo.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57317 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57322 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57318 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57321 [200]: GET /src/thumbs/pokemon/Rillaboom%20Co.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57322 [200]: GET /src/thumbs/pokemon/Slaking%20Thuong.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57319 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57320 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57321 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57322 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57323 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57323 [200]: GET /src/thumbs/pokemon/Smeargle%20Thuong.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57324 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57325 Accepted
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57323 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57324 [200]: GET /src/thumbs/pokemon/Zarude%20Bong%20Toi%20Co.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57325 [200]: GET /src/thumbs/pokemon/Zeraora%20%C4%90ien.webp
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57324 Closing
+[Mon Aug 10 17:04:20 2026] 127.0.0.1:57325 Closing
+[Mon Aug 10 17:04:26 2026] 127.0.0.1:57335 Accepted
+[Mon Aug 10 17:04:26 2026] 127.0.0.1:57335 Closing
+[Mon Aug 10 17:04:26 2026] 127.0.0.1:57336 Accepted
+[Mon Aug 10 17:04:26 2026] 127.0.0.1:57336 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57337 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57337 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57338 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57339 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57340 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57338 [200]: GET /resources/album-resource/album-viewer.css?v=1785212391
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57339 [200]: GET /vendor/jquery/jquery-3.7.1.min.js?v=1779092683
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57340 [200]: GET /resources/album-resource/album-viewer.js?v=1786356015
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57338 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57339 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57340 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57341 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57341 [200]: GET /resources/album-resource/fonts.css
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57341 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57342 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57343 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57342 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-700.ttf
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57343 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-400.ttf
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57342 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57343 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57344 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57344 [200]: GET /resources/album-resource/lang.json
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57344 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57345 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57345 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57346 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57345 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57346 [200]: GET /resources/album-resource/color-packs.json
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57346 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57347 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57348 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57347 [200]: GET /resources/album-resource/favicon.svg?v=1779092683
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57348 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57347 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57349 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57349 [200]: GET /resources/album-resource/fonts/be-vietnam-pro-600.ttf
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57349 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57350 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57350 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57351 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57352 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57351 [200]: GET /src/thumbs/cau_long/IMG_6311.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57353 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57352 [200]: GET /src/thumbs/cau_long/IMG_6312.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57354 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57353 [200]: GET /src/thumbs/cau_long/IMG_6313.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57355 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57351 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57354 [200]: GET /src/thumbs/cau_long/IMG_6314.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57356 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57352 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57355 [200]: GET /src/thumbs/cau_long/z6855133505938_f9a87fe84228f34b2bd4c0a2a71cee99.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57357 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57356 [200]: GET /src/thumbs/cau_long/z6855133528837_9a735894e6ba0bab1cac992a4986c52b.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57353 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57358 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57357 [200]: GET /src/thumbs/cau_long/z6855133541951_1f8f18a94f20c09c65d2693dc66266dd.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57354 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57359 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57358 [200]: GET /src/thumbs/cau_long/z6855133549372_70461e624c4155a69fb1ebe3884db0e0.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57355 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57360 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57359 [200]: GET /src/thumbs/cau_long/z6855133564403_980f12486e24e974f1d8df4c679fcf2d.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57356 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57361 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57360 [200]: GET /src/thumbs/cau_long/z6855133582619_aa90324b08e33830fa3bbdf75838153c.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57357 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57362 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57361 [200]: GET /src/thumbs/cau_long/z6855133611130_028c1fb84b0411d65abe07f95ab89765.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57358 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57363 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57359 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57362 [200]: GET /src/thumbs/cau_long/z6855133623297_fba811e0093e3a16b3704f205a16ce9e.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57364 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57360 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57363 [200]: GET /src/thumbs/cau_long/z6855133631348_fe1e6c71b816d8afe634d42df25b5526.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57365 Accepted
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57361 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57364 [200]: GET /src/thumbs/cau_long/z6855133644797_51f00595137ec5e5730d3e850062db4c.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57362 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57365 [200]: GET /src/thumbs/cau_long/z6855133651584_1e3eac91f1ca01cb7459aa896f4abf54.webp
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57363 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57364 Closing
+[Mon Aug 10 17:04:27 2026] 127.0.0.1:57365 Closing
