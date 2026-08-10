@@ -232,7 +232,7 @@
       upload_album_queued:
         "Ảnh đã upload xong. Hệ thống đang build nền để tạo row/thumbs.",
       upload_build_failed:
-        "Build ảnh nền lỗi (code: {code}). Kiểm tra server log storage/build-images.log",
+        "Build ảnh nền lỗi (code: {code}). Kiểm tra log PHP trên server.",
       upload_album_fail: "Upload ảnh thất bại.",
       retry_album_label: "Build lại album",
       retry_album_confirm: 'Chạy build lại album "{album}"?',
@@ -433,7 +433,7 @@
       upload_album_queued:
         "Upload completed. Server is building row/thumbs in background.",
       upload_build_failed:
-        "Background image build failed (code: {code}). Check server log storage/build-images.log",
+        "Background image build failed (code: {code}). Check the PHP server log.",
       upload_album_fail: "Upload failed.",
       retry_album_label: "Retry album build",
       retry_album_confirm: 'Rebuild album "{album}"?',

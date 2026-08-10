@@ -20,8 +20,13 @@ $audioOrderFile = $rootDir . '/storage/audio-order.json';
 $invitationCardFile = $rootDir . '/storage/invitation_card.json';
 $invitationLinksFile = $rootDir . '/storage/invitation_links.json';
 $invitationGuestbookFile = $rootDir . '/storage/invitation_guestbook.json';
-$buildLockFile = $rootDir . '/storage/build-images.lock';
-$buildLogFile = $rootDir . '/storage/build-images.log';
+$buildRuntimeDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR)
+    . DIRECTORY_SEPARATOR . 'album-view-build-' . substr(hash('sha256', $rootDir), 0, 12);
+if (!is_dir($buildRuntimeDir)) {
+    @mkdir($buildRuntimeDir, 0775, true);
+}
+$buildLockFile = $buildRuntimeDir . '/build-images.lock';
+$buildLogFile = $buildRuntimeDir . '/build-images.log';
 $clientLogFile = $rootDir . '/.server.log';
 $clientLogFallbackFile = $rootDir . '/storage/client-errors.log';
 $authCookieName = 'album_view_token';
