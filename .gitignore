@@ -10,5 +10,8 @@ storage/build-images.lock
 resources/invite_email.json
 resources/user.json
 storage/invitation_links.json
+storage/album-titles.json
+storage/album-hidden.json
+storage/album-hidden-images.json
 .server.log
 .server.pid

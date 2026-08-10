@@ -3959,7 +3959,9 @@ if ($requestPath === '/__edit_page_save__') {
         $updatedAlbums += 1;
     }
     if ($updatedAlbums > 0) {
-        save_album_titles($albumTitlesFile, $titleMap);
+        if (!save_album_titles($albumTitlesFile, $titleMap)) {
+            send_json(['ok' => false, 'message' => 'Album title storage is not writable.'], 500);
+        }
     }
 
     $hiddenMap = load_album_hidden($albumHiddenFile);
@@ -3986,7 +3988,9 @@ if ($requestPath === '/__edit_page_save__') {
         }
     }
     if ($hiddenUpdated > 0) {
-        save_album_hidden($albumHiddenFile, $hiddenMap);
+        if (!save_album_hidden($albumHiddenFile, $hiddenMap)) {
+            send_json(['ok' => false, 'message' => 'Album visibility storage is not writable.'], 500);
+        }
     }
 
     $hiddenImagesMap = load_album_hidden_images($albumHiddenImagesFile);
@@ -4060,7 +4064,9 @@ if ($requestPath === '/__edit_page_save__') {
     }
 
     if ($hiddenImagesUpdated > 0) {
-        save_album_hidden_images($albumHiddenImagesFile, $hiddenImagesMap);
+        if (!save_album_hidden_images($albumHiddenImagesFile, $hiddenImagesMap)) {
+            send_json(['ok' => false, 'message' => 'Image visibility storage is not writable.'], 500);
+        }
     }
 
     send_json([
