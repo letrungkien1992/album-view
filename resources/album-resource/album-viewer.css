@@ -2321,7 +2321,7 @@ body.is-scroll-card-view {
 
 .wedding-time-pair {
     display: inline-grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: auto;
     gap: 34px;
     margin: 0 auto 22px;
     color: #850000;
