@@ -79,10 +79,12 @@ bash scripts/setup-domain.sh
 Vấn đề mất quyền ghi đối với các file JSON như trong thư mục storage thường xuất phát từ owner/group khác nhau giữa user deploy và user chạy PHP (thường là www-data hoặc apache). Để xử lý dứt điểm, hãy chạy script production setup sau mỗi lần deploy:
 
 ```bash
-APP_USER=www-data APP_GROUP=www-data bash scripts/prod-build-setup.sh
+sudo env APP_USER=www-data APP_GROUP=www-data bash scripts/prod-build-setup.sh --permissions-only
 ```
 
 Script này sẽ:
+
+Chạy bằng user có quyền đổi owner (thường là root); thay `www-data` bằng user/group thực tế của PHP-FPM. Chế độ `--permissions-only` không cài WebP hoặc build ảnh. PHP tự sửa mode nếu sở hữu file/thư mục và lưu JSON qua file tạm rồi đổi tên, có dự phòng ghi trực tiếp. Nếu cả file lẫn thư mục đều thuộc user khác và PHP không được ghi, cần chạy lệnh trên một lần ở server; `git push` không thể tự cấp quyền hệ điều hành. Không dùng chmod 777.
 
 - tự động chown/chgrp thư mục writable như storage, resources và các thư mục album/media cho user chạy web;
 - bật setgid trên thư mục để file mới được tạo inherit group đúng;

@@ -51,11 +51,7 @@ function run_permission_setup_if_needed(string $rootDir): void
             continue;
         }
         if (!is_writable($path)) {
-            $script = $rootDir . '/scripts/prod-build-setup.sh';
-            if (is_file($script) && function_exists('exec')) {
-                @exec('bash ' . escapeshellarg($script) . ' >/dev/null 2>&1', $output, $exitCode);
-            }
-            return;
+            @chmod($path, 02775);
         }
     }
 
@@ -75,11 +71,7 @@ function run_permission_setup_if_needed(string $rootDir): void
             continue;
         }
         if (!is_writable($file)) {
-            $script = $rootDir . '/scripts/prod-build-setup.sh';
-            if (is_file($script) && function_exists('exec')) {
-                @exec('bash ' . escapeshellarg($script) . ' >/dev/null 2>&1', $output, $exitCode);
-            }
-            return;
+            @chmod($file, 0664);
         }
     }
 }
@@ -148,6 +140,51 @@ function ensure_writable_path(string $path): bool
     @chmod($dir, 0775);
     @chmod($path, 0664);
     return is_writable($dir) && is_writable($path);
+}
+
+function replace_file_atomically(string $path, string $contents): bool
+{
+    $dir = dirname($path);
+    if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+        return false;
+    }
+
+    if (!is_writable($dir)) {
+        @chmod($dir, 02775);
+    }
+    if (is_file($path) && !is_writable($path)) {
+        @chmod($path, 0664);
+    }
+    clearstatcache(true, $path);
+
+    $writeDirectly = static function () use ($path, $contents): bool {
+        return @file_put_contents($path, $contents, LOCK_EX) !== false;
+    };
+
+    // A deploy can leave an existing JSON file owned by the deploy user and
+    // read-only to PHP, while the containing runtime directory is writable.
+    // Writing beside it and renaming only requires write access to the folder.
+    $temporaryPath = @tempnam($dir, '.album-view-');
+    if (!is_string($temporaryPath) || $temporaryPath === '') {
+        // Some shared hosts allow PHP to update an existing file but do not
+        // allow creating sibling files in the containing directory.
+        return $writeDirectly();
+    }
+
+    $saved = @file_put_contents($temporaryPath, $contents, LOCK_EX);
+    if ($saved === false) {
+        @unlink($temporaryPath);
+        return $writeDirectly();
+    }
+
+    @chmod($temporaryPath, 0664);
+    if (!@rename($temporaryPath, $path)) {
+        @unlink($temporaryPath);
+        return $writeDirectly();
+    }
+
+    clearstatcache(true, $path);
+    return is_file($path) && @file_get_contents($path) === $contents;
 }
 
 function append_invite_request(string $logFile, array $payload): void
@@ -253,10 +290,7 @@ function save_invite_email_store(string $inviteEmailFile, array $store): bool
     if (!is_string($payload)) {
         return false;
     }
-    if (!ensure_writable_path($inviteEmailFile)) {
-        return false;
-    }
-    return @file_put_contents($inviteEmailFile, $payload . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($inviteEmailFile, $payload . PHP_EOL);
 }
 
 function invite_token_ttl_seconds(): int
@@ -1110,8 +1144,7 @@ function save_invitation_card_config(string $invitationCardFile, array $config):
         upload_log('Invitation card save failed: json_encode returned false');
         return false;
     }
-    $saved = @file_put_contents($invitationCardFile, $encoded . PHP_EOL, LOCK_EX);
-    if ($saved === false) {
+    if (!replace_file_atomically($invitationCardFile, $encoded . PHP_EOL)) {
         $lastError = error_get_last();
         upload_log(
             'Invitation card save failed for ' . $invitationCardFile .
@@ -1157,8 +1190,7 @@ function save_invitation_links(string $invitationLinksFile, array $entries): boo
         upload_log('Invitation links save failed: json_encode returned false');
         return false;
     }
-    $saved = @file_put_contents($invitationLinksFile, $payload . PHP_EOL, LOCK_EX);
-    if ($saved === false) {
+    if (!replace_file_atomically($invitationLinksFile, $payload . PHP_EOL)) {
         $lastError = error_get_last();
         upload_log(
             'Invitation links save failed for ' . $invitationLinksFile .
@@ -1203,8 +1235,7 @@ function save_invitation_guestbook(string $guestbookFile, array $entries): bool
         upload_log('Guestbook save failed: json_encode returned false');
         return false;
     }
-    $saved = @file_put_contents($guestbookFile, $payload . PHP_EOL, LOCK_EX);
-    if ($saved === false) {
+    if (!replace_file_atomically($guestbookFile, $payload . PHP_EOL)) {
         $lastError = error_get_last();
         upload_log(
             'Guestbook save failed for ' . $guestbookFile .
@@ -1375,10 +1406,7 @@ function save_user_store(string $userStoreFile, array $store): bool
     if (!is_string($payload)) {
         return false;
     }
-    if (!ensure_writable_path($userStoreFile)) {
-        return false;
-    }
-    return @file_put_contents($userStoreFile, $payload . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($userStoreFile, $payload . PHP_EOL);
 }
 
 function find_user_index_by_credentials(array $users, string $username, string $password): int
@@ -1715,10 +1743,7 @@ function save_album_titles(string $file, array $titles): bool
     if (!is_string($payload)) {
         return false;
     }
-    if (!ensure_writable_path($file)) {
-        return false;
-    }
-    return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($file, $payload . PHP_EOL);
 }
 
 function load_album_hidden(string $file): array
@@ -1758,10 +1783,7 @@ function save_album_hidden(string $file, array $hidden): bool
     if (!is_string($payload)) {
         return false;
     }
-    if (!ensure_writable_path($file)) {
-        return false;
-    }
-    return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($file, $payload . PHP_EOL);
 }
 
 function load_album_hidden_images(string $file): array
@@ -1826,10 +1848,7 @@ function save_album_hidden_images(string $file, array $hidden): bool
     if (!is_string($json)) {
         return false;
     }
-    if (!ensure_writable_path($file)) {
-        return false;
-    }
-    return @file_put_contents($file, $json . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($file, $json . PHP_EOL);
 }
 
 function load_audio_order(string $file): array
@@ -1874,10 +1893,7 @@ function save_audio_order(string $file, array $order): bool
     if (!is_string($payload)) {
         return false;
     }
-    if (!ensure_writable_path($file)) {
-        return false;
-    }
-    return @file_put_contents($file, $payload . PHP_EOL, LOCK_EX) !== false;
+    return replace_file_atomically($file, $payload . PHP_EOL);
 }
 
 function detect_folder_title_from_upload(array $filesField): string

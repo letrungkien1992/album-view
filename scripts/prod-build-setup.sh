@@ -84,8 +84,12 @@ main() {
   ensure_dir "$PROJECT_ROOT/src/thumbs"
   ensure_dir "$PROJECT_ROOT/storage"
 
-  ensure_webp
   fix_permissions
+  if [[ "$TARGET_ALBUM" == "--permissions-only" ]]; then
+    log "Permissions ready."
+    return 0
+  fi
+  ensure_webp
 
   cd "$PROJECT_ROOT"
   if [[ -n "$TARGET_ALBUM" ]]; then

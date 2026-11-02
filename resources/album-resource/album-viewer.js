@@ -4218,7 +4218,7 @@
   function getInvitationCardLabel(cardKey) {
     return normalizeInvitationCardKey(cardKey) === "card_2"
       ? "Thiệp 2"
-      : "Thiệp 1";
+      : "Thiệp nhà trai";
   }
 
   function buildInvitationLinkWithCard(linkPath, cardKey) {
@@ -4341,8 +4341,11 @@
         .attr("aria-pressed", isActive ? "true" : "false");
     });
     const activeLabel =
-      state.invitationCardActiveKey === "card_2" ? "Thiệp 2" : "Thiệp 1";
-    const selectedLabel = normalizedKey === "card_2" ? "Thiệp 2" : "Thiệp 1";
+      state.invitationCardActiveKey === "card_2"
+        ? "Thiệp 2"
+        : "Thiệp nhà trai";
+    const selectedLabel =
+      normalizedKey === "card_2" ? "Thiệp 2" : "Thiệp nhà trai";
     $invitationCardEditorHint.text(
       selectedLabel +
         " đang được chỉnh sửa. Link công khai hiện dùng " +
@@ -4478,7 +4481,7 @@
         renderInvitationCardConfig(response, selectedCard);
         $invitationCardEditorError.text("");
         showResultModal(
-          (selectedCard === "card_2" ? "Thiệp 2" : "Thiệp 1") +
+          (selectedCard === "card_2" ? "Thiệp 2" : "Thiệp nhà trai") +
             " đã được lưu và đặt làm thiệp đang dùng.",
           "success",
         );
@@ -9033,7 +9036,7 @@
     $scrollCardEventTime.text(state.scrollCard.eventTime || "");
     $scrollCardCeremonyLocation.text(
       state.scrollCard.ceremonyLocation
-        ? "LỄ THÀNH HÔN ĐƯỢC CỬ HÀNH TẠI " +
+        ? "LỄ TÂN HÔN ĐƯỢC CỬ HÀNH TẠI " +
             state.scrollCard.ceremonyLocation.toUpperCase()
         : "",
     );
